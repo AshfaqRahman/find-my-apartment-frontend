@@ -61,9 +61,9 @@ export default function RootLayout({
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  
   return (
-    <html lang="en">
-      <body  style={{"margin": 0}}>
+    <>
         <AppBar position="static" sx={{ backgroundColor: "black"}}>
           <Container maxWidth={false} >
             <Toolbar disableGutters>
@@ -199,7 +199,6 @@ export default function RootLayout({
           </Container>
         </AppBar>
         {children}
-      </body>
-    </html>
+    </>
   );
 }
