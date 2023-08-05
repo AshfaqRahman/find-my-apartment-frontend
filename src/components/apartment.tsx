@@ -5,7 +5,7 @@ import BathtubOutlinedIcon from '@mui/icons-material/BathtubOutlined';
 export default function Apartment(props: any) {
   return (
     <>
-      <Card sx={{ margin: 2 }}>
+      <Card sx={{ margin: 1 }}>
         <CardMedia
           sx={{ height: 250 }}
           image="/apartment.jpg"

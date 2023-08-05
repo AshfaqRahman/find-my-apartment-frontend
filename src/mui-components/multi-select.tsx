@@ -6,21 +6,16 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Checkbox from "@mui/material/Checkbox";
 
 export default function MultiSelectComponent(props: any) {
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     setState({
-  //       ...state,
-  //       [event.target.name]: event.target.checked,
-  //     });
-  //   };
   return (
-    <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-      <FormLabel component="legend">{props.title}</FormLabel>
+    <FormControl sx={{ m: 0, p:0 }} component="fieldset" variant="standard">
+      <FormLabel component={"legend"}><span style={{"fontWeight": "bold"}}>{props.title}</span></FormLabel>
       <FormGroup>
         {props.elements.map((element: any, idx: number) => {
           return (
-            <FormControlLabel key={idx}
+            <FormControlLabel key={idx} sx={{ m: 0, p:0}}
               control={
                 <Checkbox
+                  sx={{ m: 0, p: 0.5 }}
                   id={idx.toString()}
                   checked={element.checked}
                   onChange={(e) => props.handleChange(e)}

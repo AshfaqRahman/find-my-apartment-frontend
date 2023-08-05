@@ -1,21 +1,21 @@
 import MultiSelectComponent from "@/mui-components/multi-select";
-import { _facilities } from "@/static/constants";
+import { _keywords } from "@/static/constants";
 import { Box } from "@mui/material";
 import React from "react";
 
 
-export default function FacilitiesComponent(props: any) {
-    const [facilities, setFacilities] = React.useState(_facilities);
+export default function KeywordsComponent(props: any) {
+    const [keywords, setKeywords] = React.useState(_keywords);
     React.useEffect(() => {
-        props.onChange(facilities.filter((x) => x.checked).map((x) => x.name));
+        props.onChange(keywords.filter((x) => x.checked).map((x) => x.name));
 
-    }, [facilities])
-    const handleFacilitiesChange = (
+    }, [keywords])
+    const handleKeywordsChange = (
         event: React.ChangeEvent<HTMLInputElement>
       ) => {
         console.log(event)
-        setFacilities(
-            facilities.map((x, idx) => {
+        setKeywords(
+            keywords.map((x, idx) => {
             if (idx.toString() === event.target.id) {
               return {
                 ...x,
@@ -27,11 +27,11 @@ export default function FacilitiesComponent(props: any) {
         );
       };
     return (
-        <Box sx={{ mx: "10px" }}>
+        <Box sx={{ mx: "1px" }}>
               <MultiSelectComponent
-                elements={facilities}
-                title={"Facilities"}
-                handleChange={handleFacilitiesChange}
+                elements={keywords}
+                title={"Keywords"}
+                handleChange={handleKeywordsChange}
               />
             </Box>
     );

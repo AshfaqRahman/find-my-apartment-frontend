@@ -16,6 +16,52 @@ const _apartmentTypes = [
       },
 ]
 
+const _facilities = [
+    {
+        checked: false,
+        name: "Gas",
+        label: "Gas",
+      },
+      {
+        checked: false,
+        name: "Internet",
+        label: "Internet",
+      },
+      {
+        checked: false,
+        name: "Electricity",
+        label: "Electricity",
+      },
+      {
+        checked: false,
+        name: "Elevator",
+        label: "Elevator",
+      },
+]
+
+const _keywords = [
+    {
+        checked: false,
+        name: "Near Park",
+        label: "Near Park",
+      },
+      {
+        checked: false,
+        name: "Near Hospital",
+        label: "Near Hospital",
+      },
+      {
+        checked: false,
+        name: "Residential Area",
+        label: "Residential Area",
+      },
+      {
+        checked: false,
+        name: "Near Metro Rail",
+        label: "Near Metro Rail",
+      },
+]
+
 const _budget = {
     min: 1000,
     max: 99999
@@ -47,5 +93,7 @@ module.exports = {
     _beds,
     _baths,
     _budget,
-    _area
+    _area,
+    _facilities,
+    _keywords
 }

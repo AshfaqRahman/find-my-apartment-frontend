@@ -17,17 +17,17 @@ export default function Budget(props: any) {
   }
     return (
         <>
-        <Grid item md={props.grid_slider_md}>
+        <Grid item lg={props.grid_slider_lg} md={props.grid_slider_md}>
             <Box sx={{ mx: props.box_slider_mx, px: props.box_slider_px }}>
               <SliderComponent title={"Budget"} min={_budget.min} max={_budget.max} value={props.budget} handleChange={handleBudgetChange} />
             </Box>
           </Grid>
-          <Grid item md={props.grid_text_md}>
+          <Grid item lg={props.grid_text_lg} md={props.grid_text_md}>
             <Box sx={{ mx: props.box_text_mx, px: props.box_text_px }}>
               <TextFieldComponent label={"Min"} value={props.budget[0]} handleChange={handleMinBudgetChange} />
             </Box>
           </Grid>
-          <Grid item md={props.grid_text_md}>
+          <Grid item lg={props.grid_text_lg} md={props.grid_text_md}>
             <Box sx={{ mx: props.box_text_mx, px: props.box_text_px }}>
               <TextFieldComponent label={"Max"} value={props.budget[1]} handleChange={handleMaxBudgetChange} />
             </Box>

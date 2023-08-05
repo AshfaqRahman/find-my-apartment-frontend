@@ -17,7 +17,6 @@ export default function ApartmentTypesComponent(props: any) {
         setApartmentTypes(
           apartmentTypes.map((x, idx) => {
             if (idx.toString() === event.target.id) {
-                console.log(x);
               return {
                 ...x,
                 checked: event.target.checked,
@@ -30,7 +29,7 @@ export default function ApartmentTypesComponent(props: any) {
         // props.onChange(apartmentTypes.filter((x) => x.checked).map((x) => x.name));
       };
     return (
-        <Box sx={{ mx: "10px" }}>
+        <Box sx={{ mx: "1px", padding: 0 }}>
               <MultiSelectComponent
                 elements={apartmentTypes}
                 title={""}
