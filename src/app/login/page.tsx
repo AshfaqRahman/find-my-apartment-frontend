@@ -44,10 +44,26 @@ export default function SignIn() {
   };
 
   return (
-    <Grid container>
+    <Grid container style={{backgroundColor: "#D8D8D8"}}>
         <Grid item xs>
-            <div style={{display: "flex", justifyContent: "right"}}>
-                <Image src="/apartment.svg" width={600} height={600} alt="Apartment"/>
+            <div style={{display: "flex", justifyContent: "right", padding: 0, margin: 0}}>
+              <h1>Find My Apartment</h1>
+              <style jsx>
+              {`
+                h1 {
+                  margin-top: 75px;
+                  font-size: 50px;
+                  font-family: Lexend;
+                  padding: 0px;
+                }
+              `}
+              </style>
+            </div>
+            <div style={{display: "flex", justifyContent: "right", padding: 10}}>
+                <Image 
+                  src="/apartment.svg" 
+                  width={475} height={300} 
+                  alt="Apartment"/>
             </div>
         </Grid>
         

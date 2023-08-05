@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import SelectComponent from '@/mui-components/select';
 
 function Copyright(props:any) {
   return (
@@ -29,7 +30,7 @@ function Copyright(props:any) {
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
-const defaultTheme = createTheme();
+const defaultTheme = createTheme()
 
 export default function SignUp() {
   const handleSubmit = (event:any) => {
@@ -42,15 +43,14 @@ export default function SignUp() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+    <Grid container style={{backgroundColor: "#D8D8D8", display:"flex", justifyContent:"center"}}>
+      <Grid item maxWidth={"30vw"}>
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 4,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: 'center'
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -61,7 +61,7 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item md={6}>
                 <TextField
                   autoComplete="given-name"
                   name="firstName"
@@ -72,7 +72,7 @@ export default function SignUp() {
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item md={6}>
                 <TextField
                   required
                   fullWidth
@@ -82,7 +82,7 @@ export default function SignUp() {
                   autoComplete="family-name"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   required
                   fullWidth
@@ -92,7 +92,7 @@ export default function SignUp() {
                   autoComplete="email"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   required
                   fullWidth
@@ -103,7 +103,7 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   required
                   fullWidth
@@ -114,11 +114,8 @@ export default function SignUp() {
                   placeholder="01XXX-XXX-XXX"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
+              <Grid item md={6}>
+                <SelectComponent value={''} elements={['Male', 'Female']} title={'Gender'} required/>
               </Grid>
             </Grid>
             <Button
@@ -131,7 +128,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
@@ -139,7 +136,8 @@ export default function SignUp() {
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+      </Grid>
+    </Grid>
+    
   );
 }
