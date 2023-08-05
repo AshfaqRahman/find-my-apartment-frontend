@@ -14,11 +14,11 @@ import {
 } from "@/static/constants";
 import SliderComponent from "@/mui-components/slider";
 import TextFieldComponent from "@/mui-components/text-field";
-import Budget from "../components/budget";
-import Area from "../components/area";
+import Budget from "@/components/budget";
+import Area from "@/components/area";
 import HOST from "@/static/host";
 import axios from "axios";
-import Apartment from "../components/apartment";
+import Apartment from "@/components/apartment";
 import SelectComponent from "@/mui-components/select";
 
 const localPath = "advance-search";
@@ -134,8 +134,10 @@ export default function Home() {
       area_max: area[1],
     };
     console.log("params: ", params);
-    // const data = await axios.get(url, {
-    //   params
+    // const data = await axios({
+    //   method: "GET",
+    //   url: url,
+    //   params: params,
     // });
     // console.log(data);
 
