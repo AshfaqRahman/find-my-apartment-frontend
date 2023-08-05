@@ -23,7 +23,7 @@ export default function MultiSelectComponent(props: any) {
                 <Checkbox
                   id={idx.toString()}
                   checked={element.checked}
-                  onChange={props.handleChange}
+                  onChange={(e) => props.handleChange(e)}
                   name={element.name}
                 />
               }

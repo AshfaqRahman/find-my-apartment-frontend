@@ -23,25 +23,15 @@ import Apartment from "@/components/apartment";
 import SelectComponent from "@/mui-components/select";
 import { searchApartments } from "./apis";
 import { apiUrls } from "@/lib/apiUrls";
+import ApartmentTypesComponent from "@/components/apartment-types";
 
 const localPath = "advance-search";
 
 export default function Home() {
-  const [apartmentTypes, setApartmentTypes] = React.useState(_apartmentTypes);
-  const handleApartmentTypeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setApartmentTypes(
-      apartmentTypes.map((x, idx) => {
-        if (idx.toString() === event.target.id) {
-          return {
-            ...x,
-            checked: event.target.checked,
-          };
-        }
-        return x;
-      })
-    );
+  const [apartmentTypes, setApartmentTypes] = React.useState([]);
+  const handleApartmentTypeChange = (types: any) => {
+    setApartmentTypes(types)
+    console.log(apartmentTypes);
   };
 
   const [beds, setBeds] = React.useState(_beds);
@@ -128,15 +118,11 @@ export default function Home() {
 	// };
 
   const search = async () => {
-    let data = await searchApartments({})
-    console.log(data);
 
-    console.log("searching ...");
-    const url = `${HOST}/apartments`;
+    // console.log("searching ...");
+    // const url = `${HOST}/apartments`;
     const params = {
-      apartmentTypes: apartmentTypes
-        .filter((x) => x.checked)
-        .map((x) => x.name),
+      apartmentTypes: apartmentTypes,
       beds: beds.filter((x) => x.checked).map((x) => x.name),
       baths: baths.filter((x) => x.checked).map((x) => x.name),
       price_min: budget[0],
@@ -145,6 +131,8 @@ export default function Home() {
       area_max: area[1],
     };
     console.log("params: ", params);
+    let data = await searchApartments(params)
+    console.log(data);
     // const data = await axios({
     //   method: "GET",
     //   url: url,
@@ -178,13 +166,7 @@ export default function Home() {
             </Box>
           </Grid>
           <Grid key={3} item md={12}>
-            <Box sx={{ mx: "10px" }}>
-              <MultiSelectComponent
-                elements={apartmentTypes}
-                title={""}
-                handleChange={handleApartmentTypeChange}
-              />
-            </Box>
+            <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
           </Grid>
           <Grid key={4} item md={6}>
             <Box sx={{ mx: "10px" }}>
