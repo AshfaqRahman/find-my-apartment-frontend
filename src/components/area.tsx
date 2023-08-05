@@ -17,17 +17,17 @@ export default function Area(props: any) {
   }
     return (
         <>
-        <Grid item md={props.grid_slider_md}>
+        <Grid item lg={props.grid_slider_lg} md={props.grid_slider_md} sx={{ mx: "1px", padding: 0 }}>
             <Box sx={{ mx: props.box_slider_mx, px: props.box_slider_px }}>
               <SliderComponent title={"Area"} min={_area.min} max={_area.max} value={props.area} handleChange={handleAreaChange} />
             </Box>
           </Grid>
-          <Grid item md={props.grid_text_md}>
+          <Grid item lg={props.grid_text_lg} md={props.grid_text_md}>
             <Box sx={{ mx: props.box_text_mx, px: props.box_text_px }}>
               <TextFieldComponent label={"Min"} value={props.area[0]} handleChange={handleMinAreaChange} />
             </Box>
           </Grid>
-          <Grid item md={props.grid_text_md}>
+          <Grid item lg={props.grid_text_lg} md={props.grid_text_md}>
             <Box sx={{ mx: props.box_text_mx, px: props.box_text_px }}>
               <TextFieldComponent label={"Max"} value={props.area[1]} handleChange={handleMaxAreaChange} />
             </Box>
