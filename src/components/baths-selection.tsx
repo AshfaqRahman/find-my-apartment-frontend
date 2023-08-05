@@ -8,8 +8,8 @@ export default function BathsSelectionComponent(props: any) {
   const [baths, setBaths] = React.useState(_baths);
 
   React.useEffect(() => {
-    props.onChange(baths.filter((x) => x.checked).map((x) => x.name));
-    console.log(baths);
+    props.onChange(baths.filter((x) => x.checked).map((x) => +x.name));
+    // console.log(baths);
   }, [baths]);
   const handleBathsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBaths(

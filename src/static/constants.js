@@ -77,7 +77,7 @@ const _beds = [
     {checked: false, name: "3", label: "3"},
     {checked: false, name: "4", label: "4"},
     {checked: false, name: "5", label: "5"},
-    {checked: false, name: "5+", label: "5+"},
+    {checked: false, name: "6", label: "5+"},
 ]
 
 const _baths = [
@@ -85,7 +85,7 @@ const _baths = [
     {checked: false, name: "2", label: "2"},
     {checked: false, name: "3", label: "3"},
     {checked: false, name: "4", label: "4"},
-    {checked: false, name: "4+", label: "4+"},
+    {checked: false, name: "5", label: "4+"},
 ]
 
 module.exports = {

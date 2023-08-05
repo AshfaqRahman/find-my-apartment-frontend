@@ -121,10 +121,10 @@ export default function Home() {
       apartmentTypes: apartmentTypes,
       beds: beds,
       baths: baths,
-      price_min: budget[0],
-      price_max: budget[1],
-      area_min: area[0],
-      area_max: area[1],
+      price_min: +budget[0],
+      price_max: +budget[1],
+      area_min: +area[0],
+      area_max: +area[1],
       facilities: facilities,
       keywords: keywords,
     };
@@ -136,7 +136,7 @@ export default function Home() {
   return (
     <>
       <Grid container spacing={0} key={1}>
-        <Grid key={1} maxHeight={'95vh'}  overflow={'auto'} container item lg={2} md={4} sx={{ backgroundColor: "#D8D8D8" , scrollbarWidth: '1px'}}>
+        <Grid key={1} maxHeight={'100vh'} position={"fixed"}  overflow={'auto'} container item lg={2} md={4} className="left-part" sx={{  scrollbarWidth: '1px'}}>
           <Grid key={1} item lg={6} md={6}>
             <Box sx={{ margin: "10px" }}>
               <ButtonComponent variant="contained" onClick={saveSearch}>
@@ -196,7 +196,9 @@ export default function Home() {
             <KeywordsComponent onChange={handleKeywordsChange} />
           </Grid>
         </Grid>
-        <Grid key={2} container item lg={6} md={4} sx={{ backgroundColor: "#f5fcf8" }}>
+        <Grid key={"1_ex"} container item lg={2} md={4}>
+        </Grid>
+        <Grid key={2} container item lg={6} md={4} className={'middle-part'}>
           <Grid key={1} item lg={6}  md={6}>
             <Box sx={{ margin: "10px" }}>
               <SelectComponent
@@ -223,10 +225,8 @@ export default function Home() {
             })}
           </Grid>
         </Grid>
-        <Grid key={3} item lg={4} md={4} sx={{ backgroundColor: "#f0f0f0" }}>
-          <Typography gutterBottom variant="h1" component="div">
-          <Map address="1600 Amphitheatre Parkway, Mountain View, CA" />
-          </Typography>
+        <Grid key={3} position={"fixed"} left={"66.67%"} container item lg={4} md={4} className={"right-part"} sx={{  }}>
+          <Map address="ece building, buet, dhaka" />
         </Grid>
       </Grid>
     </>

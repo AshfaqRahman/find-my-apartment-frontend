@@ -18,7 +18,7 @@ export default function Map(props: any) {
         if (status === "OK") {
           const map = new google.maps.Map(mapRef.current, {
             center: results[0].geometry.location,
-            zoom: 8,
+            zoom: 16,
           });
           const marker = new google.maps.Marker({
             map: map,
@@ -32,5 +32,5 @@ export default function Map(props: any) {
       });
     });
   }, [address]);
-  return <div style={{ height: "400px" }} ref={mapRef} />;
+  return <div style={{ height: "90vh", width: "33.33vw" }} ref={mapRef} />;
 }

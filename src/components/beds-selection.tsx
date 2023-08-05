@@ -7,8 +7,8 @@ export default function BedsSelectionComponent(props: any) {
   const [beds, setBeds] = React.useState(_beds);
 
   React.useEffect(() => {
-    props.onChange(beds.filter((x) => x.checked).map((x) => x.name));
-    console.log(beds);
+    props.onChange(beds.filter((x) => x.checked).map((x) => +x.name));
+    // console.log(beds);
   }, [beds]);
   const handleBedsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBeds(

@@ -109,3 +109,15 @@ a {
 .below-app-bar {
   margin-top: 70px;
 }
+
+.right-part {
+  background-color: #f0f0f0;
+}
+
+.middle-part {
+  background-color: #fcf5f5;
+}
+
+.left-part {
+  background-color: #D8D8D8;
+}
