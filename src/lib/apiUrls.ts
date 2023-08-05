@@ -1,6 +1,8 @@
+import HOST from "@/static/host";
+
 export const apiUrls = {
 	apartments: {
-		list: '/api/apartments',
+		list: `${HOST}/api/apartments`,
         create: '/api/apartments',
         update: '/api/apartments/:id',
         delete: '/api/apartments/:id'

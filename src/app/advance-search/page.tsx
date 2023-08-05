@@ -22,6 +22,7 @@ import axios from "axios";
 import Apartment from "@/components/apartment";
 import SelectComponent from "@/mui-components/select";
 import { searchApartments } from "./apis";
+import { apiUrls } from "@/lib/apiUrls";
 
 const localPath = "advance-search";
 
@@ -127,7 +128,8 @@ export default function Home() {
 	// };
 
   const search = async () => {
-    // searchApartments()
+    let data = await searchApartments({})
+    console.log(data);
 
     console.log("searching ...");
     const url = `${HOST}/apartments`;
