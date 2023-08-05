@@ -1,49 +1,266 @@
-import Image from 'next/image'
-import styles from './page.module.css'
-import { Box, Grid } from '@mui/material'
+"use client";
+import * as React from "react";
+import { useCallback, useState } from 'react';
+import Image from "next/image";
+import styles from "./page.module.css";
+import { Box, Grid, Typography } from "@mui/material";
+import ButtonComponent from "@/mui-components/buttons";
+import MultiSelectComponent from "@/mui-components/multi-select";
+import {
+  _apartmentTypes,
+  _area,
+  _baths,
+  _beds,
+  _budget,
+} from "@/static/constants";
+import SliderComponent from "@/mui-components/slider";
+import TextFieldComponent from "@/mui-components/text-field";
+import Budget from "@/components/budget";
+import Area from "@/components/area";
+import HOST from "@/static/host";
+import axios from "axios";
+import Apartment from "@/components/apartment";
+import SelectComponent from "@/mui-components/select";
+import { searchApartments } from "./apis";
+import { apiUrls } from "@/lib/apiUrls";
+
+const localPath = "advance-search";
 
 export default function Home() {
+  const [apartmentTypes, setApartmentTypes] = React.useState(_apartmentTypes);
+  const handleApartmentTypeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setApartmentTypes(
+      apartmentTypes.map((x, idx) => {
+        if (idx.toString() === event.target.id) {
+          return {
+            ...x,
+            checked: event.target.checked,
+          };
+        }
+        return x;
+      })
+    );
+  };
+
+  const [beds, setBeds] = React.useState(_beds);
+  const handleBedsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBeds(
+      beds.map((x, idx) => {
+        if (idx.toString() === event.target.id) {
+          return {
+            ...x,
+            checked: event.target.checked,
+          };
+        }
+        return x;
+      })
+    );
+  };
+
+  const [baths, setBaths] = React.useState(_baths);
+  const handleBathsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBaths(
+      baths.map((x, idx) => {
+        if (idx.toString() === event.target.id) {
+          return {
+            ...x,
+            checked: event.target.checked,
+          };
+        }
+        return x;
+      })
+    );
+  };
+
+  const [budget, setBudget] = React.useState([10000, 99999]);
+  const [area, setArea] = React.useState([500, 10000]);
+
+  let [apartments, setApartments] = React.useState([
+    {
+      id: 1,
+      price: 10000,
+      bedrooms: 3,
+      baths: 2,
+      area_sqft: 1000,
+      apartment_type: "Flat",
+      address: "Dhaka",
+      type: "Family",
+    },
+    {
+      id: 2,
+      price: 10000,
+      bedrooms: 3,
+      baths: 2,
+      area_sqft: 1000,
+      apartment_type: "Flat",
+      address: "Dhaka",
+      type: "Family",
+    },
+  ]);
+
+  let apartmentStatuses = ["Any", "Vacant", "Occupied"];
+  let [apartmentStatus, setApartmentStatus] = React.useState("Any");
+
+  const handleApartmentStatusChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setApartmentStatus(event.target.value);
+  };
+
+  let orderByes = ["price lowest", "nearest", "latest", "price highest", "preference"];
+  let [orderBy, setOrderBy] = React.useState("");
+
+  const handleOrderByChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setOrderBy(event.target.value);
+  };
+
+  const saveSearch = () => {
+    console.log("saving search ...");
+  };
+  
+
+	// const onSearch = =async (data: any) => {
+	// 	setSelected(data);
+	// };
+
+  const search = async () => {
+    let data = await searchApartments({})
+    console.log(data);
+
+    console.log("searching ...");
+    const url = `${HOST}/apartments`;
+    const params = {
+      apartmentTypes: apartmentTypes
+        .filter((x) => x.checked)
+        .map((x) => x.name),
+      beds: beds.filter((x) => x.checked).map((x) => x.name),
+      baths: baths.filter((x) => x.checked).map((x) => x.name),
+      price_min: budget[0],
+      price_max: budget[1],
+      area_min: area[0],
+      area_max: area[1],
+    };
+    console.log("params: ", params);
+    // const data = await axios({
+    //   method: "GET",
+    //   url: url,
+    //   params: params,
+    // });
+    // console.log(data);
+
+
+    // setApartments(data.data);
+  };
+
   return (
     <>
-      <Grid container spacing={0}>
-        <Grid item md={2}  sx={{backgroundColor: "#aaaaaa"}}>
-          <Grid item> 
-          <Box>
-helllo
-          </Box>
+      <Grid container spacing={0} key={1}>
+        <Grid key={1} container item md={2} sx={{ backgroundColor: "#D8D8D8" }}>
+          <Grid key={1} item md={6}>
+            <Box sx={{ margin: "10px" }}>
+              <ButtonComponent variant="contained" onClick={saveSearch}>
+                Save Search
+              </ButtonComponent>
+            </Box>
+          </Grid>
+          <Grid key={2} item md={6}>
+            <Box sx={{ margin: "10px" }}>
+              <ButtonComponent
+                variant="contained"
+                onClick={search}
+              >
+                Search
+              </ButtonComponent>
+            </Box>
+          </Grid>
+          <Grid key={3} item md={12}>
+            <Box sx={{ mx: "10px" }}>
+              <MultiSelectComponent
+                elements={apartmentTypes}
+                title={""}
+                handleChange={handleApartmentTypeChange}
+              />
+            </Box>
+          </Grid>
+          <Grid key={4} item md={6}>
+            <Box sx={{ mx: "10px" }}>
+              <MultiSelectComponent
+                elements={beds}
+                title={"Bedrooms"}
+                handleChange={handleBedsChange}
+              />
+            </Box>
+          </Grid>
+          <Grid key={5} item md={6}>
+            <Box sx={{ margin: "10px" }}>
+              <MultiSelectComponent
+                elements={baths}
+                title={"Baths"}
+                handleChange={handleBathsChange}
+              />
+            </Box>
+          </Grid>
+          <Budget  key={6}
+            budget={budget}
+            grid_slider_md={12}
+            box_slider_mx={"5px"}
+            box_slider_px={"15px"}
+            grid_text_md={6}
+            box_text_mx={"5px"}
+            box_text_px={"0px"}
+            setBudget={setBudget}
+          />
+
+          <Area  key={7}
+            area={area}
+            grid_slider_md={12}
+            box_slider_mx={"5px"}
+            box_slider_px={"15px"}
+            grid_text_md={6}
+            box_text_mx={"5px"}
+            box_text_px={"0px"}
+            setArea={setArea}
+          />
+        </Grid>
+        <Grid key={2} container item md={5} sx={{ backgroundColor: "#f5fcf8" }}>
+          <Grid  key={1} item md={6}>
+            <Box sx={{ margin: "10px" }}>
+              <SelectComponent
+                title={"Status"}
+                elements={apartmentStatuses}
+                value={apartmentStatus}
+                handleChange={handleApartmentStatusChange}
+              />
+            </Box>
+          </Grid>
+          <Grid  key={2} item md={6}>
+            <Box sx={{ margin: "10px" }}>
+              <SelectComponent
+                title={"Order By"}
+                elements={orderByes}
+                value={orderBy}
+                handleChange={handleOrderByChange}
+              />
+            </Box>
+          </Grid>
+          <Grid  key={3} item md={12}> 
+          {apartments.map((x, idx) => {
+            return (
+                <Apartment data={x} key={idx} />
+            );
+          })}
           </Grid>
         </Grid>
-        <Grid item md={10} sx={{backgroundColor: "#f0f0f0"}}>
-          <div >
-          A week ago a friend invited a couple of other couples over for dinner. Eventually, the food (but not the wine) was cleared off the table for what turned out to be some fierce Scrabbling. Heeding the strategy of going for the shorter, more valuable word over the longer cheaper word, our final play was “Bon,” which–as luck would have it!–happens to be a Japanese Buddhist festival, and not, as I had originally asserted while laying the tiles on the board, one half of a chocolate-covered cherry treat. Anyway, the strategy worked. My team only lost by 53 points instead of 58.
-
-Just the day before, our host had written of the challenges of writing short. In journalism–my friend’s chosen trade, and mostly my own, too–Mark Twain’s observation undoubtedly applies: “I didn’t have time to write a short letter, so I wrote a long one instead.” The principle holds across genres, in letters, reporting, and other writing. It’s harder to be concise than to blather. (Full disclosure, this blog post will clock in at a blather-esque 803 words.) Good writing is boiled down, not baked full of air like a souffl??. No matter how yummy souffl??s may be. Which they are. Yummy like a Grisham novel.
-
-Lately, I’ve been noticing how my sentences have a tendency to keep going when I write them onscreen. This goes for concentrated writing as well as correspondence. (Twain probably believed that correspondence, in an ideal world, also demands concentration. But he never used email.) Last week I caught myself packing four conjunctions into a three-line sentence in an email. That’s inexcusable. Since then, I have tried to eschew conjunctions whenever possible. Gone are the commas, the and’s, but’s, and so’s; in are staccato declaratives. Better to read like bad Hemingway than bad Faulkner.
-
-Length–as we all know, and for lack of a more original or effective way of saying it–matters. But (ahem), it’s also a matter of how you use it. Style and length are technically two different things.
-
-Try putting some prose onscreen, though, and they mix themselves up pretty quickly. This has much to do with the time constraints we claim to feel in the digital age. We don’t have time to compose letters and post them anymore–much less pay postage, what with all the banks kinda-sorta losing our money these days–so we blast a few emails. We don’t have time to talk, so we text. We don’t have time to text to specific people, so we update our Facebook status. We don’t have time to write essays, so we blog.
-
-I’m less interested by the superficial reduction of words–i.e. the always charming imho or c u l8r–than the genres in which those communications occur: blogs, texts, tweets, emails. All these interstitial communiques, do they really reflect super brevity that would make Twain proud? Or do they just reflect poorly stylized writing that desperately seeks a clearer form?
-
-I rather think the latter. Clive Thompson wrote last month in the NYT Magazine that constant digital updates, after a day, can begin “to feel like a short story; follow it for a month, and it’s a novel.” He was right to see the bits as part of a larger whole. The words now flying through our digital pipes & ether more or less tend to resemble parts of bigger units, perhaps even familiar genres. But stories and novels have definite conclusions; they also have conventional lengths. Quick, how long is the conventional blog, when you add up all of its posts and comments? How long is the longest email thread you send back and forth on a single topic?
-
-Most important: What exactly are we writing when we’re doing all of this writing? I won’t pretend to coin a whole new term here; I still think the best we can muster is a more fitting analogue. And if we must find an analogue in an existing literary unit, I propose the paragraph. Our constant writing has begun to feel like a neverending digital paragraph. Not a tight, stabbing paragraph from The Sun Also Rises or even a graceful, sometimes-slinking, sometimes-soaring paragraph from Absalom! Absalom!, I mean a convoluted, haphazard, meandering paragraph, something like Kerouac’s original draft of On the Road–only taped together by bytes. And 1 percent as interesting.
-
-Paragraphs, particularly those that wrap from one page to the next, inherently possess a necessary suspension that tightens the reader’s focus yet breaks down the narrative into digestable sections. Just like emails or blogs or texts. The mental questions while reading all of these feel the same:
-
-“Is this the last line or is there more?”
-
-“Is the writer really trying to say something here, or just setting up a larger point?”
-
-“Does this part have the information I’m looking for?”
-
-(“Can I skip ahead?”)
-David F. Smydra Jr. is a reporter, writer, and editor living in Silicon Valley. He occasionally posts similar bursts of media fancy 
-          </div>
+        <Grid key={3} item md={5} sx={{ backgroundColor: "#f0f0f0" }}>
+          <Typography gutterBottom variant="h1" component="div">
+            Map
+          </Typography>
         </Grid>
       </Grid>
     </>
-  )
+  );
 }
