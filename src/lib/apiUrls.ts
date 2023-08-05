@@ -1,4 +1,11 @@
 export const apiUrls = {
+	apartments: {
+		list: '/api/apartments',
+        create: '/api/apartments',
+        update: '/api/apartments/:id',
+        delete: '/api/apartments/:id'
+	},
+
 	user: {
 		upgrade: '/api/user/upgrade',
 		modify: '/api/user',

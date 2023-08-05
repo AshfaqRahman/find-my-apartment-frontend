@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { useCallback, useState } from 'react';
 import Image from "next/image";
 import styles from "./page.module.css";
 import { Box, Grid, Typography } from "@mui/material";
@@ -20,6 +21,7 @@ import HOST from "@/static/host";
 import axios from "axios";
 import Apartment from "@/components/apartment";
 import SelectComponent from "@/mui-components/select";
+import { searchApartments } from "./apis";
 
 const localPath = "advance-search";
 
@@ -118,8 +120,15 @@ export default function Home() {
   const saveSearch = () => {
     console.log("saving search ...");
   };
+  
+
+	// const onSearch = =async (data: any) => {
+	// 	setSelected(data);
+	// };
 
   const search = async () => {
+    // searchApartments()
+
     console.log("searching ...");
     const url = `${HOST}/apartments`;
     const params = {
