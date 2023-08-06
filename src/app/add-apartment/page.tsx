@@ -136,7 +136,7 @@ export default function Home() {
   return (
     <>
       <Grid container spacing={0} key={1}>
-        <Grid key={1} minHeight={"93vh"} maxHeight={"93vh"} position={"fixed"}  overflow={'auto'} container item lg={2} md={4} className="left-part" >
+        {/* <Grid key={1} minHeight={"93vh"} maxHeight={"93vh"} position={"fixed"}  overflow={'auto'} container item lg={2} md={4} className="left-part" >
           <Grid key={1} item lg={6} md={6}>
             <Box sx={{ margin: "10px" }}>
               <ButtonComponent variant="contained" onClick={saveSearch}>
@@ -195,10 +195,10 @@ export default function Home() {
           <Grid key={9} item lg={6} md={6}>
             <KeywordsComponent onChange={handleKeywordsChange} />
           </Grid>
+        </Grid> */}
+        <Grid key={"1_ex"} className="left-part" minHeight={"93vh"} container item lg={4} md={4}>
         </Grid>
-        <Grid key={"1_ex"} container item lg={2} md={4}>
-        </Grid>
-        <Grid key={2} minHeight={"93vh"} maxHeight={"93vh"} position={"fixed"} left={{ md: "33.33%",lg: "16.66%" }} overflow={"auto"} container item lg={6} md={4} className={'middle-part'}>
+        <Grid key={2} minHeight={"93vh"} maxHeight={"93vh"} position={"fixed"} left={{ md: "33.33%",lg: "16.66%" }} overflow={"auto"} container item lg={4} md={4} className={'middle-part'}>
           <Grid key={1} item lg={6}  md={6}>
             <Box sx={{ margin: "10px" }}>
               <SelectComponent

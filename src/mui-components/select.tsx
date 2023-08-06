@@ -11,7 +11,7 @@ export default function SelectComponent(props: any) {
           value={props.value}
           label={props.title}
           key={props.value}
-          onChange={props.handleChange}
+          onChange={(event) => props.setValue(event.target.value)}
         >
           {props.elements.map((element: any, idx: any) => {
             return <MenuItem key={idx} value={element}>{element}</MenuItem>;
