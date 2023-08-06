@@ -5,8 +5,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -15,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Image from 'next/image'
+import { LoginApi } from './apis';
 
 function Copyright(props:any) {
   return (
@@ -33,14 +32,17 @@ function Copyright(props:any) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event:any) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+export default function Login() {
+  var [email, setEmail] = React.useState("")
+  var [password, setPassword] = React.useState("")
+
+  let loginSubmit = async () => {
+    const data = {
+      email: email,
+      password: password,
+    }
+    console.log(data);
+    await LoginApi(data)
   };
 
   return (
@@ -86,7 +88,7 @@ export default function SignIn() {
                         <Typography component="h1" variant="h5">
                             Login
                         </Typography>
-                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                        <Box>
                             <TextField
                             margin="normal"
                             required
@@ -94,6 +96,8 @@ export default function SignIn() {
                             id="email"
                             label="Email Address"
                             name="email"
+                            value={email}
+                            onChange={(event:any) => setEmail(event.target.value)}
                             autoComplete="email"
                             autoFocus
                             />
@@ -105,14 +109,13 @@ export default function SignIn() {
                             label="Password"
                             type="password"
                             id="password"
+                            value={password}
+                            onChange={(event:any) => setPassword(event.target.value)}
                             autoComplete="current-password"
-                            />
-                            <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
                             />
                             <Button
                             type="submit"
+                            onClick={loginSubmit}
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}

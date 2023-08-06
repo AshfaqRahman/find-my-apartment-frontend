@@ -14,8 +14,8 @@ export const apiUrls = {
 		usage: 'api/user/usage',
 	},
 	auth: {
-		signup: '/api/auth/signup',
-		signin: '/api/auth/signin',
+		signup: `${HOST}/api/auth/signup`,
+		login: '/api/auth/login',
 	},
 	expenses: {
 		add: '/api/expenses/add',

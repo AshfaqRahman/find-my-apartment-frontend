@@ -2,18 +2,16 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 import SelectComponent from '@/mui-components/select';
+import { SignUpApi } from './apis';
+import AuthForm from '../auth-form';
 
 function Copyright(props:any) {
   return (
@@ -33,14 +31,25 @@ function Copyright(props:any) {
 const defaultTheme = createTheme()
 
 export default function SignUp() {
-  const handleSubmit = (event:any) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  var [firstName, setFirstName] = React.useState("")
+  var [lastName, setLastName] = React.useState("")
+  var [email, setEmail] = React.useState("")
+  var [password, setPassword] = React.useState("")
+  var [phone_no, setPhoneNo] = React.useState("")
+  var [gender, setGender] = React.useState("")
+
+  let signUpSubmit = async () => {
+    const data = {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      password: password,
+      phone_no: phone_no,
+      gender: gender
+    }
+    console.log(data);
+    await SignUpApi(data)
+  }
 
   return (
     <Grid container style={{backgroundColor: "#D8D8D8", display:"flex", justifyContent:"center"}}>
@@ -59,7 +68,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box>
             <Grid container spacing={2}>
               <Grid item md={6}>
                 <TextField
@@ -69,6 +78,8 @@ export default function SignUp() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  value={firstName}
+                  onChange={(event:any) => setFirstName(event.target.value)}
                   autoFocus
                 />
               </Grid>
@@ -79,6 +90,8 @@ export default function SignUp() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
+                  value={lastName}
+                  onChange={(event:any) => setLastName(event.target.value)}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -89,6 +102,8 @@ export default function SignUp() {
                   id="email"
                   label="Email Address"
                   name="email"
+                  value={email}
+                  onChange={(event:any) => setEmail(event.target.value)}
                   autoComplete="email"
                 />
               </Grid>
@@ -100,6 +115,8 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  value={password}
+                  onChange={(event:any) => setPassword(event.target.value)}
                   autoComplete="new-password"
                 />
               </Grid>
@@ -111,15 +128,18 @@ export default function SignUp() {
                   label="Phone No."
                   type="tel"
                   id="phone_no"
+                  value={phone_no}
+                  onChange={(event:any) => setPhoneNo(event.target.value)}
                   placeholder="01XXX-XXX-XXX"
                 />
               </Grid>
               <Grid item md={6}>
-                <SelectComponent value={''} elements={['Male', 'Female']} title={'Gender'} required/>
+                <SelectComponent value={gender} elements={['Male', 'Female']} title={'Gender'} handleChange={setGender}/>
               </Grid>
-            </Grid>
+            </Grid>            
             <Button
               type="submit"
+              onClick={signUpSubmit}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
@@ -128,7 +148,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/signin" variant="body2">
+                <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
