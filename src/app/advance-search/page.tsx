@@ -136,7 +136,7 @@ export default function Home() {
   return (
     <>
       <Grid container spacing={0} key={1}>
-        <Grid key={1} maxHeight={'100vh'} position={"fixed"}  overflow={'auto'} container item lg={2} md={4} className="left-part" sx={{  scrollbarWidth: '1px'}}>
+        <Grid key={1} minHeight={"93vh"} maxHeight={"93vh"} position={"fixed"}  overflow={'auto'} container item lg={2} md={4} className="left-part" >
           <Grid key={1} item lg={6} md={6}>
             <Box sx={{ margin: "10px" }}>
               <ButtonComponent variant="contained" onClick={saveSearch}>
@@ -198,7 +198,7 @@ export default function Home() {
         </Grid>
         <Grid key={"1_ex"} container item lg={2} md={4}>
         </Grid>
-        <Grid key={2} container item lg={6} md={4} className={'middle-part'}>
+        <Grid key={2} minHeight={"93vh"} maxHeight={"93vh"} position={"fixed"} left={{ md: "33.33%",lg: "16.66%" }} overflow={"auto"} maxHeight={"90vh"} container item lg={6} md={4} className={'middle-part'}>
           <Grid key={1} item lg={6}  md={6}>
             <Box sx={{ margin: "10px" }}>
               <SelectComponent
@@ -225,7 +225,7 @@ export default function Home() {
             })}
           </Grid>
         </Grid>
-        <Grid key={3} position={"fixed"} left={"66.67%"} container item lg={4} md={4} className={"right-part"} sx={{  }}>
+        <Grid key={3} position={"fixed"}  left={"66.67%"} container item lg={4} md={4} className={"right-part"} sx={{  }}>
           <Map address="ece building, buet, dhaka" />
         </Grid>
       </Grid>

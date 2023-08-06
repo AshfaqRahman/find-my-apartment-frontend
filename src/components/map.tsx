@@ -32,5 +32,5 @@ export default function Map(props: any) {
       });
     });
   }, [address]);
-  return <div style={{ height: "90vh", width: "33.33vw" }} ref={mapRef} />;
+  return <div style={{ height: "93vh", width: "33.33vw" }} ref={mapRef} />;
 }
