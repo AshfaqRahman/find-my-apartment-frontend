@@ -205,7 +205,7 @@ export default function Home() {
                 title={"Status"}
                 elements={apartmentStatuses}
                 value={apartmentStatus}
-                handleChange={handleApartmentStatusChange}
+                handleChange={(value: any) => setApartmentStatus(value)}
               />
             </Box>
           </Grid>
@@ -215,7 +215,7 @@ export default function Home() {
                 title={"Order By"}
                 elements={orderByes}
                 value={orderBy}
-                handleChange={handleOrderByChange}
+                handleChange={(value: any) => setOrderBy(value)}
               />
             </Box>
           </Grid>
