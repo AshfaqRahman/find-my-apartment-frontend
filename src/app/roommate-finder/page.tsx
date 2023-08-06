@@ -19,7 +19,7 @@ import Budget from "@/components/budget";
 import Area from "@/components/area";
 import HOST from "@/static/host";
 import axios from "axios";
-import Apartment from "@/components/apartment";
+import Post from "@/components/post";
 import SelectComponent from "@/mui-components/select";
 import { findRoommates } from "./apis";
 import { apiUrls } from "@/lib/apiUrls";
@@ -61,26 +61,48 @@ export default function Home() {
     setKeywords(types);
   };
 
-  let [apartments, setApartments] = React.useState([
+  let [posts, setPosts] = React.useState([
     {
       id: 1,
       price: 15000,
       bedrooms: 3,
       baths: 2,
-      area_sqft: 1350,
-      apartment_type: "Flat",
+      area_sqft: 1400,
       address: "Dhaka",
       type: "Family",
+      title: "Bari Bhara Deowa Hoibe",
+      textBody: "The quick brown fox jumps over the lazy dog. And so I need a billion dollars.",
+      owner: "makumhakan",
+      star_points: "Fire Station, Bank, School, University",
+      facilities: "security, wifi, parking, rooftop, laundry"
     },
     {
       id: 2,
       price: 24000,
-      bedrooms: 4,
-      baths: 3,
-      area_sqft: 1800,
-      apartment_type: "Flat",
+      bedrooms: 3,
+      baths: 2,
+      area_sqft: 1860,
       address: "Dhaka",
       type: "Family",
+      title: "Apartment for Rent",
+      textBody: "I tried so hard and got so far. But in the end, it doesn't even matter. I had to fall to lose it all. But in the end, it doesn't even matter.",
+      owner: "tuluashfak",
+      star_points: "Hospital, Shopping Mall, School, Museum, Bus Stop, Airport",
+      facilities: "security, wifi, parking, wheelchair accessibility, playground, air conditioning/heating, elevator"
+    },
+    {
+      id: 3,
+      price: 14000,
+      bedrooms: 3,
+      baths: 2,
+      area_sqft: 1300,
+      address: "Dhaka",
+      type: "Bachelor",
+      title: "Bachelor Bhaiyera, Eidike Ashun",
+      textBody: "The child is grown, the dream is gone. I have become comfortably numb. Hello? Is there anybody in there? Just node if you can hear me. Is there anyone home?",
+      owner: "maruiffa",
+      star_points: "Hospital, Gym, Theater, Railway Station, Bus Stop, Park",
+      facilities: "security, wifi, maintenance, laundry, parking, elevator"
     },
   ]);
 
@@ -207,8 +229,8 @@ export default function Home() {
             </Box>
           </Grid>
           <Grid key={3} item lg={12} md={12}>
-            {apartments.map((x, idx) => {
-              return <Apartment data={x} key={idx} />;
+            {posts.map((x, idx) => {
+              return <Post data={x} key={idx} />;
             })}
           </Grid>
         </Grid>
