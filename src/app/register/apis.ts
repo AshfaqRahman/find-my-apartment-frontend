@@ -2,9 +2,9 @@ import { apiUrls } from '@/lib/apiUrls';
 import axios from 'axios';
 
 
-export const SignUpApi = async (data: any) => {
+export const RegisterApi = async (data: any) => {
 	const res = await axios.post(
-        apiUrls.auth.signup,
+        apiUrls.auth.register,
         {
             params: data
         }

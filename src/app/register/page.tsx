@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
 import SelectComponent from '@/mui-components/select';
-import { SignUpApi } from './apis';
+import { RegisterApi } from './apis';
 
 function Copyright(props:any) {
   return (
@@ -47,7 +47,7 @@ export default function SignUp() {
       gender: gender
     }
     console.log(data);
-    await SignUpApi(data)
+    await RegisterApi(data)
   }
 
   return (

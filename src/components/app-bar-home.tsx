@@ -21,6 +21,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import Grid from "@mui/material/Grid";
+import Link from '@mui/material/Link';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -163,11 +164,15 @@ export default function AppBarHomeComponent({
               </Box>
 
               <Box sx={{ flexGrow: 0 }}>
-                <Button >
-                  Sign Up
+                <Button>
+                  <Link href="/register">
+                    Register
+                  </Link>
                 </Button>
-                <Button >
-                  Login
+                <Button>
+                  <Link href="/login">
+                    Register
+                  </Link>
                 </Button>
               </Box>
             </Toolbar>
