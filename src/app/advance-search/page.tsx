@@ -87,11 +87,11 @@ export default function Home() {
   let apartmentStatuses = ["Any", "Vacant", "Occupied"];
   let [apartmentStatus, setApartmentStatus] = React.useState("Any");
 
-  const handleApartmentStatusChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setApartmentStatus(event.target.value);
-  };
+  // const handleApartmentStatusChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setApartmentStatus(event.target.value);
+  // };
 
   let orderByes = [
     "price lowest",
@@ -205,7 +205,7 @@ export default function Home() {
                 title={"Status"}
                 elements={apartmentStatuses}
                 value={apartmentStatus}
-                handleChange={handleApartmentStatusChange}
+                handleChange={setApartmentStatus}
               />
             </Box>
           </Grid>
