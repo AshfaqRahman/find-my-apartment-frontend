@@ -1,9 +1,6 @@
 "use client";
-import styles from "./page.module.css"
-// import gstyles from ""
-
-
 import { Inter } from "next/font/google";
+
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -19,9 +16,6 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
-import Grid from "@mui/material/Grid";
-
-const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -38,11 +32,7 @@ const settings = [
   "Logout",
 ];
 
-export default function AppBarComponent({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AppBarComponent() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -64,25 +54,25 @@ export default function AppBarComponent({
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  
+
+  let height = "8vh"
+
   return (
     <>
-        <AppBar position="fixed" sx={{ backgroundColor: "black"}}>
-          <Container maxWidth={false} >
+      <Box margin={0} maxHeight={{height}} minHeight={{height}}>
+        <AppBar position="fixed" sx={{ backgroundColor: "black" }}>
+          <Container maxWidth={false}>
             <Toolbar disableGutters>
-              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "inline" }, }}>
-                <ApartmentIcon
-                  sx={{ mr: 1 }}
-                />
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "inline" } }}>
+                <ApartmentIcon sx={{ mr: 1 }} />
+
                 <Typography
-                  variant="h6"
                   noWrap
                   component="a"
                   href="/"
                   sx={{
                     mr: 2,
-                    fontFamily: "monospace",
-                    fontWeight: 700,
+                    fontSize: "1.75rem",
                     letterSpacing: ".3rem",
                     color: "inherit",
                     textDecoration: "none",
@@ -131,24 +121,6 @@ export default function AppBarComponent({
               <ApartmentIcon
                 sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
               />
-              <Typography
-                variant="h5"
-                noWrap
-                component="a"
-                href=""
-                sx={{
-                  mr: 2,
-                  display: { xs: "flex", md: "none" },
-                  flexGrow: 1,
-                  fontFamily: "monospace",
-                  fontWeight: 700,
-                  letterSpacing: ".3rem",
-                  color: "inherit",
-                  textDecoration: "none",
-                }}
-              >
-                Find My Apartment
-              </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 {pages.map((page) => (
                   <Button
@@ -201,6 +173,7 @@ export default function AppBarComponent({
             </Toolbar>
           </Container>
         </AppBar>
+      </Box>
     </>
   );
 }

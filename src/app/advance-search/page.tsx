@@ -87,12 +87,6 @@ export default function Home() {
   let apartmentStatuses = ["Any", "Vacant", "Occupied"];
   let [apartmentStatus, setApartmentStatus] = React.useState("Any");
 
-  // const handleApartmentStatusChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   setApartmentStatus(event.target.value);
-  // };
-
   let orderByes = [
     "price lowest",
     "nearest",
@@ -101,10 +95,6 @@ export default function Home() {
     "preference",
   ];
   let [orderBy, setOrderBy] = React.useState("");
-
-  const handleOrderByChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOrderBy(event.target.value);
-  };
 
   const saveSearch = () => {
     console.log("saving search ...");
@@ -133,10 +123,26 @@ export default function Home() {
     console.log(data);
   };
 
+  let height = "93vh";
+  let mapWidth = "33.33vw";
+
   return (
     <>
-      <Grid container spacing={0} key={1}>
-        <Grid key={1} minHeight={"93vh"} maxHeight={"93vh"} position={"fixed"}  overflow={'auto'} container item lg={2} md={4} className="left-part" >
+      <Grid container spacing={0} key={1} margin={0}>
+        <Grid
+          key={1}
+          minHeight={{height}}
+          maxHeight={{height}}
+          position={"fixed"}
+          overflow={"auto"}
+          container
+          item
+          lg={2}
+          md={4}
+          sx={{
+            backgroundColor: "#D8D8D8",
+          }}
+        >
           <Grid key={1} item lg={6} md={6}>
             <Box sx={{ margin: "10px" }}>
               <ButtonComponent variant="contained" onClick={saveSearch}>
@@ -151,7 +157,7 @@ export default function Home() {
               </ButtonComponent>
             </Box>
           </Grid>
-          <Grid key={3} item lg={12} md={12} sx={{px: 1}}>
+          <Grid key={3} item lg={12} md={12} sx={{ px: 1 }}>
             <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
           </Grid>
           <Grid key={4} item lg={6} md={6}>
@@ -165,8 +171,8 @@ export default function Home() {
           <Budget
             key={6}
             budget={budget}
-            grid_slider_lg={12} 
-            grid_slider_md={12} 
+            grid_slider_lg={12}
+            grid_slider_md={12}
             box_slider_mx={"5px"}
             box_slider_px={"15px"}
             grid_text_lg={6}
@@ -196,10 +202,23 @@ export default function Home() {
             <KeywordsComponent onChange={handleKeywordsChange} />
           </Grid>
         </Grid>
-        <Grid key={"1_ex"} container item lg={2} md={4}>
-        </Grid>
-        <Grid key={2} minHeight={"93vh"} maxHeight={"93vh"} position={"fixed"} left={{ md: "33.33%",lg: "16.66%" }} overflow={"auto"} container item lg={6} md={4} className={'middle-part'}>
-          <Grid key={1} item lg={6}  md={6}>
+        <Grid key={"1_ex"} container item lg={2} md={4}></Grid>
+        <Grid
+          key={2}
+          minHeight={{height}}
+          maxHeight={{height}}
+          position={"fixed"}
+          left={{ md: "33.33%", lg: "16.66%" }}
+          overflow={"auto"}
+          container
+          item
+          lg={6}
+          md={4}
+          sx={{
+            backgroundColor: "#fcf5f5",
+          }}
+        >
+          <Grid key={1} item lg={6} md={6}>
             <Box sx={{ margin: "10px" }}>
               <SelectComponent
                 title={"Status"}
@@ -209,13 +228,13 @@ export default function Home() {
               />
             </Box>
           </Grid>
-          <Grid key={2} item lg={6}  md={6}>
+          <Grid key={2} item lg={6} md={6}>
             <Box sx={{ margin: "10px" }}>
               <SelectComponent
                 title={"Order By"}
                 elements={orderByes}
                 value={orderBy}
-                handleChange={handleOrderByChange}
+                handleChange={setOrderBy}
               />
             </Box>
           </Grid>
@@ -225,7 +244,18 @@ export default function Home() {
             })}
           </Grid>
         </Grid>
-        <Grid key={3} position={"fixed"}  left={"66.67%"} container item lg={4} md={4} className={"right-part"} sx={{  }}>
+        <Grid
+          key={3}
+          position={"fixed"}
+          left={"66.67%"}
+          container
+          item
+          lg={4}
+          md={4}
+          width={{mapWidth}}
+          maxHeight={{height}}
+          minHeight={{height}}
+        >
           <Map address="ece building, buet, dhaka" />
         </Grid>
       </Grid>

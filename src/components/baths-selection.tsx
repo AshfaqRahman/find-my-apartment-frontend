@@ -9,7 +9,6 @@ export default function BathsSelectionComponent(props: any) {
 
   React.useEffect(() => {
     props.onChange(baths.filter((x) => x.checked).map((x) => +x.name));
-    // console.log(baths);
   }, [baths]);
   const handleBathsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBaths(

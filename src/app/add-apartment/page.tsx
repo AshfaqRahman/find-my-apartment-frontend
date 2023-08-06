@@ -136,97 +136,27 @@ export default function Home() {
   return (
     <>
       <Grid container spacing={0} key={1}>
-        {/* <Grid key={1} minHeight={"93vh"} maxHeight={"93vh"} position={"fixed"}  overflow={'auto'} container item lg={2} md={4} className="left-part" >
-          <Grid key={1} item lg={6} md={6}>
-            <Box sx={{ margin: "10px" }}>
-              <ButtonComponent variant="contained" onClick={saveSearch}>
-                Save Search
-              </ButtonComponent>
-            </Box>
-          </Grid>
-          <Grid key={2} item lg={6} md={6}>
-            <Box sx={{ margin: "10px" }}>
-              <ButtonComponent variant="contained" onClick={search}>
-                Search
-              </ButtonComponent>
-            </Box>
-          </Grid>
-          <Grid key={3} item lg={12} md={12} sx={{px: 1}}>
-            <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
-          </Grid>
-          <Grid key={4} item lg={6} md={6}>
-            <BedsSelectionComponent onChange={handleBedsChange} />
-          </Grid>
-          <Grid key={5} item lg={6} md={6}>
-            <BathsSelectionComponent
-              onChange={handleBathsChange}
-            ></BathsSelectionComponent>
-          </Grid>
-          <Budget
-            key={6}
-            budget={budget}
-            grid_slider_lg={12} 
-            grid_slider_md={12} 
-            box_slider_mx={"5px"}
-            box_slider_px={"15px"}
-            grid_text_lg={6}
-            grid_text_md={6}
-            box_text_mx={"5px"}
-            box_text_px={"0px"}
-            setBudget={setBudget}
-          />
-
-          <Area
-            key={7}
-            area={area}
-            grid_slider_lg={12}
-            grid_slider_md={12}
-            box_slider_mx={"5px"}
-            box_slider_px={"15px"}
-            grid_text_lg={6}
-            grid_text_md={6}
-            box_text_mx={"5px"}
-            box_text_px={"0px"}
-            setArea={setArea}
-          />
-          <Grid key={8} item lg={6} md={6}>
-            <FacilitiesComponent onChange={handleFacilitiesChange} />
-          </Grid>
-          <Grid key={9} item lg={6} md={6}>
-            <KeywordsComponent onChange={handleKeywordsChange} />
-          </Grid>
-        </Grid> */}
-        <Grid key={"1_ex"} className="left-part" minHeight={"93vh"} container item lg={4} md={4}>
+        <Grid key={"1_ex"} className="left-part" minHeight={"92vh"} container item lg={3} md={3}>
         </Grid>
-        <Grid key={2} minHeight={"93vh"} maxHeight={"93vh"} position={"fixed"} left={{ md: "33.33%",lg: "16.66%" }} overflow={"auto"} container item lg={4} md={4} className={'middle-part'}>
-          <Grid key={1} item lg={6}  md={6}>
+        <Grid key={2} minHeight={"92vh"} maxHeight={"92vh"} position={"fixed"} left={{ md: "25%",lg: "25%" }} overflow={"auto"} container item lg={6} md={6} className={'middle-part'}>
+          <Grid key={1} item lg={6}  md={6} className="center-content">
             <Box sx={{ margin: "10px" }}>
-              <SelectComponent
-                title={"Status"}
-                elements={apartmentStatuses}
-                value={apartmentStatus}
-                handleChange={(value: any) => setApartmentStatus(value)}
-              />
+              <Typography variant="h4"  >Add Apartment</Typography>
             </Box>
           </Grid>
-          <Grid key={2} item lg={6}  md={6}>
+          <Grid key={2} item lg={6}  md={6} className={"center-content"}>
             <Box sx={{ margin: "10px" }}>
-              <SelectComponent
-                title={"Order By"}
-                elements={orderByes}
-                value={orderBy}
-                handleChange={(value: any) => setOrderBy(value)}
-              />
+              <ButtonComponent variant="contained">Publish</ButtonComponent>
             </Box>
           </Grid>
           <Grid key={3} item lg={12} md={12}>
-            {apartments.map((x, idx) => {
+            {/* {apartments.map((x, idx) => {
               return <Apartment data={x} key={idx} />;
-            })}
+            })} */}
           </Grid>
         </Grid>
-        <Grid key={3} position={"fixed"}  left={"66.67%"} container item lg={4} md={4} className={"right-part"} sx={{  }}>
-          <Map address="ece building, buet, dhaka" />
+        <Grid key={3} position={"fixed"}  left={"66.67%"} container item lg={3} md={3} className={"right-part"}>
+          {/* <Map address="ece building, buet, dhaka" /> */}
         </Grid>
       </Grid>
     </>
