@@ -1,95 +1,137 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import * as React from "react";
+import { useCallback, useState } from "react";
+import Image from "next/image";
+import styles from "./page.module.css";
+import { Box, Grid, Typography } from "@mui/material";
+import ButtonComponent from "@/mui-components/buttons";
+import MultiSelectComponent from "@/mui-components/multi-select";
+import {
+  _apartmentTypes,
+  _area,
+  _baths,
+  _beds,
+  _budget,
+} from "@/static/constants";
+import SliderComponent from "@/mui-components/slider";
+import TextFieldComponent from "@/mui-components/text-field";
+import Budget from "@/components/budget";
+import Area from "@/components/area";
+import HOST from "@/static/host";
+import axios from "axios";
+import Apartment from "@/components/apartment";
+import SelectComponent from "@/mui-components/select";
+// import { findRoommates } from "./apis";
+import { apiUrls } from "@/lib/apiUrls";
+import ApartmentTypesComponent from "@/components/apartment-types";
+import BedsSelectionComponent from "@/components/beds-selection";
+import BathsSelectionComponent from "@/components/baths-selection";
+import FacilitiesComponent from "@/components/facilities";
+import KeywordsComponent from "@/components/keywords";
+import Map from "@/components/map";
+import AppBarComponent from "@/components/app-bar-home";
+
+const localPath = "roommate-finder";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
+    <>
+      <AppBarComponent>
+      </AppBarComponent>
+      
+      <Grid>  
         <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+        <Image 
+            src="/dhaka-view-1.jpg" 
+            width={1365} height={460}
+             
+            alt="Apartment"/> 
         </div>
-      </div>
+      </Grid>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <Grid>
+        <div style={{display: "flex", justifyContent: "center", backgroundColor: "#D8D8D8"}}>
+          <h1>Trending Neighbourhood</h1>
+          <style jsx>
+              {`
+                h1 {
+                  margin-top: 20px;
+                  margin-bottom: 20px;
+                  font-size: 50px;
+                  font-family: Lexend;
+                }
+              `}
+              </style>
+        </div>
+      </Grid>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+      <Grid container>
+        <Grid item xs>
+          <div style={{display: "flex", justifyContent: "center", backgroundColor: "#D8D8D8"}}>
+            <h1>Dhanmondi</h1>
+            <style jsx>
+                {`
+                  h1 {
+                    margin-top: 50px;
+                    margin-bottom: 50px;
+                    font-size: 30px;
+                    font-family: Lexend;
+                  }
+                `}
+                </style>
+          </div>
+        </Grid>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+        <Grid item xs>
+          <div style={{display: "flex", justifyContent: "center", backgroundColor: "#D8D8D8"}}>
+            <h1>Motijheel</h1>
+            <style jsx>
+                {`
+                  h1 {
+                    margin-top: 50px;
+                    margin-bottom: 50px;
+                    font-size: 30px;
+                    font-family: Lexend;
+                  }
+                `}
+                </style>
+          </div>
+        </Grid>
+      </Grid>   
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
+      <Grid container>
+        <Grid item xs>
+          <div style={{display: "flex", justifyContent: "center", backgroundColor: "#D8D8D8"}}>
+            <h1>Azimpur</h1>
+            <style jsx>
+                {`
+                  h1 {
+                    margin-top: 50px;
+                    margin-bottom: 50px;
+                    font-size: 30px;
+                    font-family: Lexend;
+                  }
+                `}
+                </style>
+          </div>
+        </Grid>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+        <Grid item xs>
+          <div style={{display: "flex", justifyContent: "center", backgroundColor: "#D8D8D8"}}>
+            <h1>Gulshan</h1>
+            <style jsx>
+                {`
+                  h1 {
+                    margin-top: 50px;
+                    margin-bottom: 50px;
+                    font-size: 30px;
+                    font-family: Lexend;
+                  }
+                `}
+                </style>
+          </div>
+        </Grid>
+      </Grid> 
+    </>
+  );
 }

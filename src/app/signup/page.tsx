@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
 import SelectComponent from '@/mui-components/select';
 import { SignUpApi } from './apis';
-import AuthForm from '../auth-form';
 
 function Copyright(props:any) {
   return (
