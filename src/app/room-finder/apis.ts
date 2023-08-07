@@ -2,9 +2,9 @@ import { apiUrls } from '@/lib/apiUrls';
 import axios from 'axios';
 
 
-export const findRoommates = async (data: any) => {
+export const findRooms = async (data: any) => {
 	const res = await axios.get(
-        apiUrls.roommates.list,
+        apiUrls.rooms.list,
         {
             params: data
         }

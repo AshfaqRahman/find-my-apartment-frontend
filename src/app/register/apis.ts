@@ -4,10 +4,11 @@ import axios from 'axios';
 
 export const RegisterApi = async (data: any) => {
 	const res = await axios.post(
-        apiUrls.auth.register,
-        {
-            params: data
-        }
+        apiUrls.auth.register, data
     )
-    return res.data
+    console.log(res)
+    return {
+        success: res.status === 201,
+        data: res.data
+    }
 };

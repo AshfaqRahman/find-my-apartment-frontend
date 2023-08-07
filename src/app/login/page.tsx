@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Image from 'next/image'
 import { LoginApi } from './apis';
+import { redirect } from 'next/navigation';
 
 function Copyright(props:any) {
   return (
@@ -42,7 +43,10 @@ export default function Login() {
       password: password,
     }
     console.log(data);
-    await LoginApi(data)
+    const response = await LoginApi(data)
+    if(response.success){
+      // redirect("/advance-search");
+    }
   };
 
   return (

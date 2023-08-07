@@ -21,7 +21,7 @@ import HOST from "@/static/host";
 import axios from "axios";
 import Post from "@/components/post";
 import SelectComponent from "@/mui-components/select";
-import { findRoommates } from "./apis";
+import { findRooms } from "./apis";
 import { apiUrls } from "@/lib/apiUrls";
 import ApartmentTypesComponent from "@/components/apartment-types";
 import BedsSelectionComponent from "@/components/beds-selection";
@@ -30,7 +30,7 @@ import FacilitiesComponent from "@/components/facilities";
 import KeywordsComponent from "@/components/keywords";
 import Map from "@/components/map";
 
-const localPath = "roommate-finder";
+const localPath = "room-finder";
 
 export default function Home() {
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
@@ -140,7 +140,7 @@ export default function Home() {
       keywords: keywords,
     };
     console.log("params: ", params);
-    let data = await findRoommates(params);
+    let data = await findRooms(params);
     console.log(data);
   };
 

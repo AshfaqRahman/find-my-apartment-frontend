@@ -37,7 +37,7 @@ export default function SignUp() {
   var [phone_no, setPhoneNo] = React.useState("")
   var [gender, setGender] = React.useState("")
 
-  let signUpSubmit = async () => {
+  let registerSubmit = async () => {
     const data = {
       first_name: firstName,
       last_name: lastName,
@@ -47,7 +47,11 @@ export default function SignUp() {
       gender: gender
     }
     console.log(data);
-    await RegisterApi(data)
+    const response = await RegisterApi(data)
+    if(response.success){
+      // redirect
+      
+    }
   }
 
   return (
@@ -138,17 +142,17 @@ export default function SignUp() {
             </Grid>            
             <Button
               type="submit"
-              onClick={signUpSubmit}
+              onClick={registerSubmit}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Register
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">
-                  Already have an account? Sign in
+                  Already have an account? Login
                 </Link>
               </Grid>
             </Grid>
