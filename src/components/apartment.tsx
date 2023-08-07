@@ -15,7 +15,7 @@ export default function Apartment(props: any) {
         />
         <CardContent>
           <Typography key={2} gutterBottom variant="h5" component="div">
-            BDT. {props.data.price} taka
+            BDT. {props.data.price} 
           </Typography>
           <Typography  key={3} gutterBottom variant="h6" component="div">
             {apartmentTypeMapping[props.data.type]}
