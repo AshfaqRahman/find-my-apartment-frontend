@@ -31,6 +31,7 @@ import BathsSelectionComponent from "@/components/baths-selection";
 import FacilitiesComponent from "@/components/facilities";
 import KeywordsComponent from "@/components/keywords";
 import Map from "@/components/map";
+import { randomInRange } from "@/static/utils";
 
 const localPath = "advance-search";
 
@@ -112,12 +113,15 @@ export default function Home() {
     };
     console.log("params: ", params);
     let data = await searchApartments(params);
-    // console.log(data);
+    console.log(data);
     setApartments(data)
   };
 
   let height = _pageHeight;
   let mapWidth = _mapWidth;
+
+  let [mapLat, setMapLat] = React.useState(23.8103);
+  let [mapLng, setMapLng] = React.useState(90.4125);
 
   return (
     <>
@@ -232,8 +236,14 @@ export default function Home() {
             </Box>
           </Grid>
           <Grid key={3} item lg={12} md={12}>
-            {apartments.map((x, idx) => {
-              return <Apartment data={x} key={idx} />;
+            {apartments.map((x: any, idx) => {
+              return <Apartment onClick={() => {
+                let lat = randomInRange(22, 24);
+                let lng = randomInRange(89, 91);
+                // console.log(lat, lng);
+                setMapLat(x.location.latitude)
+                setMapLng(x.location.longitude)
+              }} data={x} key={idx} />;
             })}
           </Grid>
         </Grid>
@@ -249,7 +259,7 @@ export default function Home() {
           maxHeight={{height}}
           minHeight={{height}}
         >
-          <Map address="ece building, buet, dhaka" />
+          <Map lat={mapLat} lng={mapLng} />
         </Grid>
       </Grid>
     </>

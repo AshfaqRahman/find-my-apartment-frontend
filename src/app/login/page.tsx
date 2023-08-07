@@ -16,6 +16,9 @@ import Image from 'next/image'
 import { LoginApi } from './apis';
 import { redirect } from 'next/navigation';
 
+import { useRouter } from 'next/navigation';
+
+
 function Copyright(props:any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -34,6 +37,7 @@ function Copyright(props:any) {
 const defaultTheme = createTheme();
 
 export default function Login() {
+  const { push } = useRouter();
   var [email, setEmail] = React.useState("")
   var [password, setPassword] = React.useState("")
 
@@ -45,7 +49,7 @@ export default function Login() {
     console.log(data);
     const response = await LoginApi(data)
     if(response.success){
-      // redirect("/advance-search");
+      push('/advance-search')
     }
   };
 

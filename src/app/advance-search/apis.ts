@@ -12,3 +12,7 @@ export const searchApartments = async (data: any) => {
     
     return res.data
 };
+
+export const find = async (data) => {
+    
+}

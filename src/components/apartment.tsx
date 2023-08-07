@@ -4,6 +4,11 @@ import BathtubOutlinedIcon from '@mui/icons-material/BathtubOutlined';
 import { apartmentTypeMapping } from "@/static/constants";
 
 export default function Apartment(props: any) {
+
+  let handleClick = async() => {
+    props.onClick();
+  }
+
   return (
     <>
       <Card sx={{ margin: 1 }}>
@@ -12,6 +17,7 @@ export default function Apartment(props: any) {
           image="/apartment.jpg"
           title="green iguana"
           key={1}
+          onClick={handleClick}
         />
         <CardContent>
           <Typography key={2} gutterBottom variant="h5" component="div">

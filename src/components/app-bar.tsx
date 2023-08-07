@@ -35,7 +35,7 @@ const pages = [
   },
   {
     name: "Room Finder",
-    link: "/roommate-finder",
+    link: "/room-finder",
   },
   {
     name: "Recommendation",

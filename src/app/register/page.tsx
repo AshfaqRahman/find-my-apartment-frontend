@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
 import SelectComponent from '@/mui-components/select';
 import { RegisterApi } from './apis';
+import { useRouter } from 'next/navigation';
 
 function Copyright(props:any) {
   return (
@@ -30,6 +31,8 @@ function Copyright(props:any) {
 const defaultTheme = createTheme()
 
 export default function SignUp() {
+
+  const { push } = useRouter();
   var [firstName, setFirstName] = React.useState("")
   var [lastName, setLastName] = React.useState("")
   var [email, setEmail] = React.useState("")
@@ -50,7 +53,7 @@ export default function SignUp() {
     const response = await RegisterApi(data)
     if(response.success){
       // redirect
-      
+      push('/login')
     }
   }
 
