@@ -14,8 +14,8 @@ export const apiUrls = {
 		usage: 'api/user/usage',
 	},
 	auth: {
-		signup: '/api/auth/signup',
-		signin: '/api/auth/signin',
+		register: `${HOST}/api/auth/register`,
+		login: `${HOST}/api/auth/login`,
 	},
 	expenses: {
 		add: '/api/expenses/add',
@@ -40,4 +40,7 @@ export const apiUrls = {
 	feedback: {
 		add: `/api/feedback`,
 	},
+	rooms: {
+		list: `${HOST}/api/posts`,
+	}
 };
