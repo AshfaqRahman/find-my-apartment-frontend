@@ -171,7 +171,7 @@ export default function AppBarHomeComponent({
                 </Button>
                 <Button>
                   <Link href="/login">
-                    Register
+                    Login
                   </Link>
                 </Button>
               </Box>
