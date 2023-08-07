@@ -12,6 +12,8 @@ import {
   _baths,
   _beds,
   _budget,
+  _mapWidth,
+  _pageHeight,
 } from "@/static/constants";
 import SliderComponent from "@/mui-components/slider";
 import TextFieldComponent from "@/mui-components/text-field";
@@ -66,21 +68,11 @@ export default function Home() {
       id: 1,
       price: 10000,
       bedrooms: 3,
-      baths: 2,
+      washrooms: 2,
       area_sqft: 1000,
       apartment_type: "Flat",
       address: "Dhaka",
-      type: "Family",
-    },
-    {
-      id: 2,
-      price: 10000,
-      bedrooms: 3,
-      baths: 2,
-      area_sqft: 1000,
-      apartment_type: "Flat",
-      address: "Dhaka",
-      type: "Family",
+      type: 1,
     },
   ]);
 
@@ -120,11 +112,12 @@ export default function Home() {
     };
     console.log("params: ", params);
     let data = await searchApartments(params);
-    console.log(data);
+    // console.log(data);
+    setApartments(data)
   };
 
-  let height = "93vh";
-  let mapWidth = "33.33vw";
+  let height = _pageHeight;
+  let mapWidth = _mapWidth;
 
   return (
     <>

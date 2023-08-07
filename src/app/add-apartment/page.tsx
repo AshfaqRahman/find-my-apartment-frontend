@@ -12,6 +12,7 @@ import {
   _baths,
   _beds,
   _budget,
+  _pageHeight,
 } from "@/static/constants";
 import SliderComponent from "@/mui-components/slider";
 import TextFieldComponent from "@/mui-components/text-field";
@@ -133,12 +134,15 @@ export default function Home() {
     console.log(data);
   };
 
+  const pageHeight = _pageHeight;
+
+
   return (
     <>
       <Grid container spacing={0} key={1}>
-        <Grid key={"1_ex"} className="left-part" minHeight={"92vh"} container item lg={3} md={3}>
+        <Grid key={"1_ex"} className="left-part" minHeight={{pageHeight}} container item lg={3} md={3}>
         </Grid>
-        <Grid key={2} minHeight={"92vh"} maxHeight={"92vh"} position={"fixed"} left={{ md: "25%",lg: "25%" }} overflow={"auto"} container item lg={6} md={6} className={'middle-part'}>
+        <Grid key={2} minHeight={{pageHeight}} maxHeight={{pageHeight}} position={"fixed"} left={{ md: "25%",lg: "25%" }} overflow={"auto"} container item lg={6} md={6} className={'middle-part'}>
           <Grid key={1} item lg={6}  md={6} className="center-content">
             <Box sx={{ margin: "10px" }}>
               <Typography variant="h4"  >Add Apartment</Typography>

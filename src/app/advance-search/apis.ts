@@ -9,5 +9,6 @@ export const searchApartments = async (data: any) => {
             params: data
         }
     )
+    
     return res.data
 };

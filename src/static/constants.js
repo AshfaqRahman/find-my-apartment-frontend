@@ -88,6 +88,16 @@ const _baths = [
     {checked: false, name: "5", label: "4+"},
 ]
 
+const _pageHeight = "91vh"
+const _mapWidth = "33.33%"
+const _pageMargin = "9vh"
+const _appBarHeight = "8vh"
+const apartmentTypeMapping = {
+  1: "Family",
+  2: "Bachelor",
+  3: "Sublet",
+}
+
 module.exports = {
     _apartmentTypes,
     _beds,
@@ -95,5 +105,10 @@ module.exports = {
     _budget,
     _area,
     _facilities,
-    _keywords
+    _keywords,
+    _pageHeight,
+    _mapWidth,
+    _pageMargin,
+    _appBarHeight,
+    apartmentTypeMapping
 }

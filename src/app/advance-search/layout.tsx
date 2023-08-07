@@ -4,6 +4,7 @@ import styles from "./page.module.css"
 import * as React from "react";
 import AppBarComponent from "@/components/app-bar";
 import { Box, Grid } from "@mui/material";
+import { _pageMargin } from "@/static/constants";
 
 
 export default function RootLayout({
@@ -12,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
 
-  let mt = "7vh"
+  let mt = _pageMargin
   
   return (
     <>

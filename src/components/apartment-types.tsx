@@ -13,7 +13,6 @@ export default function ApartmentTypesComponent(props: any) {
     const handleApartmentTypeChange = (
         event: React.ChangeEvent<HTMLInputElement>
       ) => {
-        console.log(event)
         setApartmentTypes(
           apartmentTypes.map((x, idx) => {
             if (idx.toString() === event.target.id) {

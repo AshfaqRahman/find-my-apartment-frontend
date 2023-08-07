@@ -1,6 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
 import BathtubOutlinedIcon from '@mui/icons-material/BathtubOutlined';
+import { apartmentTypeMapping } from "@/static/constants";
 
 export default function Apartment(props: any) {
   return (
@@ -17,10 +18,10 @@ export default function Apartment(props: any) {
             BDT. {props.data.price} taka
           </Typography>
           <Typography  key={3} gutterBottom variant="h6" component="div">
-            {props.data.type}
+            {apartmentTypeMapping[props.data.type]}
           </Typography>
           <Typography  key={4} variant="h6" color="text.secondary">
-            <HotelRoundedIcon />     {props.data.baths} <BathtubOutlinedIcon/> {props.data.bedrooms}, {props.data.area_sqft} sqft
+            <HotelRoundedIcon />     {props.data.bedrooms} <BathtubOutlinedIcon/> {props.data.washrooms}, {props.data.area_sqft} sqft
           </Typography>
         </CardContent>
       </Card>
