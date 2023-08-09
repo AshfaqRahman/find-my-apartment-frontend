@@ -1,5 +1,5 @@
 "use client";
-import { Inter } from "next/font/google";
+import { Inter, Rochester, Satisfy } from "next/font/google";
 
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -17,6 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import { _appBarHeight } from "@/static/constants";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -41,7 +42,7 @@ const pages = [
     name: "Recommendation",
     link: "/recommendation",
   },
-]
+];
 const settings = [
   "Profile",
   "My Apartments",
@@ -50,6 +51,14 @@ const settings = [
   "My Preferences",
   "Logout",
 ];
+
+const rochester = Rochester({ weight: "400", subsets: ["latin"] });
+const satisfy = Satisfy({ weight: "400", subsets: ["latin"] });
+const theme = createTheme({
+  typography: {
+    fontFamily: rochester.style.fontFamily,
+  },
+});
 
 export default function AppBarComponent() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -78,27 +87,29 @@ export default function AppBarComponent() {
 
   return (
     <>
-      <Box margin={0} maxHeight={{height}} minHeight={{height}}>
+      <Box margin={0} maxHeight={{ height }} minHeight={{ height }}>
         <AppBar position="fixed" sx={{ backgroundColor: "black" }}>
           <Container maxWidth={false}>
             <Toolbar disableGutters>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "inline" } }}>
                 <ApartmentIcon sx={{ mr: 1 }} />
-
-                <Typography
-                  noWrap
-                  component="a"
-                  href="/"
-                  sx={{
-                    mr: 2,
-                    fontSize: "1.75rem",
-                    letterSpacing: ".3rem",
-                    color: "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  Find My Apartment
-                </Typography>
+                <ThemeProvider theme={theme}>
+                  <Typography
+                    noWrap
+                    component="a"
+                    href="/"
+                    sx={{
+                      mr: 2,
+                      fontSize: "1.75rem",
+                      fontWeight: 600,
+                      letterSpacing: ".3rem",
+                      color: "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Find My Apartment
+                  </Typography>
+                </ThemeProvider>
               </Box>
 
               <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -129,9 +140,7 @@ export default function AppBarComponent() {
                   sx={{
                     display: { xs: "block", md: "none" },
                   }}
-                >
-                  
-                </Menu>
+                ></Menu>
               </Box>
               <ApartmentIcon
                 sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
