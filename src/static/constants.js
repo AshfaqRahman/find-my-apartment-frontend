@@ -85,11 +85,11 @@ const _baths = [
     {checked: false, name: "3", label: "3"},
     {checked: false, name: "4", label: "3+"},
 ]
-
-const _pageHeight = "91vh"
+// 93, 91    6,9
+const _pageHeight = "93vh"
 const _mapWidth = "33.33%"
-const _pageMargin = "9vh"
-const _appBarHeight = "8vh"
+const _pageMargin = "6vh"
+const _appBarHeight = "6vh"
 const apartmentTypeMapping = {
   1: "Family",
   2: "Bachelor",

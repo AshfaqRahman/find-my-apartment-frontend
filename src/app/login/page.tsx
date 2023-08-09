@@ -63,7 +63,6 @@ export default function Login() {
                 h1 {
                   margin-top: 75px;
                   font-size: 50px;
-                  font-family: Lexend;
                   padding: 0px;
                 }
               `}

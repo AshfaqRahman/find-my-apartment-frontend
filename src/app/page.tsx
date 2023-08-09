@@ -29,109 +29,119 @@ import BathsSelectionComponent from "@/components/baths-selection";
 import FacilitiesComponent from "@/components/facilities";
 import KeywordsComponent from "@/components/keywords";
 import Map from "@/components/map";
-import AppBarComponent from "@/components/app-bar-home";
+import AppBarHomeComponent from "@/components/app-bar-home";
 
 const localPath = "roommate-finder";
 
 export default function Home() {
   return (
     <>
-      <AppBarComponent>
-      </AppBarComponent>
-      
-      <Grid>  
-        <div>
-        <Image 
-            src="/dhaka-view-1.jpg" 
-            width={1365} height={460}
-             
-            alt="Apartment"/> 
-        </div>
+      <Grid container>
+        <Grid item md={12} lg={12}>
+          <Image
+            src="/dhaka-view-1.jpg"
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: "100%", height: "auto" }} // optional
+            alt="Apartment"
+          />
+        </Grid>
       </Grid>
 
       <Grid>
-        <div style={{display: "flex", justifyContent: "center", backgroundColor: "#D8D8D8"}}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <h1>Trending Neighbourhood</h1>
           <style jsx>
-              {`
-                h1 {
-                  margin-top: 20px;
-                  margin-bottom: 20px;
-                  font-size: 50px;
-                  font-family: Lexend;
-                }
-              `}
-              </style>
+            {`
+              h1 {
+                margin-top: 20px;
+                margin-bottom: 20px;
+                font-size: 50px;
+              }
+            `}
+          </style>
         </div>
       </Grid>
 
       <Grid container>
         <Grid item xs>
-          <div style={{display: "flex", justifyContent: "center", backgroundColor: "#D8D8D8"}}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <h1>Dhanmondi</h1>
             <style jsx>
-                {`
-                  h1 {
-                    margin-top: 50px;
-                    margin-bottom: 50px;
-                    font-size: 30px;
-                    font-family: Lexend;
-                  }
-                `}
-                </style>
+              {`
+                h1 {
+                  margin-top: 50px;
+                  margin-bottom: 50px;
+                  font-size: 30px;
+                }
+              `}
+            </style>
           </div>
         </Grid>
 
         <Grid item xs>
-          <div style={{display: "flex", justifyContent: "center", backgroundColor: "#D8D8D8"}}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <h1>Motijheel</h1>
             <style jsx>
-                {`
-                  h1 {
-                    margin-top: 50px;
-                    margin-bottom: 50px;
-                    font-size: 30px;
-                    font-family: Lexend;
-                  }
-                `}
-                </style>
+              {`
+                h1 {
+                  margin-top: 50px;
+                  margin-bottom: 50px;
+                  font-size: 30px;
+                }
+              `}
+            </style>
           </div>
         </Grid>
-      </Grid>   
+      </Grid>
 
       <Grid container>
         <Grid item xs>
-          <div style={{display: "flex", justifyContent: "center", backgroundColor: "#D8D8D8"}}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <h1>Azimpur</h1>
             <style jsx>
-                {`
-                  h1 {
-                    margin-top: 50px;
-                    margin-bottom: 50px;
-                    font-size: 30px;
-                    font-family: Lexend;
-                  }
-                `}
-                </style>
+              {`
+                h1 {
+                  margin-top: 50px;
+                  margin-bottom: 50px;
+                  font-size: 30px;
+                }
+              `}
+            </style>
           </div>
         </Grid>
 
         <Grid item xs>
-          <div style={{display: "flex", justifyContent: "center", backgroundColor: "#D8D8D8"}}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <h1>Gulshan</h1>
             <style jsx>
-                {`
-                  h1 {
-                    margin-top: 50px;
-                    margin-bottom: 50px;
-                    font-size: 30px;
-                    font-family: Lexend;
-                  }
-                `}
-                </style>
+              {`
+                h1 {
+                  margin-top: 50px;
+                  margin-bottom: 50px;
+                  font-size: 30px;
+                }
+              `}
+            </style>
           </div>
         </Grid>
-      </Grid> 
+      </Grid>
     </>
   );
 }

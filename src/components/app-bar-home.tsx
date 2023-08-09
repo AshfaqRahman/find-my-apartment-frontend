@@ -29,6 +29,7 @@ import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 
 import { ThemeProvider, createTheme } from "@mui/material";
+import ButtonComponent from "@/mui-components/buttons";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -57,7 +58,7 @@ const theme = createTheme({
   },
 });
 
-const pages = ["Trends", "Advanced Search", "Roomm Finder", "Help"];
+const pages = ["Trends", "Help"];
 const settings = [
   "Profile",
   "My Apartments",
@@ -92,7 +93,7 @@ export default function AppBarHomeComponent() {
 
   return (
     <>
-      <AppBar position="fixed" sx={{ backgroundColor: "black" }}>
+      <AppBar position="fixed" sx={{ backgroundColor: "#474747" }}>
         <Container maxWidth={false}>
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "inline" } }}>
@@ -175,23 +176,46 @@ export default function AppBarHomeComponent() {
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
-                <Button
+                <ButtonComponent
                   key={page}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  variant="contained"
+                  style="secondary"
                 >
                   {page}
-                </Button>
+                </ButtonComponent>
               ))}
             </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
-              <Button>
-                <Link href="/register">Register</Link>
-              </Button>
-              <Button>
-                <Link href="/login">Login</Link>
-              </Button>
+            <Grid></Grid>
+
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "right",
+                alignItems: "right",
+              }}
+            >
+              <ButtonComponent
+                key={"Register"}
+                onClick={handleCloseNavMenu}
+                variant="contained"
+                link="/register"
+                style="secondary"
+              >
+                Register
+              </ButtonComponent>
+              <ButtonComponent
+                key={"Login"}
+                link="/login"
+                onClick={handleCloseNavMenu}
+                variant="contained"
+                style="secondary"
+              >
+                Login
+              </ButtonComponent>
             </Box>
           </Toolbar>
         </Container>

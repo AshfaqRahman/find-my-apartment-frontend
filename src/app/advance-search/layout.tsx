@@ -19,7 +19,7 @@ export default function RootLayout({
     <>
     <Grid container >
       <AppBarComponent />
-      <Grid item mt={mt}>
+      <Grid item>
 
       {children}
       </Grid>
