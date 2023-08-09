@@ -47,8 +47,9 @@ export default function Apartment(props: any) {
                 {props.data.location.zone}, {props.data.location.district},{" "}
                 {props.data.location.division}
               </Typography>
-              <Grid container item lg={12} md={12}>
+              <Grid key={"grid"} container item lg={12} md={12}>
                 <Grid
+                  key={1}
                   item
                   container
                   lg={5}
@@ -56,7 +57,7 @@ export default function Apartment(props: any) {
                   sx={{
                     bgcolor: _color.background_upper,
                     borderRadius: _cardRadius,
-                    mr: 2,
+                    mr: { lg: 2, md: 2 },
                   }}
                 >
                   <Box sx={{ ..._centeringStyle }}>
@@ -70,10 +71,11 @@ export default function Apartment(props: any) {
                       Facilities
                     </Typography>
                   </Box>
-                  <Grid item md={12} lg={12} overflow={"auto"} height={"100px"}>
+                  <Grid key={2} item md={12} lg={12} overflow={"auto"} height={"100px"}>
                     {props.data.facilities.map((facility: any, idx: any) => {
                       return (
                         <Box
+                          key={idx}
                           sx={{
                             bgcolor:
                               idx & 1
@@ -103,7 +105,7 @@ export default function Apartment(props: any) {
                   sx={{
                     bgcolor: _color.background_upper,
                     borderRadius: _cardRadius,
-                    ml: 2,
+                    ml: { lg: 2, md: 2 },
                   }}
                 >
                   <Box sx={{ ..._centeringStyle }}>
@@ -121,6 +123,7 @@ export default function Apartment(props: any) {
                     {props.data.startpoints.map((startpoint: any, idx: any) => {
                       return (
                         <Box
+                        key={idx}
                           sx={{
                             bgcolor:
                               idx & 1
