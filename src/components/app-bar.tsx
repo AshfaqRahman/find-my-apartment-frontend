@@ -16,8 +16,10 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import { _appBarHeight, _color } from "@/static/constants";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import ButtonComponent from "@/mui-components/buttons";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -147,18 +149,23 @@ export default function AppBarComponent() {
               />
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 {pages.map((page) => (
-                  <Button
+                  <ButtonComponent
                     key={page.name}
-                    href={page.link}
-                    sx={{ my: 2, color: _color.primary, display: "block" }}
+                    onClick={handleCloseNavMenu}
+                    variant="contained"
+                    style="secondary"
+                    link={page.link}
                   >
                     {page.name}
-                  </Button>
+                  </ButtonComponent>
                 ))}
               </Box>
               <Box sx={{ flexGrow: 1 }}>
                 <Tooltip title="Notifications">
-                  <NotificationsActiveOutlinedIcon sx={{ color: _color.primary }} />
+                  <CircleNotificationsIcon
+                    sx={{ color: _color.primary, cursor: "pointer" }}
+                    fontSize="large"
+                  />
                 </Tooltip>
               </Box>
 
@@ -172,7 +179,7 @@ export default function AppBarComponent() {
                   </IconButton>
                 </Tooltip>
                 <Menu
-                  sx={{ mt: "52px", mr: "0px" }}
+                  sx={{ mt: "50px", mr: "0px" }}
                   id="menu-appbar"
                   anchorEl={anchorElUser}
                   anchorOrigin={{

@@ -99,11 +99,14 @@ const apartmentTypeMapping = {
 const _pageHeight = "94vh"
 const _mapWidth = "33.33%"
 const _pageMargin = "6vh"
-const _appBarHeight = "6vh"
+const _appBarHeight = "7vh"
 
 const _color = {
   primary: "#ffffff",
   secondary: "#474747",
+  background_left: "#D8D8D8",
+  background_middle: "#fcf5f5",
+  background_right: "#D8D8D8",
 }
 
 module.exports = {

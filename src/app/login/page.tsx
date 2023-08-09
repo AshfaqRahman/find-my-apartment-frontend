@@ -18,7 +18,7 @@ import { redirect } from "next/navigation";
 
 import { useRouter } from "next/navigation";
 import { Rochester } from "next/font/google";
-import { _pageHeight } from "@/static/constants";
+import { _color, _pageHeight } from "@/static/constants";
 import ButtonComponent from "@/mui-components/buttons";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
@@ -68,7 +68,7 @@ export default function Login() {
   };
 
   return (
-    <Grid container style={{ backgroundColor: "#D8D8D8", height: _pageHeight }}>
+    <Grid container style={{ backgroundColor: _color.background_left, height: _pageHeight }}>
       <Grid item md={6}>
         <div
           style={{

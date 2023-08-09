@@ -12,6 +12,7 @@ import {
   _baths,
   _beds,
   _budget,
+  _color,
   _mapWidth,
   _pageHeight,
 } from "@/static/constants";
@@ -125,7 +126,7 @@ export default function Home() {
 
   return (
     <>
-      <Grid container spacing={0} key={1} margin={0}>
+      <Grid container spacing={0} key={1} mt={1} >
         <Grid
           key={1}
           minHeight={{height}}
@@ -137,19 +138,19 @@ export default function Home() {
           lg={2}
           md={4}
           sx={{
-            backgroundColor: "#D8D8D8",
+            backgroundColor: _color.background_left,
           }}
         >
           <Grid key={1} item lg={6} md={6}>
             <Box sx={{ margin: "10px" }}>
-              <ButtonComponent variant="contained" onClick={saveSearch}>
+              <ButtonComponent variant="contained" style="primary" onClick={saveSearch}>
                 Save Search
               </ButtonComponent>
             </Box>
           </Grid>
           <Grid key={2} item lg={6} md={6}>
             <Box sx={{ margin: "10px" }}>
-              <ButtonComponent variant="contained" onClick={search}>
+              <ButtonComponent variant="contained" style="primary"  onClick={search}>
                 Search
               </ButtonComponent>
             </Box>
@@ -212,7 +213,7 @@ export default function Home() {
           lg={6}
           md={4}
           sx={{
-            backgroundColor: "#fcf5f5",
+            backgroundColor: _color.background_middle,
           }}
         >
           <Grid key={1} item lg={6} md={6}>

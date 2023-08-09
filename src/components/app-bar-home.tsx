@@ -30,7 +30,7 @@ import Link from "@mui/material/Link";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import ButtonComponent from "@/mui-components/buttons";
-import { _color } from "@/static/constants";
+import { _appBarHeight, _color } from "@/static/constants";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -94,133 +94,135 @@ export default function AppBarHomeComponent() {
 
   return (
     <>
-      <AppBar position="fixed" sx={{ backgroundColor: _color.secondary }}>
-        <Container maxWidth={false}>
-          <Toolbar disableGutters>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "inline" } }}>
-              <ApartmentIcon sx={{ mr: 1 }} />
-              <ThemeProvider theme={theme}>
-                <Typography
-                  noWrap
-                  component="a"
-                  href="/"
+      <Box margin={0} maxHeight={{ _appBarHeight }} minHeight={{ _appBarHeight }}>
+        <AppBar position="fixed" sx={{ backgroundColor: _color.secondary }}>
+          <Container maxWidth={false}>
+            <Toolbar disableGutters>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "inline" } }}>
+                <ApartmentIcon sx={{ mr: 1 }} />
+                <ThemeProvider theme={theme}>
+                  <Typography
+                    noWrap
+                    component="a"
+                    href="/"
+                    sx={{
+                      mr: 2,
+                      fontSize: "1.75rem",
+                      fontWeight: 600,
+                      letterSpacing: ".3rem",
+                      color: "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Find My Apartment
+                  </Typography>
+                </ThemeProvider>
+              </Box>
+
+              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
                   sx={{
-                    mr: 2,
-                    fontSize: "1.75rem",
-                    fontWeight: 600,
-                    letterSpacing: ".3rem",
-                    color: "inherit",
-                    textDecoration: "none",
+                    display: { xs: "block", md: "none" },
                   }}
                 >
-                  Find My Apartment
-                </Typography>
-              </ThemeProvider>
-            </Box>
-
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
+                  {pages.map((page) => (
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">{page}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+              <ApartmentIcon
+                sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+              />
+              <Typography
+                variant="h5"
+                noWrap
+                component="a"
+                href=""
                 sx={{
-                  display: { xs: "block", md: "none" },
+                  mr: 2,
+                  display: { xs: "flex", md: "none" },
+                  flexGrow: 1,
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
                 }}
               >
+                Find My Apartment
+              </Typography>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
+                  <ButtonComponent
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                    variant="contained"
+                    style="secondary"
+                  >
+                    {page}
+                  </ButtonComponent>
                 ))}
-              </Menu>
-            </Box>
-            <ApartmentIcon
-              sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-            />
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              Find My Apartment
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page) => (
+              </Box>
+
+              <Grid></Grid>
+
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "right",
+                  alignItems: "right",
+                }}
+              >
                 <ButtonComponent
-                  key={page}
+                  key={"Register"}
+                  onClick={handleCloseNavMenu}
+                  variant="contained"
+                  link="/register"
+                  style="secondary"
+                >
+                  Register
+                </ButtonComponent>
+                <ButtonComponent
+                  key={"Login"}
+                  link="/login"
                   onClick={handleCloseNavMenu}
                   variant="contained"
                   style="secondary"
                 >
-                  {page}
+                  Login
                 </ButtonComponent>
-              ))}
-            </Box>
-
-            <Grid></Grid>
-
-            <Box
-              sx={{
-                flexGrow: 1,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "right",
-                alignItems: "right",
-              }}
-            >
-              <ButtonComponent
-                key={"Register"}
-                onClick={handleCloseNavMenu}
-                variant="contained"
-                link="/register"
-                style="secondary"
-              >
-                Register
-              </ButtonComponent>
-              <ButtonComponent
-                key={"Login"}
-                link="/login"
-                onClick={handleCloseNavMenu}
-                variant="contained"
-                style="secondary"
-              >
-                Login
-              </ButtonComponent>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
+      </Box>
     </>
   );
 }

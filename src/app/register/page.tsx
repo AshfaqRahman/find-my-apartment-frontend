@@ -67,7 +67,7 @@ export default function SignUp() {
     <Grid
       container
       style={{
-        backgroundColor: "#D8D8D8",
+        backgroundColor: _color.background_left,
         display: "flex",
         height: _pageHeight,
         justifyContent: "center",
