@@ -35,6 +35,8 @@ import FacilitiesComponent from "@/components/facilities";
 import KeywordsComponent from "@/components/keywords";
 import Map from "@/components/map";
 import { randomInRange } from "@/static/utils";
+import LoaderComponent from "@/components/loader";
+import ToastComponent from "@/mui-components/toast";
 
 const localPath = "advance-search";
 
@@ -176,10 +178,21 @@ export default function Home() {
   // const onSearch = =async (data: any) => {
   // 	setSelected(data);
   // };
+  let height = _pageHeight;
+  let mapWidth = _mapWidth;
+
+  let [mapLat, setMapLat] = React.useState();
+  let [mapLng, setMapLng] = React.useState();
+  
+  let [openSuccess, setOpenSuccess] = React.useState(false);
+  let [message, setMessage] = React.useState("");
+
+  let [fetchingApartments, setFetchingApartments] = React.useState(false);
 
   const search = async () => {
     // console.log("searching ...");
     // const url = `${HOST}/apartments`;
+    setFetchingApartments(true);
     const params = {
       apartmentTypes: apartmentTypes,
       beds: beds,
@@ -192,19 +205,17 @@ export default function Home() {
       keywords: keywords,
     };
     console.log("params: ", params);
-    let data = await searchApartments(params);
+    let data: any[] = await searchApartments(params);
     console.log(data);
     setApartments(data);
+    setMessage(`${data.length} apartments are found`);
+    setOpenSuccess(true)
+    setFetchingApartments(false);
   };
-
-  let height = _pageHeight;
-  let mapWidth = _mapWidth;
-
-  let [mapLat, setMapLat] = React.useState();
-  let [mapLng, setMapLng] = React.useState();
 
   return (
     <>
+      <LoaderComponent loading={fetchingApartments} />
       <Grid container spacing={0} key={1} mt={1}>
         <Grid
           key={1}
@@ -405,6 +416,13 @@ export default function Home() {
           <Map lat={mapLat} lng={mapLng} />
         </Grid>
       </Grid>
+      <ToastComponent
+        message={message}
+        open={openSuccess}
+        onClose={setOpenSuccess}
+        onCross={setOpenSuccess}
+        severity="success"
+      />
     </>
   );
 }

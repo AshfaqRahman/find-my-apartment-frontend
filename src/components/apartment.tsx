@@ -106,6 +106,7 @@ export default function Apartment(props: any) {
                   sx={{
                     display: "flex",
                     justifyContent: "flex-end",
+                    alignItems: "flex-end",
                   }}
                 >
                   <IconButton
@@ -113,6 +114,9 @@ export default function Apartment(props: any) {
                     color="error"
                     sx={{
                       bgcolor: _color.background_upper,
+                      borderRadius: _divRadius,
+                      height: "40px",
+                      width: "40px",
                     }}
                     onClick={handleClick}
                   >

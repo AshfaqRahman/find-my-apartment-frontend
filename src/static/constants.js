@@ -99,6 +99,7 @@ const _loaderStyle = {
   position: "fixed",
   mt: "6px",
   width: "100%",
+  zIndex: "10000",
 };
 
 const _color = {
