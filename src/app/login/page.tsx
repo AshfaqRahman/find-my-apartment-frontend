@@ -19,6 +19,7 @@ import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { Rochester } from "next/font/google";
 import { _pageHeight } from "@/static/constants";
+import ButtonComponent from "@/mui-components/buttons";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const theme = createTheme({
@@ -157,15 +158,14 @@ export default function Login() {
                   onChange={(event: any) => setPassword(event.target.value)}
                   autoComplete="current-password"
                 />
-                <Button
-                  type="submit"
+                <ButtonComponent
                   onClick={loginSubmit}
-                  fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
+                  style="primary"
+                  fullWidth={true}
                 >
                   Login
-                </Button>
+                </ButtonComponent>
                 <Grid container>
                   <Grid item xs>
                     <Link href="/recover" variant="body2">
@@ -185,14 +185,17 @@ export default function Login() {
       </Grid>
 
       <Grid
+        lg={12}
         md={12}
         sx={{
           display: "flex",
-          justifyContent: "center",
+          flexDirection: "column",
           alignItems: "center",
+          // set to bottom
+          justifyContent: "flex-end",
         }}
       >
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Copyright sx={{ mt: 5 }} />
       </Grid>
     </Grid>
   );

@@ -1,44 +1,50 @@
 "use client";
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme } from '@mui/material/styles';
-import SelectComponent from '@/mui-components/select';
-import { RegisterApi } from './apis';
-import { useRouter } from 'next/navigation';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import { createTheme } from "@mui/material/styles";
+import SelectComponent from "@/mui-components/select";
+import { RegisterApi } from "./apis";
+import { useRouter } from "next/navigation";
+import { _pageHeight } from "@/static/constants";
+import ButtonComponent from "@/mui-components/buttons";
 
-function Copyright(props:any) {
+function Copyright(props: any) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         Find My Apartment
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
-const defaultTheme = createTheme()
+const defaultTheme = createTheme();
 
 export default function SignUp() {
-
   const { push } = useRouter();
-  var [firstName, setFirstName] = React.useState("")
-  var [lastName, setLastName] = React.useState("")
-  var [email, setEmail] = React.useState("")
-  var [password, setPassword] = React.useState("")
-  var [phone_no, setPhoneNo] = React.useState("")
-  var [gender, setGender] = React.useState("")
+  var [firstName, setFirstName] = React.useState("");
+  var [lastName, setLastName] = React.useState("");
+  var [email, setEmail] = React.useState("");
+  var [password, setPassword] = React.useState("");
+  var [phone_no, setPhoneNo] = React.useState("");
+  var [gender, setGender] = React.useState("");
 
   let registerSubmit = async () => {
     const data = {
@@ -47,35 +53,43 @@ export default function SignUp() {
       email: email,
       password: password,
       phone_no: phone_no,
-      gender: gender
-    }
+      gender: gender,
+    };
     console.log(data);
-    const response = await RegisterApi(data)
-    if(response.success){
+    const response = await RegisterApi(data);
+    if (response.success) {
       // redirect
-      push('/login')
+      push("/login");
     }
-  }
+  };
 
   return (
-    <Grid container style={{backgroundColor: "#D8D8D8", display:"flex", justifyContent:"center"}}>
+    <Grid
+      container
+      style={{
+        backgroundColor: "#D8D8D8",
+        display: "flex",
+        height: _pageHeight,
+        justifyContent: "center",
+      }}
+    >
       <Grid item maxWidth={"30vw"}>
         <Box
           sx={{
             marginTop: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
           <Box>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} sx={{ mt: 2 }}>
               <Grid item md={6}>
                 <TextField
                   autoComplete="given-name"
@@ -85,7 +99,7 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   value={firstName}
-                  onChange={(event:any) => setFirstName(event.target.value)}
+                  onChange={(event: any) => setFirstName(event.target.value)}
                   autoFocus
                 />
               </Grid>
@@ -97,7 +111,7 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   value={lastName}
-                  onChange={(event:any) => setLastName(event.target.value)}
+                  onChange={(event: any) => setLastName(event.target.value)}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -109,7 +123,7 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   value={email}
-                  onChange={(event:any) => setEmail(event.target.value)}
+                  onChange={(event: any) => setEmail(event.target.value)}
                   autoComplete="email"
                 />
               </Grid>
@@ -122,7 +136,7 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   value={password}
-                  onChange={(event:any) => setPassword(event.target.value)}
+                  onChange={(event: any) => setPassword(event.target.value)}
                   autoComplete="new-password"
                 />
               </Grid>
@@ -135,23 +149,30 @@ export default function SignUp() {
                   type="tel"
                   id="phone_no"
                   value={phone_no}
-                  onChange={(event:any) => setPhoneNo(event.target.value)}
+                  onChange={(event: any) => setPhoneNo(event.target.value)}
                   placeholder="01XXX-XXX-XXX"
                 />
               </Grid>
               <Grid item md={6}>
-                <SelectComponent value={gender} elements={['Male', 'Female']} title={'Gender'} handleChange={setGender}/>
+                <SelectComponent
+                  value={gender}
+                  elements={["Male", "Female"]}
+                  title={"Gender"}
+                  handleChange={setGender}
+                />
               </Grid>
-            </Grid>            
-            <Button
-              type="submit"
-              onClick={registerSubmit}
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Register
-            </Button>
+            </Grid>
+            <Grid md={12} lg={12} sx={{mt: 2}}>
+
+              <ButtonComponent
+                onClick={registerSubmit}
+                variant="contained"
+                style="primary"
+                fullWidth={true}
+              >
+                Register
+              </ButtonComponent>
+            </Grid>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">
@@ -161,9 +182,19 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
+      </Grid>
+      <Grid
+        lg={12}
+        md={12}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-end",
+        }}
+      >
         <Copyright sx={{ mt: 5 }} />
       </Grid>
     </Grid>
-    
   );
 }

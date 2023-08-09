@@ -85,16 +85,23 @@ const _baths = [
     {checked: false, name: "3", label: "3"},
     {checked: false, name: "4", label: "3+"},
 ]
-// 94, 91    6,9
-const _pageHeight = "94vh"
-const _mapWidth = "33.33%"
-const _pageMargin = "6vh"
-const _appBarHeight = "6vh"
+
+
 const apartmentTypeMapping = {
   1: "Family",
   2: "Bachelor",
   3: "Sublet",
 }
+
+
+
+// 94, 91    6,9
+const _pageHeight = "94vh"
+const _mapWidth = "33.33%"
+const _pageMargin = "6vh"
+const _appBarHeight = "6vh"
+
+const _secondaryColor = "#474747"
 
 module.exports = {
     _apartmentTypes,
@@ -108,5 +115,6 @@ module.exports = {
     _mapWidth,
     _pageMargin,
     _appBarHeight,
-    apartmentTypeMapping
+    apartmentTypeMapping,
+    _secondaryColor
 }

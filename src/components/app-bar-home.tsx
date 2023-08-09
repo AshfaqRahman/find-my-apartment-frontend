@@ -30,6 +30,7 @@ import Link from "@mui/material/Link";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import ButtonComponent from "@/mui-components/buttons";
+import { _secondaryColor } from "@/static/constants";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -93,7 +94,7 @@ export default function AppBarHomeComponent() {
 
   return (
     <>
-      <AppBar position="fixed" sx={{ backgroundColor: "#474747" }}>
+      <AppBar position="fixed" sx={{ backgroundColor: _secondaryColor }}>
         <Container maxWidth={false}>
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "inline" } }}>

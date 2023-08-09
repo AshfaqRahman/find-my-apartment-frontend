@@ -16,7 +16,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
-import { _appBarHeight } from "@/static/constants";
+import { _appBarHeight, _secondaryColor } from "@/static/constants";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 // export const metadata: Metadata = {
@@ -88,7 +88,7 @@ export default function AppBarComponent() {
   return (
     <>
       <Box margin={0} maxHeight={{ height }} minHeight={{ height }}>
-        <AppBar position="fixed" sx={{ backgroundColor: "black" }}>
+        <AppBar position="fixed" sx={{ backgroundColor: _secondaryColor }}>
           <Container maxWidth={false}>
             <Toolbar disableGutters>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "inline" } }}>
