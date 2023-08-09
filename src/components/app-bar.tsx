@@ -16,7 +16,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
-import { _appBarHeight, _secondaryColor } from "@/static/constants";
+import { _appBarHeight, _color } from "@/static/constants";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 // export const metadata: Metadata = {
@@ -88,7 +88,7 @@ export default function AppBarComponent() {
   return (
     <>
       <Box margin={0} maxHeight={{ height }} minHeight={{ height }}>
-        <AppBar position="fixed" sx={{ backgroundColor: _secondaryColor }}>
+        <AppBar position="fixed" sx={{ backgroundColor: _color.secondary }}>
           <Container maxWidth={false}>
             <Toolbar disableGutters>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "inline" } }}>
@@ -150,7 +150,7 @@ export default function AppBarComponent() {
                   <Button
                     key={page.name}
                     href={page.link}
-                    sx={{ my: 2, color: "white", display: "block" }}
+                    sx={{ my: 2, color: _color.primary, display: "block" }}
                   >
                     {page.name}
                   </Button>
@@ -158,7 +158,7 @@ export default function AppBarComponent() {
               </Box>
               <Box sx={{ flexGrow: 1 }}>
                 <Tooltip title="Notifications">
-                  <NotificationsActiveOutlinedIcon sx={{ color: "white" }} />
+                  <NotificationsActiveOutlinedIcon sx={{ color: _color.primary }} />
                 </Tooltip>
               </Box>
 

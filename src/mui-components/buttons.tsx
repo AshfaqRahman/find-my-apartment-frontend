@@ -1,6 +1,6 @@
 "use client";
 
-import { _secondaryColor } from "@/static/constants";
+import { _color } from "@/static/constants";
 import Button from "@mui/material/Button";
 
 export default function ButtonComponent(props: any) {
@@ -8,17 +8,17 @@ export default function ButtonComponent(props: any) {
     props.style === "primary"
       ? {
           mx: 0,
-          color: "white",
+          color: _color.primary,
           display: "block",
-          bgcolor: _secondaryColor,
+          bgcolor: _color.secondary,
           borderRadius: "50px",
         }
       : props.style === "secondary"
       ? {
           mx: 1,
-          color: _secondaryColor,
+          color: _color.secondary,
           display: "block",
-          bgcolor: "white",
+          bgcolor: _color.primary,
           borderRadius: "50px",
         }
       : {};

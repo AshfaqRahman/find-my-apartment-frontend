@@ -101,7 +101,10 @@ const _mapWidth = "33.33%"
 const _pageMargin = "6vh"
 const _appBarHeight = "6vh"
 
-const _secondaryColor = "#474747"
+const _color = {
+  primary: "#ffffff",
+  secondary: "#474747",
+}
 
 module.exports = {
     _apartmentTypes,
@@ -116,5 +119,5 @@ module.exports = {
     _pageMargin,
     _appBarHeight,
     apartmentTypeMapping,
-    _secondaryColor
+    _color
 }
