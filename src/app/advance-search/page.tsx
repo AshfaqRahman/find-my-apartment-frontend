@@ -221,7 +221,7 @@ export default function Home() {
           }}
         >
           <Grid key={1} item lg={6} md={6}>
-            <Box sx={{ margin: "10px" }}>
+            <Box sx={{ ..._centeringStyle, mt: "10px", }}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
@@ -232,7 +232,7 @@ export default function Home() {
             </Box>
           </Grid>
           <Grid key={2} item lg={6} md={6}>
-            <Box sx={{ margin: "10px" }}>
+            <Box sx={{ ..._centeringStyle, mt: "10px" }}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
@@ -242,13 +242,14 @@ export default function Home() {
               </ButtonComponent>
             </Box>
           </Grid>
-          <Grid key={3} item lg={12} md={12} sx={{ px: 1 }}>
+          <Grid key={3} item lg={6} md={6} sx={{ ..._centeringStyle, alignItems: "start", px: 1 }}>
             <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
           </Grid>
-          <Grid key={4} item lg={6} md={6}>
+          <Grid item key={"hudai"} lg={6} md={6}></Grid>
+          <Grid key={4} item lg={6} md={6} sx={{..._centeringStyle, alignItems: "start"}}>
             <BedsSelectionComponent onChange={handleBedsChange} />
           </Grid>
-          <Grid key={5} item lg={6} md={6}>
+          <Grid key={5} item lg={6} md={6} sx={{..._centeringStyle, alignItems: "start"}}>
             <BathsSelectionComponent
               onChange={handleBathsChange}
             ></BathsSelectionComponent>

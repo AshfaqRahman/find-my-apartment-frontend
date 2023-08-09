@@ -1,6 +1,7 @@
 import { useEffect, useRef, useMemo, useState } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 import { Typography } from "@mui/material";
+import { _pageHeight } from "@/static/constants";
 
 export default function Map(props: any) {
   const address = props.address;
@@ -66,6 +67,6 @@ export default function Map(props: any) {
       });
     });
   }, [lat, lng, address]);
-  return <div style={{ height: "93vh", width: "33.33vw" }}  ref={mapRef}>
+  return <div style={{ height: _pageHeight, width: "33.33vw" }}  ref={mapRef}>
   </div>;
 }
