@@ -14,47 +14,6 @@ export default function Map(props: any) {
     version: "weekly",
   });
   let [map, setMap] = useState({});
-
-  // useEffect(() => {
-  //   loader.load().then((google) => {
-  //     let geocoder = new google.maps.Geocoder();
-  //     geocoder.geocode({ address: address }, (results, status) => {
-  //       const map = new google.maps.Map(mapRef.current, {
-  //         center: {
-  //           lat,
-  //           lng,
-  //         },
-  //         zoom: 8,
-  //       });
-  //       const marker = new google.maps.Marker({
-  //         map: map,
-  //         position: {
-  //           lat,
-  //           lng
-  //         },
-  //       });
-  //       // if (status === "OK") {
-  //       //   const map = new google.maps.Map(mapRef.current, {
-  //       //     center: {
-  //       //       lat,
-  //       //       lng,
-  //       //     },
-  //       //     zoom: 16,
-  //       //   });
-  //       //   const marker = new google.maps.Marker({
-  //       //     map: map,
-  //       //     position: results[0].geometry.location,
-  //       //   });
-  //       // } else {
-  //       //   console.error(
-  //       //     `Geocode was not successful for the following reason: ${status}`
-  //       //   );
-  //       // }
-  //     });
-  //   })
-  // }, [])
-
-    // const geocoder = useMemo(() => new google.maps.Geocoder(), []);
   useEffect(() => {
     loader.load().then((google) => {
       let geocoder = new google.maps.Geocoder();
@@ -64,7 +23,7 @@ export default function Map(props: any) {
             lat,
             lng,
           },
-          zoom: 8,
+          zoom: 16,
         });
         let infowindow = new google.maps.InfoWindow ();
 

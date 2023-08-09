@@ -23,6 +23,7 @@ import ButtonComponent from "@/mui-components/buttons";
 import { Alert, LinearProgress, Snackbar } from "@mui/material";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
+import { setCookie } from "cookies-next";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const theme = createTheme({
@@ -66,13 +67,16 @@ export default function Login() {
       email: email,
       password: password,
     };
-    const response = await LoginApi(data);
+    const response: any = await LoginApi(data);
     if (response.success) {
       console.log(response);
       setMessage("Login Successful");
       setOpenSuccess(true);
       setTimeout(() => {
         setLoggingLoader(false);
+        setCookie("token", response.data.token, {
+          maxAge: 1 * 24 * 60 * 60, // 1 days
+        })
         push("/advance-search");
       }, 1000);
     } else {
