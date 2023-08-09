@@ -68,6 +68,7 @@ export default function Login() {
     };
     const response = await LoginApi(data);
     if (response.success) {
+      console.log(response);
       setMessage("Login Successful");
       setOpenSuccess(true);
       setTimeout(() => {

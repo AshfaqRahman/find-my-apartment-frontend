@@ -14,6 +14,8 @@ import { RegisterApi } from "./apis";
 import { useRouter } from "next/navigation";
 import { _color, _pageHeight } from "@/static/constants";
 import ButtonComponent from "@/mui-components/buttons";
+import LoaderComponent from "@/components/loader";
+import ToastComponent from "@/mui-components/toast";
 
 function Copyright(props: any) {
   return (
@@ -46,7 +48,13 @@ export default function SignUp() {
   var [phone_no, setPhoneNo] = React.useState("");
   var [gender, setGender] = React.useState("");
 
+  let [registerLoading, setRegisterLoading] = React.useState(false);
+  let [openError, setOpenError] = React.useState(false);
+  let [openSuccess, setOpenSuccess] = React.useState(false);
+  let [message, setMessage] = React.useState("");
+
   let registerSubmit = async () => {
+    setRegisterLoading(true);
     const data = {
       first_name: firstName,
       last_name: lastName,
@@ -57,9 +65,19 @@ export default function SignUp() {
     };
     console.log(data);
     const response = await RegisterApi(data);
+    
     if (response.success) {
       // redirect
-      push("/login");
+      setMessage("Sign Up Successful");
+      setOpenSuccess(true);
+      setTimeout(() => {
+        setRegisterLoading(false);
+        push("/login");
+      }, 1000);
+    } else {
+      setRegisterLoading(false);
+      setMessage(response.message);
+      setOpenError(true);
     }
   };
 
@@ -73,6 +91,7 @@ export default function SignUp() {
         justifyContent: "center",
       }}
     >
+      <LoaderComponent loading={registerLoading} />
       <Grid item maxWidth={"30vw"}>
         <Box
           sx={{
@@ -195,6 +214,21 @@ export default function SignUp() {
       >
         <Copyright sx={{ mt: 5 }} />
       </Grid>
+      
+      <ToastComponent
+        message={message}
+        open={openError}
+        onClose={setOpenError}
+        onCross={setOpenError}
+        severity="error"
+      />
+      <ToastComponent
+        message={message}
+        open={openSuccess}
+        onClose={setOpenSuccess}
+        onCross={setOpenSuccess}
+        severity="success"
+      />
     </Grid>
   );
 }
