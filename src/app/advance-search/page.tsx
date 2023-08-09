@@ -200,8 +200,8 @@ export default function Home() {
   let height = _pageHeight;
   let mapWidth = _mapWidth;
 
-  let [mapLat, setMapLat] = React.useState(23.8103);
-  let [mapLng, setMapLng] = React.useState(90.4125);
+  let [mapLat, setMapLat] = React.useState();
+  let [mapLng, setMapLng] = React.useState();
 
   return (
     <>

@@ -13,7 +13,6 @@ export default function KeywordsComponent(props: any) {
     const handleKeywordsChange = (
         event: React.ChangeEvent<HTMLInputElement>
       ) => {
-        console.log(event)
         setKeywords(
             keywords.map((x, idx) => {
             if (idx.toString() === event.target.id) {

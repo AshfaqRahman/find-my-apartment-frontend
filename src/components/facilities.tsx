@@ -13,7 +13,7 @@ export default function FacilitiesComponent(props: any) {
     const handleFacilitiesChange = (
         event: React.ChangeEvent<HTMLInputElement>
       ) => {
-        console.log(event)
+        // console.log(event)
         setFacilities(
             facilities.map((x, idx) => {
             if (idx.toString() === event.target.id) {

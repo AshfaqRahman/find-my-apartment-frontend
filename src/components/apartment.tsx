@@ -25,7 +25,7 @@ export default function Apartment(props: any) {
 
   return (
     <>
-      <Card sx={{ display: "flex", margin: 3, borderRadius: _cardRadius }}>
+      <Card sx={{ display: "flex", margin: 3, borderRadius: _cardRadius, cursor: "pointer" }}>
         <CardMedia
           sx={{ width: "50%" }}
           image="/apartment.jpg"

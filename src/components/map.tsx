@@ -4,8 +4,8 @@ import { Typography } from "@mui/material";
 
 export default function Map(props: any) {
   const address = props.address;
-  const lat = props.lat;
-  const lng = props.lng;
+  const lat = props.lat ? props.lat : 23.8103;
+  const lng = props.lng ? props.lng : 90.4125;
 
   const mapRef = useRef(null);
 
@@ -25,6 +25,7 @@ export default function Map(props: any) {
           },
           zoom: 16,
         });
+        if(!props.lat || !props.lng) return;
         let infowindow = new google.maps.InfoWindow ();
 
         const image = "/icons8-house-25.png"
