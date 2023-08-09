@@ -221,7 +221,7 @@ export default function Home() {
           }}
         >
           <Grid key={1} item lg={6} md={6}>
-            <Box sx={{ ..._centeringStyle, mt: "10px", }}>
+            <Box sx={{ ..._centeringStyle, mt: "10px" }}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
@@ -242,14 +242,32 @@ export default function Home() {
               </ButtonComponent>
             </Box>
           </Grid>
-          <Grid key={3} item lg={6} md={6} sx={{ ..._centeringStyle, alignItems: "start", px: 1 }}>
+          <Grid
+            key={3}
+            item
+            lg={6}
+            md={6}
+            sx={{ ..._centeringStyle, alignItems: "start", px: 1 }}
+          >
             <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
           </Grid>
           <Grid item key={"hudai"} lg={6} md={6}></Grid>
-          <Grid key={4} item lg={6} md={6} sx={{..._centeringStyle, alignItems: "start"}}>
+          <Grid
+            key={4}
+            item
+            lg={6}
+            md={6}
+            sx={{ ..._centeringStyle, alignItems: "start" }}
+          >
             <BedsSelectionComponent onChange={handleBedsChange} />
           </Grid>
-          <Grid key={5} item lg={6} md={6} sx={{..._centeringStyle, alignItems: "start"}}>
+          <Grid
+            key={5}
+            item
+            lg={6}
+            md={6}
+            sx={{ ..._centeringStyle, alignItems: "start" }}
+          >
             <BathsSelectionComponent
               onChange={handleBathsChange}
             ></BathsSelectionComponent>
@@ -259,11 +277,11 @@ export default function Home() {
             budget={budget}
             grid_slider_lg={12}
             grid_slider_md={12}
-            box_slider_mx={"5px"}
-            box_slider_px={"15px"}
+            box_slider_mx={1}
+            box_slider_px={2}
             grid_text_lg={6}
             grid_text_md={6}
-            box_text_mx={"5px"}
+            box_text_mx={1}
             box_text_px={"0px"}
             setBudget={setBudget}
           />
@@ -273,19 +291,23 @@ export default function Home() {
             area={area}
             grid_slider_lg={12}
             grid_slider_md={12}
-            box_slider_mx={"5px"}
-            box_slider_px={"15px"}
+            box_slider_mx={1}
+            box_slider_px={2}
             grid_text_lg={6}
             grid_text_md={6}
-            box_text_mx={"5px"}
+            box_text_mx={1}
             box_text_px={"0px"}
             setArea={setArea}
           />
-          <Grid key={8} item lg={6} md={6}>
-            <FacilitiesComponent onChange={handleFacilitiesChange} />
+          <Grid key={8} item lg={12} md={12}>
+            <Box mx={1}>
+              <FacilitiesComponent onChange={handleFacilitiesChange} />
+            </Box>
           </Grid>
-          <Grid key={9} item lg={6} md={6}>
-            <KeywordsComponent onChange={handleKeywordsChange} />
+          <Grid key={9} item lg={12} md={12}>
+            <Box mx={1}>
+              <KeywordsComponent onChange={handleKeywordsChange} />
+            </Box>
           </Grid>
         </Grid>
         <Grid key={"1_ex"} container item lg={2} md={4}></Grid>
@@ -304,14 +326,23 @@ export default function Home() {
             backgroundColor: _color.background_middle,
           }}
         >
-          <Grid item container key={12} lg={12} mt={2} mx={2} sx={{
-            ..._centeringStyle,
-            height: "10vh",
-            bgcolor: _color.background_upper,
-            borderRadius: _divRadius,
-          }} md={12}>
+          <Grid
+            item
+            container
+            key={12}
+            lg={12}
+            mt={2}
+            mx={2}
+            sx={{
+              ..._centeringStyle,
+              height: "10vh",
+              bgcolor: _color.background_upper,
+              borderRadius: _divRadius,
+            }}
+            md={12}
+          >
             <Grid key={1} item lg={6} md={6} p={3}>
-              <Box sx={{ width: "100%",}}>
+              <Box sx={{ width: "100%" }}>
                 <SelectComponent
                   title={"Status"}
                   elements={apartmentStatuses}
@@ -321,7 +352,7 @@ export default function Home() {
               </Box>
             </Grid>
             <Grid key={2} item lg={6} md={6} p={3}>
-              <Box sx={{ width: "100%", }}>
+              <Box sx={{ width: "100%" }}>
                 <SelectComponent
                   title={"Order By"}
                   elements={orderByes}
