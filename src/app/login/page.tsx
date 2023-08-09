@@ -18,8 +18,11 @@ import { redirect } from "next/navigation";
 
 import { useRouter } from "next/navigation";
 import { Rochester } from "next/font/google";
-import { _color, _pageHeight } from "@/static/constants";
+import { _color, _pageHeight, _pageMargin } from "@/static/constants";
 import ButtonComponent from "@/mui-components/buttons";
+import { Alert, LinearProgress, Snackbar } from "@mui/material";
+import LoaderComponent from "@/components/loader";
+import ToastComponent from "@/mui-components/toast";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const theme = createTheme({
@@ -48,27 +51,42 @@ function Copyright(props: any) {
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
-const defaultTheme = createTheme();
-
 export default function Login() {
   const { push } = useRouter();
+  let [loggingLoader, setLoggingLoader] = React.useState(false);
   var [email, setEmail] = React.useState("");
   var [password, setPassword] = React.useState("");
+  let [openError, setOpenError] = React.useState(false);
+  let [openSuccess, setOpenSuccess] = React.useState(false);
+  let [message, setMessage] = React.useState("");
 
   let loginSubmit = async () => {
+    setLoggingLoader(true);
     const data = {
       email: email,
       password: password,
     };
-    console.log(data);
     const response = await LoginApi(data);
     if (response.success) {
-      push("/advance-search");
+      setMessage("Login Successful");
+      setOpenSuccess(true);
+      setTimeout(() => {
+        setLoggingLoader(false);
+        push("/advance-search");
+      }, 1000);
+    } else {
+      setLoggingLoader(false);
+      setMessage(response.message);
+      setOpenError(true);
     }
   };
 
   return (
-    <Grid container style={{ backgroundColor: _color.background_left, height: _pageHeight }}>
+    <Grid
+      container
+      style={{ backgroundColor: _color.background_left, height: _pageHeight }}
+    >
+      <LoaderComponent loading={loggingLoader} />
       <Grid item md={6}>
         <div
           style={{
@@ -185,6 +203,7 @@ export default function Login() {
       </Grid>
 
       <Grid
+        item
         lg={12}
         md={12}
         sx={{
@@ -197,6 +216,20 @@ export default function Login() {
       >
         <Copyright sx={{ mt: 5 }} />
       </Grid>
+      <ToastComponent
+        message={message}
+        open={openError}
+        onClose={setOpenError}
+        onCross={setOpenError}
+        severity="error"
+      />
+      <ToastComponent
+        message={message}
+        open={openSuccess}
+        onClose={setOpenSuccess}
+        onCross={setOpenSuccess}
+        severity="success"
+      />
     </Grid>
   );
 }

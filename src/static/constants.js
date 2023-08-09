@@ -100,6 +100,13 @@ const _pageHeight = "94vh"
 const _mapWidth = "33.33%"
 const _pageMargin = "6vh"
 const _appBarHeight = "7vh"
+const _loaderStyle = {
+  color: "inherit",
+  height: "7px",
+  position: "fixed",
+  mt: "6px",
+  width: "100%",
+}
 
 const _color = {
   primary: "#ffffff",
@@ -122,5 +129,6 @@ module.exports = {
     _pageMargin,
     _appBarHeight,
     apartmentTypeMapping,
-    _color
+    _color,
+    _loaderStyle,
 }

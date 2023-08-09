@@ -12,7 +12,7 @@ import { createTheme } from "@mui/material/styles";
 import SelectComponent from "@/mui-components/select";
 import { RegisterApi } from "./apis";
 import { useRouter } from "next/navigation";
-import { _pageHeight } from "@/static/constants";
+import { _color, _pageHeight } from "@/static/constants";
 import ButtonComponent from "@/mui-components/buttons";
 
 function Copyright(props: any) {
@@ -162,7 +162,7 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            <Grid md={12} lg={12} sx={{mt: 2}}>
+            <Grid item md={12} lg={12} sx={{mt: 2}}>
 
               <ButtonComponent
                 onClick={registerSubmit}
@@ -183,7 +183,7 @@ export default function SignUp() {
           </Box>
         </Box>
       </Grid>
-      <Grid
+      <Grid item
         lg={12}
         md={12}
         sx={{
