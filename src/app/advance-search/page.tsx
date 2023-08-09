@@ -12,7 +12,9 @@ import {
   _baths,
   _beds,
   _budget,
+  _centeringStyle,
   _color,
+  _divRadius,
   _mapWidth,
   _pageHeight,
 } from "@/static/constants";
@@ -67,14 +69,91 @@ export default function Home() {
 
   let [apartments, setApartments] = React.useState([
     {
-      id: 1,
-      price: 10000,
-      bedrooms: 3,
-      washrooms: 2,
-      area_sqft: 1000,
-      apartment_type: "Flat",
-      address: "Dhaka",
+      apartment_id: 10,
+      location_id: 28,
       type: 1,
+      bedrooms: 2,
+      washrooms: 2,
+      area_sqft: 1150,
+      price: 23000,
+      image_url: null,
+      created_at: null,
+      owner_id: null,
+      location: {
+        location_id: 28,
+        division: "Dhaka",
+        district: "Dhaka",
+        zone: "Motijheel",
+        street_no: "2",
+        house_no: "155",
+        latitude: 23.8041,
+        longitude: 90.4152,
+        created_at: null,
+      },
+      facilities: [
+        {
+          facility: {
+            title: "security",
+          },
+        },
+        {
+          facility: {
+            title: "elevator",
+          },
+        },
+        {
+          facility: {
+            title: "outdoor space",
+          },
+        },
+        {
+          facility: {
+            title: "laundry",
+          },
+        },
+        {
+          facility: {
+            title: "wifi",
+          },
+        },
+        {
+          facility: {
+            title: "air conditioning",
+          },
+        },
+      ],
+      startpoints: [
+        {
+          starpoint: {
+            title: "Hospital",
+          },
+        },
+        {
+          starpoint: {
+            title: "Fire Station",
+          },
+        },
+        {
+          starpoint: {
+            title: "Bank",
+          },
+        },
+        {
+          starpoint: {
+            title: "Restaurant",
+          },
+        },
+        {
+          starpoint: {
+            title: "Bank",
+          },
+        },
+        {
+          starpoint: {
+            title: "Park",
+          },
+        },
+      ],
     },
   ]);
 
@@ -115,7 +194,7 @@ export default function Home() {
     console.log("params: ", params);
     let data = await searchApartments(params);
     console.log(data);
-    setApartments(data)
+    setApartments(data);
   };
 
   let height = _pageHeight;
@@ -126,11 +205,11 @@ export default function Home() {
 
   return (
     <>
-      <Grid container spacing={0} key={1} mt={1} >
+      <Grid container spacing={0} key={1} mt={1}>
         <Grid
           key={1}
-          minHeight={{height}}
-          maxHeight={{height}}
+          minHeight={{ height }}
+          maxHeight={{ height }}
           position={"fixed"}
           overflow={"auto"}
           container
@@ -143,14 +222,22 @@ export default function Home() {
         >
           <Grid key={1} item lg={6} md={6}>
             <Box sx={{ margin: "10px" }}>
-              <ButtonComponent variant="contained" style="primary" onClick={saveSearch}>
+              <ButtonComponent
+                variant="contained"
+                style="primary"
+                onClick={saveSearch}
+              >
                 Save Search
               </ButtonComponent>
             </Box>
           </Grid>
           <Grid key={2} item lg={6} md={6}>
             <Box sx={{ margin: "10px" }}>
-              <ButtonComponent variant="contained" style="primary"  onClick={search}>
+              <ButtonComponent
+                variant="contained"
+                style="primary"
+                onClick={search}
+              >
                 Search
               </ButtonComponent>
             </Box>
@@ -203,8 +290,8 @@ export default function Home() {
         <Grid key={"1_ex"} container item lg={2} md={4}></Grid>
         <Grid
           key={2}
-          minHeight={{height}}
-          maxHeight={{height}}
+          minHeight={{ height }}
+          maxHeight={{ height }}
           position={"fixed"}
           left={{ md: "33.33%", lg: "16.66%" }}
           overflow={"auto"}
@@ -216,36 +303,59 @@ export default function Home() {
             backgroundColor: _color.background_middle,
           }}
         >
-          <Grid key={1} item lg={6} md={6}>
-            <Box sx={{ margin: "10px" }}>
-              <SelectComponent
-                title={"Status"}
-                elements={apartmentStatuses}
-                value={apartmentStatus}
-                handleChange={setApartmentStatus}
-              />
-            </Box>
+          <Grid item container key={12} lg={12} mt={2} mx={2} sx={{
+            ..._centeringStyle,
+            height: "10vh",
+            bgcolor: _color.background_upper,
+            borderRadius: _divRadius,
+          }} md={12}>
+            <Grid key={1} item lg={6} md={6} p={3}>
+              <Box sx={{ width: "100%",}}>
+                <SelectComponent
+                  title={"Status"}
+                  elements={apartmentStatuses}
+                  value={apartmentStatus}
+                  handleChange={setApartmentStatus}
+                />
+              </Box>
+            </Grid>
+            <Grid key={2} item lg={6} md={6} p={3}>
+              <Box sx={{ width: "100%", }}>
+                <SelectComponent
+                  title={"Order By"}
+                  elements={orderByes}
+                  value={orderBy}
+                  handleChange={setOrderBy}
+                />
+              </Box>
+            </Grid>
           </Grid>
-          <Grid key={2} item lg={6} md={6}>
-            <Box sx={{ margin: "10px" }}>
-              <SelectComponent
-                title={"Order By"}
-                elements={orderByes}
-                value={orderBy}
-                handleChange={setOrderBy}
-              />
-            </Box>
-          </Grid>
-          <Grid key={3} item lg={12} md={12}>
-            {apartments.map((x: any, idx) => {
-              return <Apartment onClick={() => {
-                let lat = randomInRange(22, 24);
-                let lng = randomInRange(89, 91);
-                // console.log(lat, lng);
-                setMapLat(x.location.latitude)
-                setMapLng(x.location.longitude)
-              }} data={x} key={idx} />;
-            })}
+          <Grid key={3} container item lg={12} md={12} m={2} height={"78vh"}>
+            <Grid
+              item
+              lg={12}
+              md={12}
+              sx={{
+                bgcolor: _color.background_upper,
+                borderRadius: _divRadius,
+              }}
+            >
+              {apartments.map((x: any, idx) => {
+                return (
+                  <Apartment
+                    onClick={() => {
+                      let lat = randomInRange(22, 24);
+                      let lng = randomInRange(89, 91);
+                      // console.log(lat, lng);
+                      setMapLat(x.location.latitude);
+                      setMapLng(x.location.longitude);
+                    }}
+                    data={x}
+                    key={idx}
+                  />
+                );
+              })}
+            </Grid>
           </Grid>
         </Grid>
         <Grid
@@ -256,9 +366,9 @@ export default function Home() {
           item
           lg={4}
           md={4}
-          width={{mapWidth}}
-          maxHeight={{height}}
-          minHeight={{height}}
+          width={{ mapWidth }}
+          maxHeight={{ height }}
+          minHeight={{ height }}
         >
           <Map lat={mapLat} lng={mapLng} />
         </Grid>

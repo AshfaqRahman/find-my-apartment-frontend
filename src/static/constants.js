@@ -114,7 +114,19 @@ const _color = {
   background_left: "#D8D8D8",
   background_middle: "#fcf5f5",
   background_right: "#D8D8D8",
+  background_upper: "#00000020",
+  background_lower: "#ffffff20",
 }
+
+const _centeringStyle = {
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+}
+
+const _divRadius = "25px"
+const _cardRadius = "12px"
 
 module.exports = {
     _apartmentTypes,
@@ -131,4 +143,7 @@ module.exports = {
     apartmentTypeMapping,
     _color,
     _loaderStyle,
+    _centeringStyle,
+    _divRadius,
+    _cardRadius,
 }
