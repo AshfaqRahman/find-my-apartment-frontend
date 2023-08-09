@@ -85,8 +85,8 @@ const _baths = [
     {checked: false, name: "3", label: "3"},
     {checked: false, name: "4", label: "3+"},
 ]
-// 93, 91    6,9
-const _pageHeight = "93vh"
+// 94, 91    6,9
+const _pageHeight = "94vh"
 const _mapWidth = "33.33%"
 const _pageMargin = "6vh"
 const _appBarHeight = "6vh"

@@ -52,8 +52,8 @@ const settings = [
   "Logout",
 ];
 
-const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const satisfy = Satisfy({ weight: "400", subsets: ["latin"] });
+const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const theme = createTheme({
   typography: {
     fontFamily: rochester.style.fontFamily,
