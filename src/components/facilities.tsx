@@ -7,7 +7,7 @@ import React, { useState } from "react";
 export default function FacilitiesComponent(props: any) {
   const [inputFacility, setInputFacilty] = React.useState("");
   const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
-  const [facilities, setFacilities] = useState<any[]>(_facilities.map(x => x.name));
+  const [facilities, setFacilities] = useState<any[]>(_facilities.map((facility: any) => facility));
 
   React.useEffect(() => {
     props.onChange(selectedFacilities);

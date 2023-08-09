@@ -19,18 +19,15 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import ApartmentIcon from "@mui/icons-material/Apartment";
-import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import ButtonComponent from "@/mui-components/buttons";
 import { _appBarHeight, _color } from "@/static/constants";
+import { faBuilding } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -94,29 +91,37 @@ export default function AppBarHomeComponent() {
 
   return (
     <>
-      <Box margin={0} maxHeight={{ _appBarHeight }} minHeight={{ _appBarHeight }}>
+      <Box
+        margin={0}
+        maxHeight={{ _appBarHeight }}
+        minHeight={{ _appBarHeight }}
+      >
         <AppBar position="fixed" sx={{ backgroundColor: _color.secondary }}>
           <Container maxWidth={false}>
             <Toolbar disableGutters>
-              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "inline" } }}>
-                <ApartmentIcon sx={{ mr: 1 }} />
-                <ThemeProvider theme={theme}>
-                  <Typography
-                    noWrap
-                    component="a"
-                    href="/"
-                    sx={{
-                      mr: 2,
-                      fontSize: "1.75rem",
-                      fontWeight: 600,
-                      letterSpacing: ".3rem",
-                      color: "inherit",
-                      textDecoration: "none",
-                    }}
-                  >
-                    Find My Apartment
-                  </Typography>
-                </ThemeProvider>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                <Box sx={{ mr: 1, mt: 1 }}>
+                  <FontAwesomeIcon icon={faBuilding} size="xl" />
+                </Box>
+                <Box>
+                  <ThemeProvider theme={theme}>
+                    <Typography
+                      noWrap
+                      component="a"
+                      href="/"
+                      sx={{
+                        ml: 1,
+                        fontSize: "1.75rem",
+                        fontWeight: 600,
+                        letterSpacing: ".3rem",
+                        color: "inherit",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Find My Apartment
+                    </Typography>
+                  </ThemeProvider>
+                </Box>
               </Box>
 
               <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -155,9 +160,6 @@ export default function AppBarHomeComponent() {
                   ))}
                 </Menu>
               </Box>
-              <ApartmentIcon
-                sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-              />
               <Typography
                 variant="h5"
                 noWrap

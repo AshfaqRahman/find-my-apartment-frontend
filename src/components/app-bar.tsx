@@ -14,12 +14,16 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import ApartmentIcon from "@mui/icons-material/Apartment";
-import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
-import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import { _appBarHeight, _color } from "@/static/constants";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import ButtonComponent from "@/mui-components/buttons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMagnifyingGlass,
+  faCircleStop,
+  faBell,
+  faBuilding,
+} from "@fortawesome/free-solid-svg-icons";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -93,25 +97,29 @@ export default function AppBarComponent() {
         <AppBar position="fixed" sx={{ backgroundColor: _color.secondary }}>
           <Container maxWidth={false}>
             <Toolbar disableGutters>
-              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "inline" } }}>
-                <ApartmentIcon sx={{ mr: 1 }} />
-                <ThemeProvider theme={theme}>
-                  <Typography
-                    noWrap
-                    component="a"
-                    href="/"
-                    sx={{
-                      mr: 2,
-                      fontSize: "1.75rem",
-                      fontWeight: 600,
-                      letterSpacing: ".3rem",
-                      color: "inherit",
-                      textDecoration: "none",
-                    }}
-                  >
-                    Find My Apartment
-                  </Typography>
-                </ThemeProvider>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                <Box sx={{ mr: 1, mt: 1 }}>
+                  <FontAwesomeIcon icon={faBuilding} size="xl" />
+                </Box>
+                <Box>
+                  <ThemeProvider theme={theme}>
+                    <Typography
+                      noWrap
+                      component="a"
+                      href="/"
+                      sx={{
+                        ml: 1,
+                        fontSize: "1.75rem",
+                        fontWeight: 600,
+                        letterSpacing: ".3rem",
+                        color: "inherit",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Find My Apartment
+                    </Typography>
+                  </ThemeProvider>
+                </Box>
               </Box>
 
               <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -144,9 +152,6 @@ export default function AppBarComponent() {
                   }}
                 ></Menu>
               </Box>
-              <ApartmentIcon
-                sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-              />
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 {pages.map((page) => (
                   <ButtonComponent
@@ -162,10 +167,12 @@ export default function AppBarComponent() {
               </Box>
               <Box sx={{ flexGrow: 1 }}>
                 <Tooltip title="Notifications">
-                  <CircleNotificationsIcon
+                  {/* <FontAwesomeIcon icon={"fa-solid fa-bell"} beat size="lg" /> */}
+                  <FontAwesomeIcon icon={faBell} beat />
+                  {/* <CircleNotificationsIcon
                     sx={{ color: _color.primary, cursor: "pointer" }}
                     fontSize="large"
-                  />
+                  /> */}
                 </Tooltip>
               </Box>
 

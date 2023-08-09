@@ -6,32 +6,48 @@ import {
   CardContent,
   CardMedia,
   Grid,
+  IconButton,
+  Tooltip,
   Typography,
 } from "@mui/material";
-import HotelRoundedIcon from "@mui/icons-material/HotelRounded";
-import BathtubOutlinedIcon from "@mui/icons-material/BathtubOutlined";
+
 import {
   _cardRadius,
   _centeringStyle,
   _color,
   _divRadius,
+  _facilities,
   apartmentTypeMapping,
 } from "@/static/constants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBed, faShower } from "@fortawesome/free-solid-svg-icons";
+import FacilitiesIconsComponent from "./facilities-icons";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 export default function Apartment(props: any) {
+  let facilities = props.data.facilities.map(
+    (facility: any) => facility.facility.title
+  );
+
   let handleClick = async () => {
     props.onClick();
   };
 
   return (
     <>
-      <Card sx={{ display: "flex", margin: 3, borderRadius: _cardRadius, cursor: "pointer" }}>
+      <Card
+        sx={{
+          display: "flex",
+          margin: 3,
+          borderRadius: _cardRadius,
+          cursor: "pointer",
+        }}
+      >
         <CardMedia
           sx={{ width: "50%" }}
           image="/apartment.jpg"
           title="green iguana"
           key={1}
-          onClick={handleClick}
         />
         <Grid container>
           <Box width={"100%"}>
@@ -47,122 +63,63 @@ export default function Apartment(props: any) {
                 {props.data.location.zone}, {props.data.location.district},{" "}
                 {props.data.location.division}
               </Typography>
-              <Grid key={"grid"} container item lg={12} md={12}>
-                <Grid
-                  key={1}
-                  item
-                  container
-                  lg={5}
-                  md={5}
-                  sx={{
-                    bgcolor: _color.background_upper,
-                    borderRadius: _cardRadius,
-                    mr: { lg: 2, md: 2 },
-                  }}
-                >
-                  <Box sx={{ ..._centeringStyle }}>
-                    <Typography
-                      sx={{
-                        margin: 0,
-                        fontWeight: "bold",
-                        fontSize: "1.1rem",
-                      }}
-                    >
-                      Facilities
-                    </Typography>
-                  </Box>
-                  <Grid key={2} item md={12} lg={12} overflow={"auto"} height={"100px"}>
-                    {props.data.facilities.map((facility: any, idx: any) => {
-                      return (
-                        <Box
-                          key={idx}
-                          sx={{
-                            bgcolor:
-                              idx & 1
-                                ? _color.background_lower
-                                : _color.background_upper,
-                          }}
-                        >
-                          <Typography
-                            key={idx}
-                            my={0}
-                            ml={1}
-                            gutterBottom
-                            component="div"
-                          >
-                            <b>{facility.facility.title}</b>
-                          </Typography>
-                        </Box>
-                      );
-                    })}
-                  </Grid>
-                </Grid>
-                <Grid
-                  item
-                  container
-                  lg={5}
-                  md={5}
-                  sx={{
-                    bgcolor: _color.background_upper,
-                    borderRadius: _cardRadius,
-                    ml: { lg: 2, md: 2 },
-                  }}
-                >
-                  <Box sx={{ ..._centeringStyle }}>
-                    <Typography
-                      sx={{
-                        margin: 0,
-                        fontWeight: "bold",
-                        fontSize: "1.1rem",
-                      }}
-                    >
-                      Star Points
-                    </Typography>
-                  </Box>
-                  <Grid item md={12} lg={12} overflow={"auto"} height={"100px"}>
-                    {props.data.startpoints.map((startpoint: any, idx: any) => {
-                      return (
-                        <Box
-                        key={idx}
-                          sx={{
-                            bgcolor:
-                              idx & 1
-                                ? _color.background_lower
-                                : _color.background_upper,
-                          }}
-                        >
-                          <Typography
-                            key={idx}
-                            my={0}
-                            ml={1}
-                            gutterBottom
-                            component="div"
-                          >
-                            <b>{startpoint.starpoint.title}</b>
-                          </Typography>
-                        </Box>
-                      );
-                    })}
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              {/* </Grid>
-              <Card sx={{ display: "flex", bgcolor: "red" }}>
-                <Box>
-                  <CardContent>Typog</CardContent>
-                </Box>
-              </Card> */}
               <Typography
                 margin={0}
                 key={5}
                 variant="h6"
                 color="text.secondary"
               >
-                <HotelRoundedIcon /> {props.data.bedrooms}{" "}
-                <BathtubOutlinedIcon /> {props.data.washrooms},{" "}
+                <FontAwesomeIcon icon={faBed} size="xl" style={{ margin: 3 }} />{" "}
+                {props.data.bedrooms}
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <FontAwesomeIcon icon={faShower} size="xl" />{" "}
+                {props.data.washrooms}, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 {props.data.area_sqft} sqft
               </Typography>
+              <Grid key={"9"} container item lg={12} md={12}>
+                <FacilitiesIconsComponent facilities={facilities} />
+              </Grid>
+              <Grid key={"grid"} container item lg={12} md={12}>
+                <Grid item md={10} lg={10}>
+                  {props.data.startpoints.map((x: any, idx: number) => {
+                    return (
+                      <Button
+                        key={idx}
+                        variant="contained"
+                        color="info"
+                        sx={{
+                          borderRadius: "50px",
+                          height: "20px",
+                          mr: 1,
+                          fontSize: "15px",
+                        }}
+                      >
+                        {x.starpoint.title}
+                      </Button>
+                    );
+                  })}
+                </Grid>
+                <Grid
+                  item
+                  md={2}
+                  lg={2}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <IconButton
+                    size="large"
+                    color="error"
+                    sx={{
+                      bgcolor: _color.background_upper,
+                    }}
+                    onClick={handleClick}
+                  >
+                    <LocationOnIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
             </CardContent>
           </Box>
         </Grid>

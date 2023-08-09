@@ -4,6 +4,9 @@ import ThemeRegistry from "@/components/ThemeRegistry/ThemeRegistry";
 import AppBarHomeComponent from "@/components/app-bar-home";
 import { Grid } from "@mui/material";
 import { _pageMargin } from "@/static/constants";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false;
 
 export const metadata = {
   title: "Next.js App Router + Material UI v5",
