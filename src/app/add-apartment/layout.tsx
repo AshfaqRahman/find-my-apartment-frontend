@@ -1,24 +1,21 @@
 "use client";
-import styles from "./page.module.css"
+import styles from "./page.module.css";
 
 import * as React from "react";
 import AppBarComponent from "@/components/app-bar";
-
+import { Grid } from "@mui/material";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  
   return (
     <>
-        <AppBarComponent>
-        </AppBarComponent>
-        
-        <div className={`below-app-bar`}>
-          {children}
-        </div>
+      <Grid container>
+        <AppBarComponent />
+        <Grid item>{children}</Grid>
+      </Grid>
     </>
   );
 }
