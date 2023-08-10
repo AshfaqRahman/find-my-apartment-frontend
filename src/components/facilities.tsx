@@ -7,7 +7,7 @@ import React, { useState } from "react";
 export default function FacilitiesComponent(props: any) {
   const [inputFacility, setInputFacilty] = React.useState("");
   const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
-  const [facilities, setFacilities] = useState<any[]>(_facilities.map((facility: any) => facility));
+  const [facilities, setFacilities] = useState<any[]>(_facilities);
 
   React.useEffect(() => {
     props.onChange(selectedFacilities);
@@ -16,6 +16,7 @@ export default function FacilitiesComponent(props: any) {
   return (
     <Box>
       <AutoCompleteComponent 
+        multiple={true}
         value={selectedFacilities}
         setValue={setSelectedFacilities}
         inputValue={inputFacility}

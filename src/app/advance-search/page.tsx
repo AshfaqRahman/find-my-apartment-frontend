@@ -183,7 +183,7 @@ export default function Home() {
 
   let [mapLat, setMapLat] = React.useState();
   let [mapLng, setMapLng] = React.useState();
-  
+
   let [openSuccess, setOpenSuccess] = React.useState(false);
   let [message, setMessage] = React.useState("");
 
@@ -209,7 +209,7 @@ export default function Home() {
     console.log(data);
     setApartments(data);
     setMessage(`${data.length} apartments are found`);
-    setOpenSuccess(true)
+    setOpenSuccess(true);
     setFetchingApartments(false);
   };
 
@@ -253,16 +253,11 @@ export default function Home() {
               </ButtonComponent>
             </Box>
           </Grid>
-          <Grid
-            key={3}
-            item
-            lg={6}
-            md={6}
-            sx={{ ..._centeringStyle, alignItems: "start", px: 1 }}
-          >
-            <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
+          <Grid key={3} item lg={12} md={12}>
+            <Box mx={1}>
+              <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
+            </Box>
           </Grid>
-          <Grid item key={"hudai"} lg={6} md={6}></Grid>
           <Grid
             key={4}
             item

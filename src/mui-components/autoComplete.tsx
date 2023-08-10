@@ -5,7 +5,7 @@ export default function AutoCompleteComponent(props: any) {
   return (
     <Autocomplete
         value={props.value}
-        multiple
+        multiple={props.multiple}
         onChange={(event: any, newValue: string[]) => {
           props.setValue(newValue);
         }}

@@ -16,6 +16,7 @@ export default function KeywordsComponent(props: any) {
   return (
     <Box>
       <AutoCompleteComponent
+        multiple={true}
         value={selectedKeywords}
         setValue={setSelectedKeywords}
         inputValue={inputKeyword}

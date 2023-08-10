@@ -1,20 +1,8 @@
 
 const _apartmentTypes = [
-  {
-    checked: false,
-    name: "Family",
-    label: "Family",
-  },
-  {
-    checked: false,
-    name: "Bachelor",
-    label: "Bachelor",
-  },
-  {
-    checked: false,
-    name: "Sublet",
-    label: "Sublet",
-  },
+  "Family",
+  "Bachelor",
+  "Sublet",
 ];
 
 
