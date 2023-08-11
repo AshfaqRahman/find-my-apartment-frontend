@@ -67,6 +67,6 @@ export default function Map(props: any) {
       });
     });
   }, [lat, lng, address]);
-  return <div style={{ height: _pageHeight, width: "33.33vw" }}  ref={mapRef}>
+  return <div style={{ height: props.height, width: props.width }}  ref={mapRef}>
   </div>;
 }

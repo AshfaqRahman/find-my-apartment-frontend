@@ -43,6 +43,7 @@ const localPath = "advance-search";
 export default function Home() {
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
   const handleApartmentTypeChange = (types: any) => {
+    console.log(types);
     setApartmentTypes(types);
   };
 
@@ -408,7 +409,7 @@ export default function Home() {
           maxHeight={{ height }}
           minHeight={{ height }}
         >
-          <Map lat={mapLat} lng={mapLng} />
+          <Map height={_pageHeight} width={mapWidth} lat={mapLat} lng={mapLng} />
         </Grid>
       </Grid>
       <ToastComponent

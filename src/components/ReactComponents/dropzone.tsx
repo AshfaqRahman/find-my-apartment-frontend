@@ -42,7 +42,6 @@ export default function Dropzone(props: any) {
   const onDrop = useCallback((acceptedFiles: any) => {
     acceptedFiles.forEach((file: any, idx: number) => {
       const reader = new FileReader();
-      console.log(idx);
 
       reader.onabort = () => console.log("file reading was aborted");
       reader.onerror = () => console.log("file reading has failed");

@@ -5,12 +5,13 @@ import { Box } from "@mui/material";
 import React from "react";
 
 export default function ApartmentTypesComponent(props: any) {
-  const [apartmentTypes, setApartmentTypes] = React.useState(_apartmentTypes);
-  const [selectedApartmentTypes, setSelectedApartmentTypes] = React.useState([]);
   const [inputTypes, setInputTypes] = React.useState("");
+  const [selectedApartmentTypes, setSelectedApartmentTypes] = React.useState([]);
+  const [apartmentTypes, setApartmentTypes] = React.useState(_apartmentTypes);
   React.useEffect(() => {
+    console.log(selectedApartmentTypes)
     props.onChange(selectedApartmentTypes);
-  }, [apartmentTypes]);
+  }, [selectedApartmentTypes]);
   return (
     <Box>
       <AutoCompleteComponent 

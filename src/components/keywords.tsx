@@ -11,7 +11,7 @@ export default function KeywordsComponent(props: any) {
 
   React.useEffect(() => {
     props.onChange(selectedKeywords);
-  }, [keywords]);
+  }, [selectedKeywords]);
 
   return (
     <Box>

@@ -78,9 +78,11 @@ const apartmentTypeMapping = {
 
 // 94, 91    6,9
 const _pageHeight = "94vh";
-const _mapWidth = "33.33%";
+const _mapWidth = "33.33vw";
 const _pageMargin = "6vh";
 const _appBarHeight = "7vh";
+const _mapHeightInAddApartment = "40vh"
+
 const _loaderStyle = {
   color: "inherit",
   height: "7px",
@@ -128,4 +130,5 @@ module.exports = {
   _centeringStyle,
   _divRadius,
   _cardRadius,
+  _mapHeightInAddApartment,
 };

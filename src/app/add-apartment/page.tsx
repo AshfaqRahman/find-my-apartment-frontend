@@ -4,7 +4,9 @@ import { Inter, Rochester, Satisfy } from "next/font/google";
 import { useCallback, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, IconButton, TextareaAutosize, Tooltip, Typography } from "@mui/material";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+
 import ButtonComponent from "@/mui-components/buttons";
 import MultiSelectComponent from "@/mui-components/multi-select";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -16,6 +18,8 @@ import {
   _budget,
   _centeringStyle,
   _color,
+  _divRadius,
+  _mapHeightInAddApartment,
   _pageHeight,
 } from "@/static/constants";
 import Dropzone from "@/components/ReactComponents/dropzone";
@@ -23,6 +27,8 @@ import ApartmentTypesComponent from "@/components/apartment-types";
 import KeywordsComponent from "@/components/keywords";
 import FacilitiesComponent from "@/components/facilities";
 import TextFieldComponent from "@/mui-components/text-field";
+import Map from "@/components/map";
+import TextAreaComponent from "@/mui-components/text-area";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const theme = createTheme({
@@ -68,15 +74,24 @@ export default function Home() {
 
   const [area, setArea] = React.useState<number>(0);
   const handleAreaChange = (e: any) => {
-    setFloor(e.target.value);
+    setArea(e.target.value);
   };
 
   const [price, setPrice] = React.useState<number>(0);
   const handlePriceChange = (e: any) => {
-    setFloor(e.target.value);
+    setPrice(e.target.value);
+  };
+
+  const [address, setAddress] = React.useState<any>("");
+  const handleAddressChange = (e: any) => {
+    setAddress(e.target.value);
   };
 
   const pageHeight = _pageHeight;
+
+  let setOnMap = (e: any): void => {
+    throw new Error("Function not implemented.");
+  };
 
   return (
     <>
@@ -84,14 +99,14 @@ export default function Home() {
         <Grid
           item
           container
-          minHeight={{ pageHeight }}
-          maxHeight={{ pageHeight }}
+          height={ pageHeight }
           position={"fixed"}
+          overflow={"auto"}
           md={12}
           lg={12}
-          overflow={"auto"}
           sx={{
             ..._centeringStyle,
+            bgcolor: _color.background_left,
           }}
         >
           <Grid
@@ -102,7 +117,8 @@ export default function Home() {
             spacing={0}
             sx={{
               width: "66vw",
-              bgcolor: _color.background_left,
+              bgcolor: _color.background_upper,
+              borderRadius: _divRadius,
             }}
           >
             <Grid key={1} item lg={6} md={6}>
@@ -232,6 +248,65 @@ export default function Home() {
                     value={price}
                     handleChange={handlePriceChange}
                   />
+                </Box>
+              </Grid>
+              <Grid item lg={3} md={3}>
+                <Box ml={2}>
+                  <TextFieldComponent
+                    label="Address"
+                    value={address}
+                    handleChange={handleAddressChange}
+                  />
+                </Box>
+              </Grid>
+              <Grid
+                item
+                lg={1}
+                md={1}
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "flex-end",
+                }}
+              >
+                <Box mr={2}>
+                  <Tooltip title="see on map">
+                    <IconButton
+                      size="large"
+                      color="error"
+                      sx={{
+                        bgcolor: _color.background_upper,
+                        borderRadius: _divRadius,
+                        height: "40px",
+                        width: "40px",
+                      }}
+                      onClick={setOnMap}
+                    >
+                      <LocationOnIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container my={1}>
+              <Grid container item md={6} lg={6}>
+                <Grid item md={12} lg={12} >
+                  <Box mx={2} >
+                    <TextAreaComponent title={"Description"} />
+                  </Box>
+                </Grid>
+                <Grid item md={6} lg={6}>
+                  <Box mx={2}>
+                    <b>Contact</b>
+                    <table>
+                      
+                    </table>
+                  </Box>
+                </Grid>
+              </Grid>
+              <Grid item md={6} lg={6} >
+                <Box mx={2} height={_mapHeightInAddApartment}>
+                  <Map height={"100%"}></Map>
                 </Box>
               </Grid>
             </Grid>
