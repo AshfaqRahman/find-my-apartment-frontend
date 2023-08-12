@@ -87,10 +87,12 @@ export default function Home() {
     setAddress(e.target.value);
   };
 
+  const [mapAddress, setMapAddress] = React.useState<any>("");
+
   const pageHeight = _pageHeight;
 
   let setOnMap = (e: any): void => {
-    throw new Error("Function not implemented.");
+    setMapAddress(address)
   };
 
   return (
@@ -282,7 +284,7 @@ export default function Home() {
                       }}
                       onClick={setOnMap}
                     >
-                      <LocationOnIcon />
+                      <LocationOnIcon  />
                     </IconButton>
                   </Tooltip>
                 </Box>
@@ -306,7 +308,7 @@ export default function Home() {
               </Grid>
               <Grid item md={6} lg={6} >
                 <Box mx={2} height={_mapHeightInAddApartment}>
-                  <Map height={"100%"}></Map>
+                  <Map setAddress={setAddress} address={mapAddress} height={"100%"}></Map>
                 </Box>
               </Grid>
             </Grid>
