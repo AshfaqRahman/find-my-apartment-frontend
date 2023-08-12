@@ -342,7 +342,6 @@ export default function Home() {
             mx={2}
             sx={{
               ..._centeringStyle,
-              height: "10vh",
               bgcolor: _color.background_upper,
               borderRadius: _divRadius,
             }}

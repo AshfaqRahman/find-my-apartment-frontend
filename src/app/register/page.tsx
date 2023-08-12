@@ -87,7 +87,7 @@ export default function SignUp() {
       style={{
         backgroundColor: _color.background_left,
         display: "flex",
-        height: _pageHeight,
+        height: "100vh",
         justifyContent: "center",
       }}
     >

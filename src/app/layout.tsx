@@ -24,8 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeRegistry>
-          <AppBarHomeComponent />
-          <Grid item mt={mt}>
+          <Grid item>
             {children}
           </Grid>
         </ThemeRegistry>

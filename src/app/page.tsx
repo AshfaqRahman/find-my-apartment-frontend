@@ -9,11 +9,12 @@ import {
   _beds,
   _budget,
 } from "@/static/constants";
-
+import AppBarHomeComponent from "@/components/app-bar-home";
 
 export default function Home() {
   return (
     <>
+      <AppBarHomeComponent />
       <Grid container>
         <Grid item md={12} lg={12}>
           <Image

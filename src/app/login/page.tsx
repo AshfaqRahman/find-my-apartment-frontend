@@ -89,7 +89,7 @@ export default function Login() {
   return (
     <Grid
       container
-      style={{ backgroundColor: _color.background_left, height: _pageHeight }}
+      style={{ backgroundColor: _color.background_left, height: "100vh" }}
     >
       <LoaderComponent loading={loggingLoader} />
       <Grid item md={6}>
