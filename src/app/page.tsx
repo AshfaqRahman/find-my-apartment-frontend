@@ -15,16 +15,13 @@ import Link from "next/link";
 
 function Copyright(props:any) {
   return (
-    <div style={{backgroundColor: "#D8D8D8"}}>
-      <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        {'Copyright © '}
-        <Link color="inherit" href="https://mui.com/">
-          Find My Apartment
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    </div>
+    <Grid align="center" style={{backgroundColor:"E6E6E6", fontSize:"14px"}} {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="/">
+        Find My Apartment
+      </Link>{' '}
+      {new Date().getFullYear()}
+    </Grid>
   );
 }
 
@@ -39,7 +36,7 @@ export default function Home() {
         <div>
         <Image 
             src="/dhaka-view.jpg" 
-            width={1365} height={460}
+            width={1365} height={416}
              
             alt="Apartment"/> 
         </div>
