@@ -3,11 +3,25 @@ import MultiSelectComponent from "@/mui-components/multi-select";
 import { _facilities } from "@/static/constants";
 import { Autocomplete, Box, Chip, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { fetchFacilities } from "./api/fixed-values";
 
 export default function FacilitiesComponent(props: any) {
   const [inputFacility, setInputFacilty] = React.useState("");
   const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
-  const [facilities, setFacilities] = useState<any[]>(_facilities);
+  const [facilities, setFacilities] = useState<any[]>([]);
+
+  // let getFacilities = async () {
+
+  // }
+
+  React.useEffect(() => {
+    console.log("FacilitiesComponent::fetching facilities");
+    fetchFacilities().then((response) => {
+      setFacilities(response);
+    }).catch((error) => {
+      console.log("FacilitiesComponent::error", error);
+    })
+  }, [])
 
   React.useEffect(() => {
     props.onChange(selectedFacilities);
