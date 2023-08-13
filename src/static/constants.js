@@ -100,6 +100,7 @@ const _color = {
   background_right: "#D8D8D8",
   background_upper: "#00000020",
   background_lower: "#ffffff20",
+  divider: "#00000020",
 };
 
 const _centeringStyle = {

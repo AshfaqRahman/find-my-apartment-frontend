@@ -3,7 +3,21 @@
 import { _color } from "@/static/constants";
 import Button from "@mui/material/Button";
 
-export default function ButtonComponent(props: any) {
+export default function ButtonTabComponent(props: any) {
+  let tabs = [
+    {
+      title: "Overview",
+    },
+    {
+      title: "Facilities",
+    },
+    {
+      title: "Star Points",
+    },
+    {
+      title: "Pricing",
+    },
+  ];
   let style =
     props.style === "primary"
       ? {
@@ -20,13 +34,6 @@ export default function ButtonComponent(props: any) {
           display: "block",
           bgcolor: _color.primary,
           borderRadius: "50px",
-        }
-      : props.style === "tab"
-      ? {
-          color: _color.secondary,
-          display: "block",
-          bgcolor: _color.background_upper,
-          borderRadius: "0px",
         }
       : {};
   return (
