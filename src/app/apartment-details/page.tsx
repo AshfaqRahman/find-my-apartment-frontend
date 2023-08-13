@@ -154,7 +154,7 @@ export default function Home() {
   // const overview = useRef(null);
   // const scrollToOverview = () => window.scrollTo(0, overview.current.offsetTop)
 
-  let tabs = [
+  let tabs: any = [
     {
       title: "Overview",
       onClick: () => window.scrollTo(0, tabs[0].ref.current.offsetTop),
