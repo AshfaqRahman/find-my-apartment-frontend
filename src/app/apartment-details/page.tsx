@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import {
@@ -151,18 +151,33 @@ export default function Home() {
     },
   ];
 
+  // const overview = useRef(null);
+  // const scrollToOverview = () => window.scrollTo(0, overview.current.offsetTop)
+
   let tabs = [
     {
       title: "Overview",
+      onClick: () => window.scrollTo(0, tabs[0].ref.current.offsetTop),
+      ref: useRef(null),
+      jsx: <Overview />,
     },
     {
       title: "Facilities",
+      onClick: () => window.scrollTo(0, tabs[1].ref.current.offsetTop),
+      ref: useRef(null),
+      jsx: <Facilities />,
     },
     {
       title: "Star Points",
+      onClick: () => window.scrollTo(0, tabs[2].ref.current.offsetTop),
+      ref: useRef(null),
+      jsx: <StarPoints />,
     },
     {
       title: "Pricing",
+      onClick: () => window.scrollTo(0, tabs[3].ref.current.offsetTop),
+      ref: useRef(null),
+      jsx: <Pricing />,
     },
   ];
 
@@ -211,12 +226,13 @@ export default function Home() {
               px: (100 - imageWidth) / 2 + "vw",
             }}
           >
-            {tabs.map((tab, i) => (
+            {tabs.map((tab: any, i: number) => (
               <ButtonComponent
                 key={i}
                 variant={"text"}
                 style={"tab"}
                 fullWidth={true}
+                onClick={tab.onClick}
               >
                 {tab.title}
               </ButtonComponent>
@@ -227,26 +243,18 @@ export default function Home() {
         <Grid item md={12} lg={12} sx={{ ..._centeringStyle }}>
           <Box width={imageWidth + "vw"}>
             <Grid container>
-              <Grid my={2} item lg={12} md={12}>
-                <Overview></Overview>
-              </Grid>
-
-              <Grid my={2} item lg={12} md={12}>
-                <Facilities></Facilities>
-              </Grid>
-
-              <Grid my={2} item lg={12} md={12}>
-                <StarPoints></StarPoints>
-              </Grid>
-
-              <Grid my={2} item lg={12} md={12}>
-                <Pricing></Pricing>
-              </Grid>
+              {
+                tabs.map((tab: any, i: number) => (
+                  <Grid key={i} my={2} item lg={12} md={12}>
+                    <div ref={tab.ref}>{tab.jsx}</div>
+                  </Grid>
+                ))
+              }
             </Grid>
           </Box>
         </Grid>
         <Grid item mt={2} md={12} lg={12}>
-          <Divider >
+          <Divider>
             <Chip label="Similar Apartments" />
           </Divider>
         </Grid>
