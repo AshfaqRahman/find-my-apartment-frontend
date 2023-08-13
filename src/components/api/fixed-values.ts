@@ -5,31 +5,54 @@ import { getCookie } from 'cookies-next';
 
 
 export const fetchFacilities = async () => {
-	const res = await axios.get(
-        apiUrls.fixed_values.facilities,
-        {
-            headers: {
-                Authorization: `${getCookie('token')}`,
+    try {
+        const res = await axios.get(
+            apiUrls.fixed_values.facilities,
+            {
+                headers: {
+                    Authorization: `${getCookie('token')}`,
+                }
             }
+        )
+
+        console.log("fetchFacilities", res);
+
+        return {
+            data: res.data,
+            success: res.status === 200,
         }
-    )
-    
-    return res.data
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.response.data.message,
+        }
+    }
+
 };
 
 export const fetchKeywords = async () => {
-	const res = await axios.get(
-        apiUrls.fixed_values.keywords,
-        {
-            headers: {
-                Authorization: `${getCookie('token')}`,
+    try {
+        const res = await axios.get(
+            apiUrls.fixed_values.keywords,
+            {
+                headers: {
+                    Authorization: `${getCookie('token')}`,
+                }
             }
+        )
+        return {
+            data: res.data,
+            success: res.status === 200,
         }
-    )
-    
-    return res.data
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.response.data.message,
+        }
+    }
+
 };
 
 export const find = async (data) => {
-    
+
 }

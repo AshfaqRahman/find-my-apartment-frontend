@@ -37,10 +37,13 @@ import Map from "@/components/map";
 import { randomInRange } from "@/static/utils";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
+import { useRouter } from "next/navigation";
 
 const localPath = "advance-search";
 
 export default function Home() {
+  const { push } = useRouter();
+
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
   const handleApartmentTypeChange = (types: any) => {
     setApartmentTypes(types);
@@ -96,8 +99,9 @@ export default function Home() {
   let [mapLat, setMapLat] = React.useState();
   let [mapLng, setMapLng] = React.useState();
 
-  let [openSuccess, setOpenSuccess] = React.useState(false);
+  let [openToast, setOpenToast] = React.useState(false);
   let [message, setMessage] = React.useState("");
+  let [severity, setSeverity] = React.useState("success");
 
   let [fetchingApartments, setFetchingApartments] = React.useState(false);
 
@@ -116,10 +120,24 @@ export default function Home() {
       facilities: facilities,
       keywords: keywords,
     };
-    let data: any[] = await searchApartments(params);
-    setApartments(data);
-    setMessage(`${data.length} apartments are found`);
-    setOpenSuccess(true);
+    let data: any = await searchApartments(params);
+    // console.log(data);
+    if(!data.success) {
+      setSeverity("error");
+      setMessage(data.message);
+      setOpenToast(true);
+      setFetchingApartments(false);
+
+      setTimeout(() => {
+        push("/login");
+      }, 1000);
+
+      return;
+    }
+    setApartments(data.data);
+    setSeverity("success");
+    setMessage(`${data.data.length} apartments are found`);
+    setOpenToast(true);
     setFetchingApartments(false);
   };
 
@@ -322,10 +340,10 @@ export default function Home() {
       </Grid>
       <ToastComponent
         message={message}
-        open={openSuccess}
-        onClose={setOpenSuccess}
-        onCross={setOpenSuccess}
-        severity="success"
+        open={openToast}
+        onClose={setOpenToast}
+        onCross={setOpenToast}
+        severity={severity}
       />
     </>
   );

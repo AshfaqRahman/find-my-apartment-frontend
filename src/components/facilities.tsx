@@ -3,9 +3,12 @@ import MultiSelectComponent from "@/mui-components/multi-select";
 import { _facilities } from "@/static/constants";
 import { Autocomplete, Box, Chip, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { fetchFacilities } from "./api/fixed-values";
 
 export default function FacilitiesComponent(props: any) {
+  const { push } = useRouter();
+
   const [inputFacility, setInputFacilty] = React.useState("");
   const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
   const [facilities, setFacilities] = useState<any[]>([]);
@@ -17,9 +20,11 @@ export default function FacilitiesComponent(props: any) {
   React.useEffect(() => {
     console.log("FacilitiesComponent::fetching facilities");
     fetchFacilities().then((response) => {
-      setFacilities(response);
-    }).catch((error) => {
-      console.log("FacilitiesComponent::error", error);
+      if(!response.success) {
+        push("/login")
+        return;
+      }
+      setFacilities(response.data);
     })
   }, [])
 
