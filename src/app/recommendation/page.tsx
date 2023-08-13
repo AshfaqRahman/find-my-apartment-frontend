@@ -43,7 +43,6 @@ const localPath = "advance-search";
 export default function Home() {
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
   const handleApartmentTypeChange = (types: any) => {
-    console.log(types);
     setApartmentTypes(types);
   };
 
@@ -125,7 +124,7 @@ export default function Home() {
           },
         },
       ],
-      startpoints: [
+      starpoints: [
         {
           starpoint: {
             title: "Hospital",
@@ -205,9 +204,7 @@ export default function Home() {
       facilities: facilities,
       keywords: keywords,
     };
-    console.log("params: ", params);
     let data: any[] = await searchApartments(params);
-    console.log(data);
     setApartments(data);
     setMessage(`${data.length} apartments are found`);
     setOpenSuccess(true);

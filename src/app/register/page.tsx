@@ -63,7 +63,6 @@ export default function SignUp() {
       phone_no: phone_no,
       gender: gender,
     };
-    console.log(data);
     const response = await RegisterApi(data);
     
     if (response.success) {

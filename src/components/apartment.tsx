@@ -81,7 +81,7 @@ export default function Apartment(props: any) {
               </Grid>
               <Grid key={"grid"} container item lg={12} md={12}>
                 <Grid item md={10} lg={10}>
-                  {props.data.startpoints.map((x: any, idx: number) => {
+                  {props.data.starpoints.map((x: any, idx: number) => {
                     return (
                       <Button
                         key={idx}

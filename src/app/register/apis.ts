@@ -14,7 +14,7 @@ export const RegisterApi = async (data: any) => {
         }
 
     } catch (error: any) {
-        console.log("error", error)
+        console.log("RegisterApi::error", error)
         return {
             success: false,
             message: error.response.data.error

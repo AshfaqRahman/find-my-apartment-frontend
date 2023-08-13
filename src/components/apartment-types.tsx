@@ -9,7 +9,6 @@ export default function ApartmentTypesComponent(props: any) {
   const [selectedApartmentTypes, setSelectedApartmentTypes] = React.useState([]);
   const [apartmentTypes, setApartmentTypes] = React.useState(_apartmentTypes);
   React.useEffect(() => {
-    console.log(selectedApartmentTypes)
     props.onChange(selectedApartmentTypes);
   }, [selectedApartmentTypes]);
   return (

@@ -43,7 +43,6 @@ const localPath = "advance-search";
 export default function Home() {
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
   const handleApartmentTypeChange = (types: any) => {
-    console.log(types);
     setApartmentTypes(types);
   };
 
@@ -70,95 +69,7 @@ export default function Home() {
     setKeywords(types);
   };
 
-  let [apartments, setApartments] = React.useState([
-    {
-      apartment_id: 10,
-      location_id: 28,
-      type: 1,
-      bedrooms: 2,
-      washrooms: 2,
-      area_sqft: 1150,
-      price: 23000,
-      image_url: null,
-      created_at: null,
-      owner_id: null,
-      location: {
-        location_id: 28,
-        division: "Dhaka",
-        district: "Dhaka",
-        zone: "Motijheel",
-        street_no: "2",
-        house_no: "155",
-        latitude: 23.8041,
-        longitude: 90.4152,
-        created_at: null,
-      },
-      facilities: [
-        {
-          facility: {
-            title: "security",
-          },
-        },
-        {
-          facility: {
-            title: "elevator",
-          },
-        },
-        {
-          facility: {
-            title: "outdoor space",
-          },
-        },
-        {
-          facility: {
-            title: "laundry",
-          },
-        },
-        {
-          facility: {
-            title: "wifi",
-          },
-        },
-        {
-          facility: {
-            title: "playground",
-          },
-        },
-      ],
-      startpoints: [
-        {
-          starpoint: {
-            title: "Hospital",
-          },
-        },
-        {
-          starpoint: {
-            title: "Fire Station",
-          },
-        },
-        {
-          starpoint: {
-            title: "Bank",
-          },
-        },
-        {
-          starpoint: {
-            title: "Restaurant",
-          },
-        },
-        {
-          starpoint: {
-            title: "Bank",
-          },
-        },
-        {
-          starpoint: {
-            title: "Park",
-          },
-        },
-      ],
-    },
-  ]);
+  let [apartments, setApartments] = React.useState([]);
 
   let apartmentStatuses = ["Any", "Vacant", "Occupied"];
   let [apartmentStatus, setApartmentStatus] = React.useState("Any");
@@ -205,9 +116,7 @@ export default function Home() {
       facilities: facilities,
       keywords: keywords,
     };
-    console.log("params: ", params);
     let data: any[] = await searchApartments(params);
-    console.log(data);
     setApartments(data);
     setMessage(`${data.length} apartments are found`);
     setOpenSuccess(true);

@@ -6,7 +6,7 @@ import Link from '@mui/material/Link';
 
 export default function Apartment(props: any) {
     let contactOwner = () => {
-        console.log(props.data.owner);
+        
         // needs work
     };
 

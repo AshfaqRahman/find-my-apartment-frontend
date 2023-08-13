@@ -19,7 +19,6 @@ export default function Map(props: any) {
     loader.load().then((google) => {
       let geocoder = new google.maps.Geocoder();
       geocoder.geocode({ address: address }, (results: any, status) => {
-        console.log(results);
         let lat = results ? results[0].geometry.location.lat() : 23.8103;
         let lng = results ? results[0].geometry.location.lng() : 90.4125;
         const map = new google.maps.Map(mapRef.current, {
@@ -56,13 +55,11 @@ export default function Map(props: any) {
           animation: google.maps.Animation.DROP,
         });
         marker.addListener("dragend", (event: any) => {
-          console.log(event.latLng.lat(), event.latLng.lng());
           let _lat: number = +event.latLng.lat();
           let _lng: number = +event.latLng.lng();
           geocoder.geocode(
             { location: { lat: _lat, lng: _lng } },
             (results, status) => {
-              console.log(results[0]);
 
               let address = results[0].address_components.map((x) => x.long_name).join(",")
 

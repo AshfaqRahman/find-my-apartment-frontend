@@ -139,9 +139,9 @@ export default function Home() {
       facilities: facilities,
       keywords: keywords,
     };
-    console.log("params: ", params);
+    // console.log("params: ", params);
     let data = await findRooms(params);
-    console.log(data);
+    // console.log(data);
   };
 
   return (
