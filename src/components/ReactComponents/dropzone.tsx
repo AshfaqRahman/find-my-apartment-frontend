@@ -76,19 +76,35 @@ export default function Dropzone(props: any) {
   // const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
   const [thumbs, setThumbs] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
+
   useEffect(() => {
     let acceptableFiles = acceptedFiles.filter(
       (file) => !files.includes(file.name)
     );
     let approvedFiles = [...files, ...acceptableFiles.map((file) => file.name)];
-    
-    approvedFiles.splice(0, Math.max(0, approvedFiles.length - props.maxFiles))
+
+    approvedFiles.splice(0, Math.max(0, approvedFiles.length - props.maxFiles));
 
     setFiles(approvedFiles);
 
     let acFiles = acceptableFiles.map((file: any) => (
       <div style={thumb} key={file.name}>
-        <div style={thumbInner}>
+        <div style={{ ...thumbInner, backgroundColor: "#ff000005" }}>
+          <Grid
+            item
+            style={{
+              position: "absolute",
+              zIndex: 1,
+              right: 0,
+              backgroundColor: "blue",
+            }}
+            md={12}
+            lg={12}
+          >
+            <Box width={"100%"} sx={{ ..._centeringStyle }}>
+              cross
+            </Box>
+          </Grid>
           <img
             src={URL.createObjectURL(file)}
             width={"100px"}
@@ -101,8 +117,9 @@ export default function Dropzone(props: any) {
         </div>
       </div>
     ));
+
     approvedFiles = [...thumbs, ...acFiles];
-    approvedFiles.splice(0, Math.max(0, approvedFiles.length - props.maxFiles))
+    approvedFiles.splice(0, Math.max(0, approvedFiles.length - props.maxFiles));
     setThumbs(approvedFiles);
   }, [acceptedFiles]);
 
@@ -143,31 +160,22 @@ export default function Dropzone(props: any) {
               <FontAwesomeIcon icon={faCloudArrowUp} bounce size="2xl" />
             </Box>
           </Grid>
-          <Grid
-            item
-            md={12}
-            lg={12}
-            sx={{
-              maxWidth: "28vw",
-              minWidth: "28vw",
-              px: 2,
-            }}
-          >
-            <Box
-              sx={{
-                ..._centeringStyle,
-              }}
-            >
-              <ul>{thumbs}</ul>
-            </Box>
-          </Grid>
         </Grid>
       </div>
-      {/* <Grid container>
-        <Grid item bgcolor={"red"}>
+      <Grid item md={12} lg={12}>
+        <Box
+          sx={{
+            maxWidth: "28vw",
+            minWidth: "28vw",
+            px: 2,
+          }}
+          sx={{
+            ..._centeringStyle,
+          }}
+        >
           <ul>{thumbs}</ul>
-        </Grid>
-      </Grid> */}
+        </Box>
+      </Grid>
     </section>
   );
 }
