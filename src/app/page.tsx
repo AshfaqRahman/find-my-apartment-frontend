@@ -27,10 +27,10 @@ export default function Home() {
     // console.log(getCookie("token"));
     checkAuth().then((response) => {
       // console.log(response);
-      setSeverity("success");
-      setMessage(response.data.message);
-      setOpenToast(true);
       if (response.success) {
+        setSeverity("success");
+        setMessage(response.data.message);
+        setOpenToast(true);
         setTimeout(() => {
           push("/advance-search");
         }, 1000);

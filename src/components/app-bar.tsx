@@ -24,6 +24,9 @@ import {
   faBell,
   faBuilding,
 } from "@fortawesome/free-solid-svg-icons";
+import { logout } from "./api/app-bar";
+import { deleteCookie } from "cookies-next";
+import ToastComponent from "@/mui-components/toast";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -49,14 +52,6 @@ const pages = [
     link: "/recommendation",
   },
 ];
-const settings = [
-  "Profile",
-  "My Apartments",
-  "My Wishlist",
-  "Saved Searches",
-  "My Preferences",
-  "Logout",
-];
 
 const satisfy = Satisfy({ weight: "400", subsets: ["latin"] });
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
@@ -67,6 +62,10 @@ const theme = createTheme({
 });
 
 export default function AppBarComponent() {
+  let [openToast, setOpenToast] = React.useState(false);
+  let [message, setMessage] = React.useState("");
+  let [severity, setSeverity] = React.useState("success");
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -88,6 +87,72 @@ export default function AppBarComponent() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const settings = [
+    {
+      name: "Profile",
+      link: "/profile",
+      onClick: () => {
+        handleCloseUserMenu();
+      },
+    },
+    {
+      name: "My Apartments",
+      link: "/my-apartments",
+      onClick: () => {
+        handleCloseUserMenu();
+      },
+    },
+    {
+      name: "My Wishlist",
+      link: "/my-wishlist",
+      onClick: () => {
+        handleCloseUserMenu();
+      },
+    },
+    {
+      name: "Saved Searches",
+      link: "/saved-searches",
+      onClick: () => {
+        handleCloseUserMenu();
+      },
+    },
+    {
+      name: "My Preferences",
+      link: "/my-preferences",
+      onClick: () => {
+        handleCloseUserMenu();
+      },
+    },
+    {
+      name: "Logout",
+      link: "/logout",
+      onClick: () => {
+        handleCloseUserMenu();
+        logout().then((res) => {
+          deleteCookie("token");
+
+          if (res.success) {
+            setSeverity("success");
+            setMessage(res.message);
+            setOpenToast(true);
+            setTimeout(() => {
+              window.location.href = "/";
+            }, 1000);
+          } 
+          else {
+            
+            setSeverity("error");
+            setMessage(res.data.message);
+            setOpenToast(true);
+            setTimeout(() => {
+              window.location.href = "/";
+            }, 1000);
+          }
+        });
+      },
+    },
+  ];
 
   let height = _appBarHeight;
 
@@ -202,8 +267,8 @@ export default function AppBarComponent() {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
+                    <MenuItem key={setting.name} onClick={setting.onClick}>
+                      <Typography textAlign="center">{setting.name}</Typography>
                     </MenuItem>
                   ))}
                 </Menu>
@@ -212,6 +277,14 @@ export default function AppBarComponent() {
           </Container>
         </AppBar>
       </Box>
+
+      <ToastComponent
+        message={message}
+        open={openToast}
+        onClose={setOpenToast}
+        onCross={setOpenToast}
+        severity={severity}
+      />
     </>
   );
 }

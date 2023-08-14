@@ -21,6 +21,7 @@ export const apiUrls = {
 	auth: {
 		register: `${HOST}/api/auth/register`,
 		login: `${HOST}/api/auth/login`,
+		logout: `${HOST}/api/auth/logout`,
 		checkAuth: `${HOST}/api/auth/is-token-valid`,
 		
 	},
