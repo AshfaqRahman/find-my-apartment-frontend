@@ -25,7 +25,7 @@ export const logout = async () => {
         console.log("logout::error", error)
         return {
             success: false,
-            message: error.response.data.error
+            message: error.response.data.message
         }
     }
 };

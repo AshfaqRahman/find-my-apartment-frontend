@@ -4,7 +4,7 @@ import { _facilities } from "@/static/constants";
 import { Autocomplete, Box, Chip, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { fetchFacilities } from "./api/fixed-values";
+import { fetchFacilities } from "./api/fixed-values-api";
 
 export default function FacilitiesComponent(props: any) {
   const { push } = useRouter();

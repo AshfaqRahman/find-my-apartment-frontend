@@ -24,7 +24,7 @@ import {
   faBell,
   faBuilding,
 } from "@fortawesome/free-solid-svg-icons";
-import { logout } from "./api/app-bar";
+import { logout } from "./api/app-bar-api";
 import { deleteCookie } from "cookies-next";
 import ToastComponent from "@/mui-components/toast";
 
@@ -130,20 +130,19 @@ export default function AppBarComponent() {
       onClick: () => {
         handleCloseUserMenu();
         logout().then((res) => {
-          deleteCookie("token");
+          console.log(res);
 
           if (res.success) {
+            deleteCookie("token");
             setSeverity("success");
-            setMessage(res.message);
+            setMessage(res.data.message);
             setOpenToast(true);
             setTimeout(() => {
               window.location.href = "/";
             }, 1000);
-          } 
-          else {
-            
+          } else {
             setSeverity("error");
-            setMessage(res.data.message);
+            setMessage(res.message);
             setOpenToast(true);
             setTimeout(() => {
               window.location.href = "/";
