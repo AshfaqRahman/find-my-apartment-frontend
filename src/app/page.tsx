@@ -10,8 +10,33 @@ import {
   _budget,
 } from "@/static/constants";
 import AppBarHomeComponent from "@/components/app-bar-home";
+import ToastComponent from "@/mui-components/toast";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { getCookie } from "cookies-next";
+import { checkAuth } from "./apis";
 
 export default function Home() {
+  const { push } = useRouter();
+
+  let [openToast, setOpenToast] = React.useState(false);
+  let [message, setMessage] = React.useState("");
+  let [severity, setSeverity] = React.useState("success");
+  useEffect(() => {
+    console.log("Home::useEffect");
+    // console.log(getCookie("token"));
+    checkAuth().then((response) => {
+      // console.log(response);
+      setSeverity("success");
+      setMessage(response.data.message);
+      setOpenToast(true);
+      if (response.success) {
+        setTimeout(() => {
+          push("/advance-search");
+        }, 1000);
+      }
+    });
+  }, []);
   return (
     <>
       <AppBarHomeComponent />
@@ -120,6 +145,14 @@ export default function Home() {
             </style>
           </div>
         </Grid>
+
+        <ToastComponent
+          message={message}
+          open={openToast}
+          onClose={setOpenToast}
+          onCross={setOpenToast}
+          severity={severity}
+        />
       </Grid>
     </>
   );

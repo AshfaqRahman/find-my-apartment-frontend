@@ -6,6 +6,7 @@ import { getCookie } from 'cookies-next';
 
 export const fetchFacilities = async () => {
     try {
+        console.log("fetchFacilities");
         const res = await axios.get(
             apiUrls.fixed_values.facilities,
             {
@@ -15,7 +16,7 @@ export const fetchFacilities = async () => {
             }
         )
 
-        console.log("fetchFacilities", res);
+        // console.log("fetchFacilities", res);
 
         return {
             data: res.data,

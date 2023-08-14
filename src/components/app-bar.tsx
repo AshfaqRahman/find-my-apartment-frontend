@@ -181,7 +181,7 @@ export default function AppBarComponent() {
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt="Remy Sharp"
-                      src="/static/images/avatar/2.jpg"
+                      // src="/static/images/avatar/2.jpg"
                     />
                   </IconButton>
                 </Tooltip>
