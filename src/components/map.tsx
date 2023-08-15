@@ -8,17 +8,17 @@ export default function Map(props: any) {
   const lat = props.lat ? props.lat : 23.8103;
   const lng = props.lng ? props.lng : 90.4125;
 
-  const mapRef = useRef(null);
+  const mapRef = useRef<any>(null);
 
-  const loader = new Loader({
+  const loader: any = new Loader({
     apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     version: "weekly",
   });
 
   useEffect(() => {
-    loader.load().then((google) => {
+    loader.load().then((google: any) => {
       let geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ address: address }, (results: any, status) => {
+      geocoder.geocode({ address: address }, (results: any, status: any) => {
         let lat = results ? results[0].geometry.location.lat() : 23.8103;
         let lng = results ? results[0].geometry.location.lng() : 90.4125;
         const map = new google.maps.Map(mapRef.current, {
@@ -58,9 +58,9 @@ export default function Map(props: any) {
           let _lng: number = +event.latLng.lng();
           geocoder.geocode(
             { location: { lat: _lat, lng: _lng } },
-            (results, status) => {
+            (results : any, status : any) => {
               let address = results[0].address_components
-                .map((x) => x.long_name)
+                .map((x: any) => x.long_name)
                 .join(",");
 
               infowindow.setContent(address);
@@ -73,7 +73,7 @@ export default function Map(props: any) {
         // console.log(results[0])
 
         infowindow.setContent(
-          results[0].address_components.map((x) => x.long_name).join(",")
+          results[0].address_components.map((x: any) => x.long_name).join(",")
         );
         infowindow.open(map, marker);
         // if (status === "OK") {
@@ -98,9 +98,9 @@ export default function Map(props: any) {
   }, [address]);
 
   useEffect(() => {
-    loader.load().then((google) => {
+    loader.load().then((google : any) => {
       let geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ location: { lat, lng } }, (results: any, status) => {
+      geocoder.geocode({ location: { lat, lng } }, (results: any, status : any) => {
         const map = new google.maps.Map(mapRef.current, {
           center: {
             lat,
@@ -132,7 +132,7 @@ export default function Map(props: any) {
         // console.log(results[0])
 
         infowindow.setContent(
-          results[0].address_components.map((x) => x.long_name).join(",")
+          results[0].address_components.map((x : any) => x.long_name).join(",")
         );
         infowindow.open(map, marker);
       });

@@ -227,7 +227,7 @@ export default function Home() {
                 <Dropzone
                   title="Apartment's Image(max 10 files)"
                   maxFiles={10}
-                  onUpload={(files) => {
+                  onUpload={(files: any) => {
                     setApartmentFiles(files);
                   }}
                 >
@@ -246,7 +246,7 @@ export default function Home() {
                 <Dropzone
                   title="Blueprint(1 image)"
                   maxFiles={1}
-                  onUpload={(files) => {
+                  onUpload={(files: any) => {
                     setBlueprintFiles(files);
                   }}
                 >
