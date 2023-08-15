@@ -11,27 +11,33 @@ export default function LocationSearchMapComponent(props: any) {
     setSearchAddress(e.target.value);
   };
 
+
   let [radius, setRadius] = useState<number | "">("");
   let handleRadiusChange = (e: any) => {
     setRadius(e.target.value);
-  }
-
-  useEffect(() => {
-    props.handleRadiusChange(radius)
-  }, [radius])
-
-  let [openMap, setOpenMap] = useState(false);
-
-  const [mapAddress, setMapAddress] = useState<any>("");
-
-  let setOnMap = (e: any): void => {
-    setMapAddress(searchAddress);
-    setOpenMap(true);
   };
 
   useEffect(() => {
-    props.handleAddressChange(searchAddress)
-  }, [searchAddress])
+    props.handleRadiusChange(radius);
+  }, [radius]);
+
+  let [openMap, setOpenMap] = useState(false);
+
+  // const [mapAddress, setMapAddress] = useState<any>("");
+
+  let setOnMap = (e: any): void => {
+    // setMapAddress(searchAddress);
+    setOpenMap(true);
+  };
+
+  // useEffect(() => {
+  //   console.log("map address", mapAddress);
+  // }, [openMap])
+
+  useEffect(() => {
+    // console.log("LocationSearchMapComponent::useEffect", searchAddress);
+    props.handleAddressChange(searchAddress);
+  }, [searchAddress]);
 
   return (
     <>
@@ -62,20 +68,24 @@ export default function LocationSearchMapComponent(props: any) {
             </IconButton>
           </Tooltip>
         </Box>
-        <MapDialogComponent
-          openMap={openMap}
-          closeMap={() => setOpenMap(false)}
-          searchAddress={mapAddress}
-          setSearchAddress={setSearchAddress}
-          setLatLng={() => {}}
-        />
+        {openMap ? (
+          <MapDialogComponent
+            openMap={openMap}
+            closeMap={() => setOpenMap(false)}
+            searchAddress={searchAddress}
+            setSearchAddress={setSearchAddress}
+            setLatLng={() => {}}
+          />
+        ) : (
+          <></>
+        )}
       </Grid>
       <Grid px={1} item md={12} lg={12}>
-        <TextFieldComponent 
-            label="Radius(in k.m.)"
-            type="number"
-            value={radius}
-            handleChange={handleRadiusChange}
+        <TextFieldComponent
+          label="Radius(in k.m.)"
+          type="number"
+          value={radius}
+          handleChange={handleRadiusChange}
         />
       </Grid>
     </>
