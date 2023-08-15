@@ -12,6 +12,7 @@ export default function FacilitiesComponent(props: any) {
   const [inputFacility, setInputFacilty] = React.useState("");
   const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
   const [facilities, setFacilities] = useState<any[]>([]);
+  let [facilitiesWithId, setfacilitiesWithId] = useState<any[]>([]);
 
   // let getFacilities = async () {
 
@@ -24,12 +25,18 @@ export default function FacilitiesComponent(props: any) {
         push("/login")
         return;
       }
-      setFacilities(response.data);
+      
+      setfacilitiesWithId(response.data);
+      setFacilities(response.data.map((keyword: any) => keyword.title));
     })
   }, [])
 
   React.useEffect(() => {
-    props.onChange(selectedFacilities);
+
+    let facilitiesID = facilitiesWithId.filter(facilities => selectedFacilities.includes(facilities.title)).map(facilities => facilities.facilities_id);
+    console.log(facilitiesID);
+    props.onChange(facilitiesID);
+
   }, [selectedFacilities]);
 
   return (

@@ -11,6 +11,7 @@ export default function KeywordsComponent(props: any) {
   const [keywords, setKeywords] = React.useState([]);
   const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>([]);
   const [inputKeyword, setInputKeyword] = React.useState("");
+  let [keywordsWithId, setKeywordsWithId] = React.useState<any[]>([]);
 
   React.useEffect(() => {
     console.log("KeywordsComponent::fetchKeywords");
@@ -19,12 +20,15 @@ export default function KeywordsComponent(props: any) {
         push("/login")
         return;
       }
-      setKeywords(response.data);
+      setKeywordsWithId(response.data);
+      setKeywords(response.data.map((keyword: any) => keyword.title));
     })
   }, [])
 
   React.useEffect(() => {
-    props.onChange(selectedKeywords);
+    let keywordsID = keywordsWithId.filter(keyword => selectedKeywords.includes(keyword.title)).map(keyword => keyword.starpoint_id);
+    console.log(keywordsID);
+    props.onChange(keywordsID);
   }, [selectedKeywords]);
 
   return (
