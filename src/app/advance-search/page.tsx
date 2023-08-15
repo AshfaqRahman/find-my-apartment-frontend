@@ -3,7 +3,7 @@ import * as React from "react";
 import { useCallback, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import ButtonComponent from "@/mui-components/buttons";
 import MultiSelectComponent from "@/mui-components/multi-select";
 import {
@@ -38,8 +38,7 @@ import { randomInRange } from "@/static/utils";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
 import { useRouter } from "next/navigation";
-
-const localPath = "advance-search";
+import LocationSearchMapComponent from "@/components/location-search-map";
 
 export default function Home() {
   const { push } = useRouter();
@@ -93,7 +92,7 @@ export default function Home() {
   // const onSearch = =async (data: any) => {
   // 	setSelected(data);
   // };
-let height = _pageHeight;
+  let height = _pageHeight;
   let mapWidth = _mapWidth;
 
   let [mapLat, setMapLat] = React.useState();
@@ -104,6 +103,13 @@ let height = _pageHeight;
   let [severity, setSeverity] = React.useState("success");
 
   let [fetchingApartments, setFetchingApartments] = React.useState(false);
+
+  
+  const [searchAddress, setSearchAddress] = React.useState<any>("");
+  const handleSearchAddressChange = (value: any) => {
+    setSearchAddress(value);
+  };
+
 
   const search = async () => {
     // console.log("searching ...");
@@ -122,7 +128,7 @@ let height = _pageHeight;
     };
     let data: any = await searchApartments(params);
     // console.log(data);
-    if(!data.success) {
+    if (!data.success) {
       setSeverity("error");
       setMessage(data.message);
       setOpenToast(true);
@@ -170,7 +176,7 @@ let height = _pageHeight;
               </ButtonComponent>
             </Box>
           </Grid>
-          <Grid key={2} item lg={6} md={6}>
+          <Grid item lg={6} md={6}>
             <Box sx={{ ..._centeringStyle, mt: "10px" }}>
               <ButtonComponent
                 variant="contained"
@@ -181,6 +187,12 @@ let height = _pageHeight;
               </ButtonComponent>
             </Box>
           </Grid>
+          <Grid item container lg={12} md={12}>
+            <LocationSearchMapComponent
+              handleChange={handleSearchAddressChange}
+            />
+          </Grid>
+
           <Grid key={3} item lg={12} md={12}>
             <Box mx={1}>
               <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
@@ -245,7 +257,6 @@ let height = _pageHeight;
           </Grid>
         </Grid>
         <Grid
-          key={2}
           minHeight={{ height }}
           maxHeight={{ height }}
           position={"fixed"}
@@ -280,7 +291,7 @@ let height = _pageHeight;
                 />
               </Box>
             </Grid>
-            <Grid key={2} item lg={6} md={6} p={3}>
+            <Grid item lg={6} md={6} p={3}>
               <Box sx={{ width: "100%" }}>
                 <SelectComponent
                   title={"Order By"}
@@ -331,7 +342,12 @@ let height = _pageHeight;
           maxHeight={{ height }}
           minHeight={{ height }}
         >
-          <Map height={_pageHeight} width={mapWidth} lat={mapLat} lng={mapLng} />
+          <Map
+            height={_pageHeight}
+            width={mapWidth}
+            lat={mapLat}
+            lng={mapLng}
+          />
         </Grid>
       </Grid>
       <ToastComponent
