@@ -380,6 +380,8 @@ export default function Home() {
                 <Box mx={2} height={_mapHeightInAddApartment}>
                   <Map
                     setAddress={setAddress}
+                    draggable
+                    setLatLng={(location: any) => {}}
                     address={mapAddress}
                     height={"100%"}
                   ></Map>
