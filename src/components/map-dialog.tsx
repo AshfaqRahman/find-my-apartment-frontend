@@ -10,12 +10,21 @@ import {
 } from "@mui/material";
 import Map from "./map";
 import ButtonComponent from "@/mui-components/buttons";
+import { useEffect, useState } from "react";
 
 export default function MapDialogComponent(props: any) {
+
+  // const [address, setAddress] = useState(props.searchAddress)
+  let [address, setAddress] = useState(props.searchAddress)
+
+  // useEffect(() => {
+  //   props.setSearchAddress(address)
+  //   console.log("MapDialogComponent::useEffect::address", address);
+  // }, [address])
+
   return (
     <Dialog
       open={props.openMap}
-      onClose={() => {}}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       maxWidth="lg"
@@ -24,10 +33,12 @@ export default function MapDialogComponent(props: any) {
         <Grid item md={6} lg={6}>
           <Box mx={2} height={"55vh"} width={"55vw"}>
             <Map
-              address={props.searchAddress}
+              key={3}
+              fromAddress={true}
+              address={address}
               setAddress={props.setSearchAddress}
               draggable
-              setLatLng={props.setLatLng}
+              setLatLng={() => {}}
               height="100%"
               width="100%"
             />
