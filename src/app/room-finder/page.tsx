@@ -3,7 +3,7 @@ import * as React from "react";
 import { useCallback, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Checkbox, Grid, Typography } from "@mui/material";
 import ButtonComponent from "@/mui-components/buttons";
 import MultiSelectComponent from "@/mui-components/multi-select";
 import {
@@ -14,6 +14,7 @@ import {
   _budget,
   _centeringStyle,
   _color,
+  _divRadius,
   _pageHeight,
 } from "@/static/constants";
 import SliderComponent from "@/mui-components/slider";
@@ -37,6 +38,16 @@ import PersonsInRoomSelectionComponent from "@/components/persons-in-room-select
 import NoOfResidentsSelectionComponent from "@/components/no-of-residents";
 import NoOfLivingRoomsSelectionComponent from "@/components/no-of-living-rooms";
 import GendersSelectionComponent from "@/components/genders";
+
+import { Inter, Rochester, Satisfy } from "next/font/google";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const rochester = Rochester({ weight: "400", subsets: ["latin"] });
+const theme = createTheme({
+  typography: {
+    fontFamily: rochester.style.fontFamily,
+  },
+});
 
 const localPath = "room-finder";
 
@@ -77,6 +88,36 @@ export default function Home() {
   let [posts, setPosts] = React.useState([
     {
       id: 1,
+      price: 15000,
+      bedrooms: 3,
+      baths: 2,
+      area_sqft: 1400,
+      address: "Dhaka",
+      type: "Family",
+      title: "Bari Bhara Deowa Hoibe",
+      textBody:
+        "The quick brown fox jumps over the lazy dog. And so I need a billion dollars.",
+      owner: "makumhakan",
+      star_points: "Fire Station, Bank, School, University",
+      facilities: "security, wifi, parking, rooftop, laundry",
+    },
+    {
+      id: 6,
+      price: 15000,
+      bedrooms: 3,
+      baths: 2,
+      area_sqft: 1400,
+      address: "Dhaka",
+      type: "Family",
+      title: "Bari Bhara Deowa Hoibe",
+      textBody:
+        "The quick brown fox jumps over the lazy dog. And so I need a billion dollars.",
+      owner: "makumhakan",
+      star_points: "Fire Station, Bank, School, University",
+      facilities: "security, wifi, parking, rooftop, laundry",
+    },
+    {
+      id: 5,
       price: 15000,
       bedrooms: 3,
       baths: 2,
@@ -149,7 +190,6 @@ export default function Home() {
     // console.log("searching ...");
     const params = {
       apartmentTypes: apartmentTypes,
-      beds: beds,
       baths: baths,
       price_min: +budget[0],
       price_max: +budget[1],
@@ -194,7 +234,7 @@ export default function Home() {
               </ButtonComponent>
             </Box>
           </Grid>
-          <Grid key={2} item lg={6} md={6}>
+          <Grid  item lg={6} md={6}>
             <Box sx={{ ..._centeringStyle, mt: "10px" }}>
               <ButtonComponent
                 variant="contained"
@@ -262,35 +302,87 @@ export default function Home() {
           item
           lg={9}
           md={9}
-          sx={{
-            backgroundColor: _color.background_middle,
-          }}
         >
-          {/* <Grid key={1} item lg={6} md={6}>
-            <Box sx={{ margin: "10px" }}>
-              <SelectComponent
-                title={"Status"}
-                elements={apartmentStatuses}
-                value={apartmentStatus}
-                handleChange={setApartmentStatus}
-              />
-            </Box>
+          <Grid
+            item
+            container
+            key={12}
+            lg={12}
+            mt={2}
+            mx={2}
+            sx={{
+              ..._centeringStyle,
+              bgcolor: _color.background_upper,
+              borderRadius: _divRadius,
+            }}
+            md={12}
+          >
+            <Grid key={1} item lg={5} md={5} p={3}>
+              <Box sx={{ ..._centeringStyle }}>
+                <ThemeProvider theme={theme}>
+                  <Typography
+                    noWrap
+                    component="a"
+                    sx={{
+                      ml: 1,
+                      fontSize: "1.75rem",
+                      fontWeight: 600,
+                      letterSpacing: ".3rem",
+                      color: "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Posts For You
+                  </Typography>
+                </ThemeProvider>
+              </Box>
+            </Grid>
+            <Grid item lg={3} md={3} p={3}>
+              <Box sx={{ ..._centeringStyle,
+               margin: 0 }}>
+                <SelectComponent
+                  title={"Order By"}
+                  elements={orderByes}
+                  value={orderBy}
+                  handleChange={setOrderBy}
+                />
+              </Box>
+            </Grid>
+            <Grid  item lg={2} md={2} p={3} >
+              <Box sx={{ ..._centeringStyle,
+               margin: 0 }}>
+                <Checkbox />
+                <Typography sx={{ fontWeight: "bold" }}>My Posts</Typography>
+              </Box>
+            </Grid>
+            <Grid  item lg={2} md={2} p={3}>
+              <Box sx={{ ..._centeringStyle, margin: 0 }}>
+                <ButtonComponent style="primary" variant="contained">
+                  Post
+                </ButtonComponent>
+              </Box>
+            </Grid>
           </Grid>
-          <Grid key={2} item lg={6} md={6}>
-            <Box sx={{ margin: "10px" }}>
-              <SelectComponent
-                title={"Order By"}
-                elements={orderByes}
-                value={orderBy}
-                handleChange={setOrderBy}
-              />
-            </Box>
-          </Grid> */}
-          <Grid key={3} item lg={12} md={12}>
-            {posts.map((x, idx) => {
+
+          
+          <Grid key={3} container item lg={12} md={12} m={2} height={"78vh"}>
+            <Grid
+              item
+              lg={12}
+              md={12}
+              sx={{
+                bgcolor: _color.background_upper,
+                borderRadius: _divRadius,
+              }}
+            >
+              {posts.map((x, idx) => {
               return <Post data={x} key={idx} />;
             })}
+            </Grid>
           </Grid>
+          {/* <Grid key={3} item lg={12} md={12}>
+            
+          </Grid> */}
         </Grid>
       </Grid>
     </>

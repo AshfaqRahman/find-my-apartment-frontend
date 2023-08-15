@@ -2,6 +2,7 @@ import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } f
 import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
 import BathtubOutlinedIcon from '@mui/icons-material/BathtubOutlined';
 import Link from '@mui/material/Link';
+import { _cardRadius, _divRadius } from "@/static/constants";
 
 
 export default function Apartment(props: any) {
@@ -12,7 +13,7 @@ export default function Apartment(props: any) {
 
   return (
     <>
-      <Card sx={{ margin: 1 }}>
+      <Card sx={{ margin: 2, borderRadius: _cardRadius }}>
         <CardContent>
             <Grid container>
                 <Grid item xs>

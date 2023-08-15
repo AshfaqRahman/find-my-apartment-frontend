@@ -46,10 +46,9 @@ import Map from "@/components/map";
 import { randomInRange } from "@/static/utils";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
-import { Inter, Rochester, Satisfy } from "next/font/google";
-
 import Carousel from "react-material-ui-carousel";
 
+import { Inter, Rochester, Satisfy } from "next/font/google";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });

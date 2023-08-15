@@ -255,9 +255,6 @@ let height = _pageHeight;
           item
           lg={6}
           md={4}
-          sx={{
-            backgroundColor: _color.background_middle,
-          }}
         >
           <Grid
             item
