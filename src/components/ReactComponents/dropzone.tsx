@@ -42,15 +42,17 @@ const img = {
 
 export default function Dropzone(props: any) {
   let [thumbs, setThumbs] = useState<any[]>([]);
+  let [filenames, setFilenames] = useState<any[]>([]);
   let [files, setFiles] = useState<any[]>([]);
 
   let remove = (name: string) =>  {
     // let files_ = files;
     // console.log(files, thumbs);
-    let newFiles = files.filter((file) => file !== name);
+    let newFilenames = filenames.filter((file) => file !== name);
     let newThumbs = thumbs.filter((thumb) => thumb.filename !== name);
-    setFiles(newFiles);
-    // console.log(newFiles);
+    let newFiles = files.filter((file) => file.name !== name);
+    setFilenames(newFilenames);
+    setFiles(newFiles)
     setThumbs(newThumbs);
   };
 
@@ -59,19 +61,19 @@ export default function Dropzone(props: any) {
       console.log("onDrop:: acceptedFiles");
       // console.log("useEffect:: acceptedFiles");
       let acceptableFiles = acceptedFiles.filter(
-        (file: any) => !files.includes(file.name)
+        (file: any) => !filenames.includes(file.name)
       );
-      let approvedFiles = [
-        ...files,
-        ...acceptableFiles.map((file: any) => file.name),
-      ];
+      console.log(acceptableFiles, files);
+      acceptableFiles =[...files, ...acceptableFiles]
 
-      approvedFiles.splice(
+      acceptableFiles.splice(
         0,
-        Math.max(0, approvedFiles.length - props.maxFiles)
+        Math.max(0, acceptableFiles.length - props.maxFiles)
       );
+      let acceptableFilenames = acceptableFiles.map((file: any) => file.name);
 
-      setFiles([...approvedFiles]);
+      setFilenames(acceptableFilenames);
+      setFiles(acceptableFiles);
 
       let acFiles = acceptableFiles.map((file: any) => {
         return {
@@ -128,12 +130,12 @@ export default function Dropzone(props: any) {
         };
       });
 
-      approvedFiles = [...thumbs, ...acFiles];
-      approvedFiles.splice(
-        0,
-        Math.max(0, approvedFiles.length - props.maxFiles)
-      );
-      setThumbs(approvedFiles);
+      // approvedFiles = [...thumbs, ...];
+      // approvedFiles.splice(
+      //   0,
+      //   Math.max(0, approvedFiles.length - props.maxFiles)
+      // );
+      setThumbs(acFiles);
       // acceptedFiles.forEach((file: any, idx: number) => {
       //   // console.log(file);
       //   // const reader = new FileReader();
@@ -160,7 +162,7 @@ export default function Dropzone(props: any) {
       //   // };
       // });
     },
-    [files]
+    [filenames]
   );
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -174,7 +176,9 @@ export default function Dropzone(props: any) {
 
   
 
-  useEffect(() => {}, [acceptedFiles]);
+  useEffect(() => {
+    props.onUpload(files);
+  }, [filenames]);
 
   return (
     <section className="container">
