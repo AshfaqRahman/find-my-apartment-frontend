@@ -381,6 +381,8 @@ export default function Home() {
                   <Map
                     setAddress={setAddress}
                     draggable
+                    fromAddress
+                    openMap={true}
                     setLatLng={(location: any) => {}}
                     address={mapAddress}
                     height={"100%"}

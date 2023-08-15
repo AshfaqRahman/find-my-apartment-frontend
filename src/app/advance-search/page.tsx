@@ -342,7 +342,9 @@ export default function Home() {
           minHeight={{ height }}
         >
           <Map
+            key={1}
             height={_pageHeight}
+            fromLatLng
             width={mapWidth}
             lat={mapLat}
             lng={mapLng}

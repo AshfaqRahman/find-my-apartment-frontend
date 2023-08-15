@@ -179,7 +179,7 @@ export default function Home() {
     "Highest Price",
     "Preference",
   ];
-  let [orderBy, setOrderBy] = React.useState("Any");
+  let [orderBy, setOrderBy] = React.useState("Nearest");
 
   let [fetchingPosts, setFetchingPosts] = React.useState(false);
 
