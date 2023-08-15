@@ -94,6 +94,7 @@ export default function AppBarComponent() {
       link: "/profile",
       onClick: () => {
         handleCloseUserMenu();
+        window.location.href = "/user-profile";
       },
     },
     {

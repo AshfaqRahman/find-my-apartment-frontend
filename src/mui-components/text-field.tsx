@@ -9,6 +9,12 @@ export default function TextFieldComponent(props: any) {
       variant="outlined"
       value={props.value}
       onChange={props.handleChange}
+      disabled={props.disabled}
+      sx={{
+        "& .MuiInputBase-input.Mui-disabled": {
+          WebkitTextFillColor: "rgba(0, 0, 0)",
+        }
+      }}
     />
   );
 }

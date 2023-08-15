@@ -45,7 +45,7 @@ export default function RootLayout({
     <>
       <Grid container>
         <AppBarComponent />
-        <Grid item >{children}</Grid>
+        <Grid item mt={_pageMargin}>{children}</Grid>
       </Grid>
 
       
