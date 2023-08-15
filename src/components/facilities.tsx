@@ -22,7 +22,7 @@ export default function FacilitiesComponent(props: any) {
     console.log("FacilitiesComponent::fetching facilities");
     fetchFacilities().then((response) => {
       if(!response.success) {
-        push("/login")
+        push("/")
         return;
       }
       

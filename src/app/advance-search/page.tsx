@@ -129,7 +129,7 @@ export default function Home() {
       setFetchingApartments(false);
 
       setTimeout(() => {
-        push("/login");
+        push("/");
       }, 1000);
 
       return;

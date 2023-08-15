@@ -17,7 +17,7 @@ export default function KeywordsComponent(props: any) {
     console.log("KeywordsComponent::fetchKeywords");
     fetchKeywords().then((response) => {
       if(!response.success) {
-        push("/login")
+        push("/")
         return;
       }
       setKeywordsWithId(response.data);
