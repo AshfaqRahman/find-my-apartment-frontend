@@ -14,7 +14,7 @@ export default function Map(props: any) {
     apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     version: "weekly",
   });
-  let [map, setMap] = useState({});
+
   useEffect(() => {
     loader.load().then((google) => {
       let geocoder = new google.maps.Geocoder();
@@ -48,8 +48,7 @@ export default function Map(props: any) {
             lat,
             lng,
           },
-          draggable: true,
-          title: "hello world",
+          draggable: props.draggable,
           icon: image,
           // label: "H",
           animation: google.maps.Animation.DROP,
@@ -60,14 +59,14 @@ export default function Map(props: any) {
           geocoder.geocode(
             { location: { lat: _lat, lng: _lng } },
             (results, status) => {
+              let address = results[0].address_components
+                .map((x) => x.long_name)
+                .join(",");
 
-              let address = results[0].address_components.map((x) => x.long_name).join(",")
-
-              infowindow.setContent(
-                address
-              );
+              infowindow.setContent(address);
               infowindow.open(map, marker);
               props.setAddress(address);
+              props.setLatLng({ lat: _lat, lng: _lng })
             }
           );
         });
@@ -96,7 +95,49 @@ export default function Map(props: any) {
         // }
       });
     });
-  }, [lat, lng, address]);
+  }, [address]);
+
+  useEffect(() => {
+    loader.load().then((google) => {
+      let geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ location: { lat, lng } }, (results: any, status) => {
+        const map = new google.maps.Map(mapRef.current, {
+          center: {
+            lat,
+            lng,
+          },
+          zoom: 16,
+        });
+        if (!props.lat || !props.lng) return;
+        let infowindow = new google.maps.InfoWindow();
+
+        // map.addListener("drag", () => {
+        //   console.log("dragging");
+        // });
+
+        const image = "/icons8-house-25.png";
+        // "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
+
+        const marker = new google.maps.Marker({
+          map: map,
+          position: {
+            lat,
+            lng,
+          },
+          draggable: props.draggable,
+          icon: image,
+          // label: "H",
+          animation: google.maps.Animation.DROP,
+        });
+        // console.log(results[0])
+
+        infowindow.setContent(
+          results[0].address_components.map((x) => x.long_name).join(",")
+        );
+        infowindow.open(map, marker);
+      });
+    });
+  }, [lat, lng]);
   return (
     <div
       style={{ height: props.height, width: props.width }}
