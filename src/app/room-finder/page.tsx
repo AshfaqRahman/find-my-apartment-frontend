@@ -41,6 +41,7 @@ import GendersSelectionComponent from "@/components/genders";
 
 import { Inter, Rochester, Satisfy } from "next/font/google";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import LocationSearchMapComponent from "@/components/location-search-map";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const theme = createTheme({
@@ -61,6 +62,10 @@ export default function Home() {
   const handleNoOfPersonsChange = (selectedOptions: any) => {
     setNoOfPersons(selectedOptions);
   };
+
+  
+  const [searchAddress, setSearchAddress] = React.useState<any>("");
+  const [radius, setRadius] = React.useState<number | "">("");
 
   const [personsInRoom, setPersonsInRoom] = React.useState([]);
   const handlePersonsInRoomChange = (selectedOptions: any) => {
@@ -234,7 +239,7 @@ export default function Home() {
               </ButtonComponent>
             </Box>
           </Grid>
-          <Grid  item lg={6} md={6}>
+          <Grid item lg={6} md={6}>
             <Box sx={{ ..._centeringStyle, mt: "10px" }}>
               <ButtonComponent
                 variant="contained"
@@ -244,6 +249,13 @@ export default function Home() {
                 Search
               </ButtonComponent>
             </Box>
+          </Grid>
+
+          <Grid item container lg={12} md={12}>
+            <LocationSearchMapComponent
+              handleAddressChange={(address: any) => setSearchAddress(address)}
+              handleRadiusChange={(r: any) => setRadius(r)}
+            />
           </Grid>
           <Grid item lg={4} md={4}>
             <GendersSelectionComponent onChange={handleNoOfPersonsChange} />
@@ -338,8 +350,7 @@ export default function Home() {
               </Box>
             </Grid>
             <Grid item lg={3} md={3} p={3}>
-              <Box sx={{ ..._centeringStyle,
-               margin: 0 }}>
+              <Box sx={{ ..._centeringStyle, margin: 0 }}>
                 <SelectComponent
                   title={"Order By"}
                   elements={orderByes}
@@ -348,14 +359,13 @@ export default function Home() {
                 />
               </Box>
             </Grid>
-            <Grid  item lg={2} md={2} p={3} >
-              <Box sx={{ ..._centeringStyle,
-               margin: 0 }}>
+            <Grid item lg={2} md={2} p={3}>
+              <Box sx={{ ..._centeringStyle, margin: 0 }}>
                 <Checkbox />
                 <Typography sx={{ fontWeight: "bold" }}>My Posts</Typography>
               </Box>
             </Grid>
-            <Grid  item lg={2} md={2} p={3}>
+            <Grid item lg={2} md={2} p={3}>
               <Box sx={{ ..._centeringStyle, margin: 0 }}>
                 <ButtonComponent style="primary" variant="contained">
                   Post
@@ -364,7 +374,6 @@ export default function Home() {
             </Grid>
           </Grid>
 
-          
           <Grid key={3} container item lg={12} md={12} m={2} height={"78vh"}>
             <Grid
               item
@@ -376,8 +385,8 @@ export default function Home() {
               }}
             >
               {posts.map((x, idx) => {
-              return <Post data={x} key={idx} />;
-            })}
+                return <Post data={x} key={idx} />;
+              })}
             </Grid>
           </Grid>
           {/* <Grid key={3} item lg={12} md={12}>
