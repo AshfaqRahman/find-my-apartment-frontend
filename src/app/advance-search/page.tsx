@@ -106,9 +106,7 @@ export default function Home() {
 
   
   const [searchAddress, setSearchAddress] = React.useState<any>("");
-  const handleSearchAddressChange = (value: any) => {
-    setSearchAddress(value);
-  };
+  const [radius, setRadius] = React.useState<number | "">("");
 
 
   const search = async () => {
@@ -189,7 +187,8 @@ export default function Home() {
           </Grid>
           <Grid item container lg={12} md={12}>
             <LocationSearchMapComponent
-              handleChange={handleSearchAddressChange}
+              handleAddressChange={(address: any) => setSearchAddress(address)}
+              handleRadiusChange={(r: any) => setRadius(r)}
             />
           </Grid>
 
