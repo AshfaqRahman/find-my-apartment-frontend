@@ -163,7 +163,7 @@ export default function Home() {
 
   return (
     <>
-      <Grid container spacing={0} key={1} mt={1}>
+      <Grid container spacing={0} key={1} mt={0}>
         <Grid
           item
           container

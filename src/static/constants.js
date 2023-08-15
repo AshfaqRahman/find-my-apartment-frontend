@@ -63,6 +63,35 @@ const _beds = [
   { checked: false, name: "5", label: "4+" },
 ];
 
+const _personInRooms = [
+  { checked: false, name: "1", label: "1" },
+  { checked: false, name: "2", label: "2" },
+  { checked: false, name: "3", label: "3" },
+  { checked: false, name: "4", label: "4" },
+  { checked: false, name: "5", label: "4+" },
+];
+
+const _noOfResidents = [
+  { checked: false, name: "2", label: "2" },
+  { checked: false, name: "3", label: "3" },
+  { checked: false, name: "4", label: "4" },
+  { checked: false, name: "5", label: "5" },
+  { checked: false, name: "6", label: "5+" },
+];
+
+const _noOfLivingRooms = [
+  { checked: false, name: "1", label: "1" },
+  { checked: false, name: "2", label: "2" },
+  { checked: false, name: "3", label: "3" },
+  { checked: false, name: "4", label: "4" },
+  { checked: false, name: "5", label: "4+" },
+];
+
+const _genders = [
+  { checked: false, name: "Male", label: "Male" },
+  { checked: false, name: "Female", label: "Female" },
+];
+
 const _baths = [
   { checked: false, name: "1", label: "1" },
   { checked: false, name: "2", label: "2" },
@@ -132,4 +161,8 @@ module.exports = {
   _divRadius,
   _cardRadius,
   _mapHeightInAddApartment,
+  _personInRooms,
+  _noOfResidents,
+  _noOfLivingRooms,
+  _genders,
 };

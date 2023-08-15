@@ -24,7 +24,7 @@ export const checkAuth = async () => {
         console.log("checkAuth::error", error)
         return {
             success: false,
-            message: error.response.data.error
+            message: error.response.data.message
         }
     }
 };

@@ -93,7 +93,7 @@ export default function Home() {
   // const onSearch = =async (data: any) => {
   // 	setSelected(data);
   // };
-  let height = _pageHeight;
+let height = _pageHeight;
   let mapWidth = _mapWidth;
 
   let [mapLat, setMapLat] = React.useState();
@@ -144,7 +144,7 @@ export default function Home() {
   return (
     <>
       <LoaderComponent loading={fetchingApartments} />
-      <Grid container spacing={0} key={1} mt={1}>
+      <Grid container spacing={0} key={1} pt={1}>
         <Grid
           key={1}
           minHeight={{ height }}
@@ -244,7 +244,6 @@ export default function Home() {
             </Box>
           </Grid>
         </Grid>
-        <Grid key={"1_ex"} container item lg={2} md={4}></Grid>
         <Grid
           key={2}
           minHeight={{ height }}

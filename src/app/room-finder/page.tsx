@@ -12,6 +12,9 @@ import {
   _baths,
   _beds,
   _budget,
+  _centeringStyle,
+  _color,
+  _pageHeight,
 } from "@/static/constants";
 import SliderComponent from "@/mui-components/slider";
 import TextFieldComponent from "@/mui-components/text-field";
@@ -29,6 +32,11 @@ import BathsSelectionComponent from "@/components/baths-selection";
 import FacilitiesComponent from "@/components/facilities";
 import KeywordsComponent from "@/components/keywords";
 import Map from "@/components/map";
+import LoaderComponent from "@/components/loader";
+import PersonsInRoomSelectionComponent from "@/components/persons-in-room-selection";
+import NoOfResidentsSelectionComponent from "@/components/no-of-residents";
+import NoOfLivingRoomsSelectionComponent from "@/components/no-of-living-rooms";
+import GendersSelectionComponent from "@/components/genders";
 
 const localPath = "room-finder";
 
@@ -38,9 +46,14 @@ export default function Home() {
     setApartmentTypes(types);
   };
 
-  const [beds, setBeds] = React.useState([]);
-  const handleBedsChange = (selectedOptions: any) => {
-    setBeds(selectedOptions);
+  const [noOfPersons, setNoOfPersons] = React.useState([]);
+  const handleNoOfPersonsChange = (selectedOptions: any) => {
+    setNoOfPersons(selectedOptions);
+  };
+
+  const [personsInRoom, setPersonsInRoom] = React.useState([]);
+  const handlePersonsInRoomChange = (selectedOptions: any) => {
+    setPersonsInRoom(selectedOptions);
   };
 
   const [baths, setBaths] = React.useState(_baths);
@@ -71,10 +84,11 @@ export default function Home() {
       address: "Dhaka",
       type: "Family",
       title: "Bari Bhara Deowa Hoibe",
-      textBody: "The quick brown fox jumps over the lazy dog. And so I need a billion dollars.",
+      textBody:
+        "The quick brown fox jumps over the lazy dog. And so I need a billion dollars.",
       owner: "makumhakan",
       star_points: "Fire Station, Bank, School, University",
-      facilities: "security, wifi, parking, rooftop, laundry"
+      facilities: "security, wifi, parking, rooftop, laundry",
     },
     {
       id: 2,
@@ -85,10 +99,12 @@ export default function Home() {
       address: "Dhaka",
       type: "Family",
       title: "Apartment for Rent",
-      textBody: "I tried so hard and got so far. But in the end, it doesn't even matter. I had to fall to lose it all. But in the end, it doesn't even matter.",
+      textBody:
+        "I tried so hard and got so far. But in the end, it doesn't even matter. I had to fall to lose it all. But in the end, it doesn't even matter.",
       owner: "tuluashfak",
       star_points: "Hospital, Shopping Mall, School, Museum, Bus Stop, Airport",
-      facilities: "security, wifi, parking, wheelchair accessibility, playground, air conditioning/heating, elevator"
+      facilities:
+        "security, wifi, parking, wheelchair accessibility, playground, air conditioning/heating, elevator",
     },
     {
       id: 3,
@@ -99,10 +115,11 @@ export default function Home() {
       address: "Dhaka",
       type: "Bachelor",
       title: "Bachelor Bhaiyera, Eidike Ashun",
-      textBody: "The child is grown, the dream is gone. I have become comfortably numb. Hello? Is there anybody in there? Just node if you can hear me. Is there anyone home?",
+      textBody:
+        "The child is grown, the dream is gone. I have become comfortably numb. Hello? Is there anybody in there? Just node if you can hear me. Is there anyone home?",
       owner: "maruiffa",
       star_points: "Hospital, Gym, Theater, Railway Station, Bus Stop, Park",
-      facilities: "security, wifi, maintenance, laundry, parking, elevator"
+      facilities: "security, wifi, maintenance, laundry, parking, elevator",
     },
   ]);
 
@@ -117,6 +134,8 @@ export default function Home() {
     "Preference",
   ];
   let [orderBy, setOrderBy] = React.useState("Any");
+
+  let [fetchingPosts, setFetchingPosts] = React.useState(false);
 
   // const handleOrderByChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   setOrderBy(event.target.value);
@@ -144,52 +163,73 @@ export default function Home() {
     // console.log(data);
   };
 
+  let height = _pageHeight;
+
   return (
     <>
-      <Grid container spacing={0} key={1}>
-        <Grid key={1} minWidth={"30vw"} minHeight={"93vh"} maxHeight={"93vh"} position={"fixed"}  overflow={'auto'} container item lg={2} md={4} className="left-part" >
+      <LoaderComponent loading={fetchingPosts} />
+      <Grid container spacing={0} key={1} pt={1}>
+        <Grid
+          key={1}
+          minHeight={{ height }}
+          maxHeight={{ height }}
+          position={"fixed"}
+          overflow={"auto"}
+          container
+          item
+          lg={3}
+          md={3}
+          sx={{
+            backgroundColor: _color.background_left,
+          }}
+        >
           <Grid key={1} item lg={6} md={6}>
-            <Box sx={{ margin: "10px" }}>
-              <ButtonComponent variant="contained" onClick={saveSearch}>
+            <Box sx={{ ..._centeringStyle, mt: "10px" }}>
+              <ButtonComponent
+                variant="contained"
+                style="primary"
+                onClick={saveSearch}
+              >
                 Save Search
               </ButtonComponent>
             </Box>
           </Grid>
           <Grid key={2} item lg={6} md={6}>
-            <Box sx={{ margin: "10px" }}>
-              <ButtonComponent variant="contained" onClick={search}>
+            <Box sx={{ ..._centeringStyle, mt: "10px" }}>
+              <ButtonComponent
+                variant="contained"
+                style="primary"
+                onClick={search}
+              >
                 Search
               </ButtonComponent>
             </Box>
           </Grid>
-          <Grid key={3} item lg={12} md={12} sx={{px: 1}}>
-            <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
+          <Grid item lg={4} md={4}>
+            <GendersSelectionComponent onChange={handleNoOfPersonsChange} />
           </Grid>
-          <Grid key={4} item lg={6} md={6}>
-            <BedsSelectionComponent onChange={handleBedsChange} />
+          <Grid item lg={4} md={4}>
+            <BathsSelectionComponent onChange={handleBathsChange} />
           </Grid>
-          <Grid key={5} item lg={6} md={6}>
-            <BathsSelectionComponent
-              onChange={handleBathsChange}
-            ></BathsSelectionComponent>
+          <Grid item lg={4} md={4}>
+            <NoOfResidentsSelectionComponent
+              onChange={handleNoOfPersonsChange}
+            />
           </Grid>
+          <Grid item lg={6} md={6}>
+            <PersonsInRoomSelectionComponent
+              onChange={handlePersonsInRoomChange}
+            />
+          </Grid>
+          <Grid item lg={6} md={6}>
+            <NoOfLivingRoomsSelectionComponent
+              onChange={handleNoOfPersonsChange}
+            />
+          </Grid>
+
           <Budget
             key={6}
             budget={budget}
-            grid_slider_lg={12} 
-            grid_slider_md={12} 
-            box_slider_mx={"5px"}
-            box_slider_px={"15px"}
-            grid_text_lg={6}
-            grid_text_md={6}
-            box_text_mx={"5px"}
-            box_text_px={"0px"}
-            setBudget={setBudget}
-          />
-
-          <Area
-            key={7}
-            area={area}
             grid_slider_lg={12}
             grid_slider_md={12}
             box_slider_mx={"5px"}
@@ -198,17 +238,35 @@ export default function Home() {
             grid_text_md={6}
             box_text_mx={"5px"}
             box_text_px={"0px"}
-            setArea={setArea}
+            setBudget={setBudget}
           />
-          <Grid key={8} item lg={6} md={6}>
-            <FacilitiesComponent onChange={handleFacilitiesChange} />
+          <Grid key={8} item lg={12} md={12}>
+            <Box mx={1}>
+              <FacilitiesComponent onChange={handleFacilitiesChange} />
+            </Box>
           </Grid>
-          <Grid key={9} item lg={6} md={6}>
-            <KeywordsComponent onChange={handleKeywordsChange} />
+          <Grid key={9} item lg={12} md={12}>
+            <Box mx={1}>
+              <KeywordsComponent onChange={handleKeywordsChange} />
+            </Box>
           </Grid>
         </Grid>
-        <Grid key={2} minWidth={"70vw"} minHeight={"93vh"} maxHeight={"93vh"} position={"fixed"} left={{ lg: "30%" }} overflow={"auto"} container item lg={6} md={4} className={'right-part'}>
-          <Grid key={1} item lg={6}  md={6}>
+        <Grid
+          key={2}
+          minHeight={{ height }}
+          maxHeight={{ height }}
+          position={"fixed"}
+          left={"25%"}
+          overflow={"auto"}
+          container
+          item
+          lg={9}
+          md={9}
+          sx={{
+            backgroundColor: _color.background_middle,
+          }}
+        >
+          {/* <Grid key={1} item lg={6} md={6}>
             <Box sx={{ margin: "10px" }}>
               <SelectComponent
                 title={"Status"}
@@ -218,7 +276,7 @@ export default function Home() {
               />
             </Box>
           </Grid>
-          <Grid key={2} item lg={6}  md={6}>
+          <Grid key={2} item lg={6} md={6}>
             <Box sx={{ margin: "10px" }}>
               <SelectComponent
                 title={"Order By"}
@@ -227,7 +285,7 @@ export default function Home() {
                 handleChange={setOrderBy}
               />
             </Box>
-          </Grid>
+          </Grid> */}
           <Grid key={3} item lg={12} md={12}>
             {posts.map((x, idx) => {
               return <Post data={x} key={idx} />;
