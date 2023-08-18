@@ -104,17 +104,15 @@ export default function Home() {
 
   let [fetchingApartments, setFetchingApartments] = React.useState(false);
 
-  
-  const [searchAddress, setSearchAddress] = React.useState<any>("");
+  const [location, setLocation] = React.useState<any>("");
   const [radius, setRadius] = React.useState<number | "">("");
 
-
   const search = async () => {
-    // console.log("searching ...");
-    // const url = `${HOST}/apartments`;
     setFetchingApartments(true);
     const params = {
       apartmentTypes: apartmentTypes,
+      location: location,
+      radius: radius,
       beds: beds,
       baths: baths,
       price_min: +budget[0],
@@ -187,7 +185,7 @@ export default function Home() {
           </Grid>
           <Grid item container lg={12} md={12}>
             <LocationSearchMapComponent
-              handleAddressChange={(address: any) => setSearchAddress(address)}
+              handleLocationChange={(location: any) => setLocation(location)}
               handleRadiusChange={(r: any) => setRadius(r)}
             />
           </Grid>
