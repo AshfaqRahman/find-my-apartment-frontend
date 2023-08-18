@@ -105,6 +105,12 @@ const apartmentTypeMapping = {
   3: "Sublet",
 };
 
+const apartmentTypeReverseMapping = {
+  "Family": 1,
+  "Bachelor": 2,
+  "Sublet": 3,
+};
+
 // 94, 91    6,9
 const _pageHeight = "94vh";
 const _mapWidth = "33.33vw";
@@ -155,6 +161,7 @@ module.exports = {
   _pageMargin,
   _appBarHeight,
   apartmentTypeMapping,
+  apartmentTypeReverseMapping,
   _color,
   _loaderStyle,
   _centeringStyle,
