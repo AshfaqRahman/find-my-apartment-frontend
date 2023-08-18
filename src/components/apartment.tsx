@@ -56,7 +56,7 @@ export default function Apartment(props: any) {
                 BDT. {props.data.price}
               </Typography>
               <Typography key={3} gutterBottom variant="h6" component="div">
-                {apartmentTypeMapping[props.data.type]}
+                {props.data.types.map((type: any) => apartmentTypeMapping[type]).join(", ")}
               </Typography>
               <Typography key={4} gutterBottom component="div">
                 Road no. {props.data.location.street_no},{" "}
