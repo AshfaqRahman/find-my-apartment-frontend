@@ -51,6 +51,36 @@ export default function Map(props: any) {
                 // label: "H",
                 animation: google.maps.Animation.DROP,
               });
+              let address = results[0].address_components
+                .map((x: any) => x.long_name)
+                .join(",");
+
+              let districtIndex = results[0].address_components.findIndex(
+                (x: any) => x.types.includes("administrative_area_level_2")
+              );
+              let divisionIndex = results[0].address_components.findIndex(
+                (x: any) => x.types.includes("administrative_area_level_1")
+              );
+              let zoneIndex = results[0].address_components.findIndex(
+                (x: any) => x.types.includes("sublocality_level_1")
+              );
+
+              infowindow.setContent(address);
+              infowindow.open(map, marker);
+
+              props.setAddress(address);
+              props.setLatLng({ lat: _lat, lng: _lng });
+              props.setZone(results[0].address_components[zoneIndex].long_name);
+              props.setDistrict(
+                results[0].address_components[districtIndex].long_name
+                  .replace("District", "")
+                  .trim()
+              );
+              props.setDivision(
+                results[0].address_components[divisionIndex].long_name
+                  .replace("Division", "")
+                  .trim()
+              );
               marker.addListener("dragend", (event: any) => {
                 let _lat: number = +event.latLng.lat();
                 let _lng: number = +event.latLng.lng();
@@ -62,21 +92,37 @@ export default function Map(props: any) {
                       .map((x: any) => x.long_name)
                       .join(",");
 
-                    let districtIndex = results[0].address_components.findIndex((x: any) => x.types.includes("administrative_area_level_2"))
-                    let divisionIndex = results[0].address_components.findIndex((x: any) => x.types.includes("administrative_area_level_1"))
-                    let zoneIndex = results[0].address_components.findIndex((x: any) => x.types.includes("sublocality_level_1"))
+                    let districtIndex = results[0].address_components.findIndex(
+                      (x: any) =>
+                        x.types.includes("administrative_area_level_2")
+                    );
+                    let divisionIndex = results[0].address_components.findIndex(
+                      (x: any) =>
+                        x.types.includes("administrative_area_level_1")
+                    );
+                    let zoneIndex = results[0].address_components.findIndex(
+                      (x: any) => x.types.includes("sublocality_level_1")
+                    );
 
                     infowindow.setContent(address);
                     infowindow.open(map, marker);
                     props.setAddress(address);
                     props.setLatLng({ lat: _lat, lng: _lng });
-                    props.setZone(results[0].address_components[zoneIndex].long_name)
-                    props.setDistrict(results[0].address_components[districtIndex].long_name.replace("District", "").trim())
-                    props.setDivision(results[0].address_components[divisionIndex].long_name.replace("Division", "").trim())
-
+                    props.setZone(
+                      results[0].address_components[zoneIndex].long_name
+                    );
+                    props.setDistrict(
+                      results[0].address_components[districtIndex].long_name
+                        .replace("District", "")
+                        .trim()
+                    );
+                    props.setDivision(
+                      results[0].address_components[divisionIndex].long_name
+                        .replace("Division", "")
+                        .trim()
+                    );
                   }
                 );
-
               });
             });
           });
@@ -122,7 +168,7 @@ export default function Map(props: any) {
           // console.log(results[0])
 
           infowindow.setContent(
-            results[0].address_components.map((x) => x.long_name).join(",")
+            results[0].address_components.map((x: any) => x.long_name).join(",")
           );
           infowindow.open(map, marker);
         });
