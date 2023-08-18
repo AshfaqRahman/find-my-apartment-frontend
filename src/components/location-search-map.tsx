@@ -11,6 +11,10 @@ export default function LocationSearchMapComponent(props: any) {
     setSearchAddress(e.target.value);
   };
 
+  const [location, setLocation] = useState<any>();
+  useEffect(() => {
+    props.handleLocationChange(location);
+  }, [location]);
 
   let [radius, setRadius] = useState<number | "">("");
   let handleRadiusChange = (e: any) => {
@@ -33,11 +37,6 @@ export default function LocationSearchMapComponent(props: any) {
   // useEffect(() => {
   //   console.log("map address", mapAddress);
   // }, [openMap])
-
-  useEffect(() => {
-    // console.log("LocationSearchMapComponent::useEffect", searchAddress);
-    props.handleAddressChange(searchAddress);
-  }, [searchAddress]);
 
   return (
     <>
@@ -74,7 +73,10 @@ export default function LocationSearchMapComponent(props: any) {
             closeMap={() => setOpenMap(false)}
             searchAddress={searchAddress}
             setSearchAddress={setSearchAddress}
-            setLatLng={() => {}}
+            setLatLng={setLocation}
+            setZone={() => {}}
+            setDistrict={() => {}}
+            setDivision={() => {}}
           />
         ) : (
           <></>
