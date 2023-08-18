@@ -26,37 +26,37 @@ export default function TextAreaComponent(props: any) {
     900: "#24292f",
   };
 
-  const StyledTextarea = styled(TextareaAutosize)(
-    ({ theme }) => `
-    font-weight: 400;
-    font-size: 1.05rem;
-    line-height: 1;
-    padding: 12px;
-    border-radius: 12px 12px 0 12px;
-    color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-    background: ${theme.palette.mode === "dark" ? grey[900] : _color.background_left};
-    border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[400]};
-    box-shadow: 0px 2px 2px ${
-      theme.palette.mode === "dark" ? grey[900] : grey[500]
-    };
+  // const StyledTextarea = styled(TextareaAutosize)(
+  //   ({ theme }) => `
+  //   font-weight: 400;
+  //   font-size: 1.05rem;
+  //   line-height: 1;
+  //   padding: 12px;
+  //   border-radius: 12px 12px 0 12px;
+  //   color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
+  //   background: ${theme.palette.mode === "dark" ? grey[900] : _color.background_left};
+  //   border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[400]};
+  //   box-shadow: 0px 2px 2px ${
+  //     theme.palette.mode === "dark" ? grey[900] : grey[500]
+  //   };
   
-    &:hover {
-      border-color: ${blue[400]};
-    }
+  //   &:hover {
+  //     border-color: ${blue[400]};
+  //   }
   
-    &:focus {
-      border-color: ${blue[400]};
-      box-shadow: 0 0 0 3px ${
-        theme.palette.mode === "dark" ? blue[500] : blue[200]
-      };
-    }
+  //   &:focus {
+  //     border-color: ${blue[400]};
+  //     box-shadow: 0 0 0 3px ${
+  //       theme.palette.mode === "dark" ? blue[500] : blue[200]
+  //     };
+  //   }
   
-    // firefox
-    &:focus-visible {
-      outline: 0;
-    }
-  `
-  );
+  //   // firefox
+  //   &:focus-visible {
+  //     outline: 0;
+  //   }
+  // `
+  // );
 
   return (
     
@@ -65,15 +65,23 @@ export default function TextAreaComponent(props: any) {
       <Box width={"100"} sx={{
         ..._centeringStyle
       }} >
-        <StyledTextarea
+        <TextareaAutosize
+          onChange={(e) => props.handleChange(e)}
           maxRows={3}
           minRows={3}
           style={{
             width: "100%",
+            fontWeight: 400,
+            fontSize: "1.05rem",
+            lineHeight: 1,
+            padding: 12,
+            borderRadius: "12px 12px 0 12px",
+            backgroundColor: _color.background_left,
           }}
           maxLength={1000}
-          aria-label="empty textarea"
-          placeholder=""
+          // aria-label="empty textarea"
+          value={props.value}
+          // placeholder=""
         />
       </Box>
     </div>
