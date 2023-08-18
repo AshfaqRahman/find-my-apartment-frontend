@@ -5,7 +5,8 @@ export const apiUrls = {
 		list: `${HOST}/api/apartments`,
         create: '/api/apartments',
         update: '/api/apartments/:id',
-        delete: '/api/apartments/:id'
+        delete: '/api/apartments/:id',
+		add: `${HOST}/api/apartments/add`,
 	},
 
 	fixed_values: {
