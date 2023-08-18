@@ -57,14 +57,23 @@ export default function Map(props: any) {
                 geocoder.geocode(
                   { location: { lat: _lat, lng: _lng } },
                   (results: any, status: any) => {
+                    // console.log(results[0]);
                     let address = results[0].address_components
                       .map((x: any) => x.long_name)
                       .join(",");
+
+                    let districtIndex = results[0].address_components.findIndex((x: any) => x.types.includes("administrative_area_level_2"))
+                    let divisionIndex = results[0].address_components.findIndex((x: any) => x.types.includes("administrative_area_level_1"))
+                    let zoneIndex = results[0].address_components.findIndex((x: any) => x.types.includes("sublocality_level_1"))
 
                     infowindow.setContent(address);
                     infowindow.open(map, marker);
                     props.setAddress(address);
                     props.setLatLng({ lat: _lat, lng: _lng });
+                    props.setZone(results[0].address_components[zoneIndex].long_name)
+                    props.setDistrict(results[0].address_components[districtIndex].long_name.replace("District", "").trim())
+                    props.setDivision(results[0].address_components[divisionIndex].long_name.replace("Division", "").trim())
+
                   }
                 );
 
