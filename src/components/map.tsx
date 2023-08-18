@@ -70,7 +70,7 @@ export default function Map(props: any) {
 
               props.setAddress(address);
               props.setLatLng({ lat: _lat, lng: _lng });
-              props.setZone(results[0].address_components[zoneIndex].long_name);
+              props.setZone(results[0].address_components[zoneIndex]?.long_name);
               props.setDistrict(
                 results[0].address_components[districtIndex].long_name
                   .replace("District", "")
