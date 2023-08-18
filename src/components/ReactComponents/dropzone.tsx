@@ -58,12 +58,10 @@ export default function Dropzone(props: any) {
 
   const onDrop = useCallback(
     (acceptedFiles: any) => {
-      console.log("onDrop:: acceptedFiles");
       // console.log("useEffect:: acceptedFiles");
       let acceptableFiles = acceptedFiles.filter(
         (file: any) => !filenames.includes(file.name)
       );
-      console.log(acceptableFiles, files);
       acceptableFiles =[...files, ...acceptableFiles]
 
       acceptableFiles.splice(
