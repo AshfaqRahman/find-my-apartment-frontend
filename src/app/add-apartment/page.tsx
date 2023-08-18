@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { Inter, Rochester, Satisfy } from "next/font/google";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import {
@@ -28,6 +28,7 @@ import {
   _divRadius,
   _mapHeightInAddApartment,
   _pageHeight,
+  apartmentTypeReverseMapping,
 } from "@/static/constants";
 import Dropzone from "@/components/ReactComponents/dropzone";
 import ApartmentTypesComponent from "@/components/apartment-types";
@@ -45,6 +46,9 @@ import {
 
 import { storage } from "@/services/firebase-config";
 import { randomInRange } from "@/static/utils";
+import { addApartment } from "./apis";
+import LoaderComponent from "@/components/loader";
+import ToastComponent from "@/mui-components/toast";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const theme = createTheme({
@@ -73,27 +77,27 @@ export default function Home() {
     setFacilities(types);
   };
 
-  const [beds, setBeds] = React.useState<number>(0);
+  const [beds, setBeds] = React.useState<number | "">("");
   const handleBedsChange = (e: any) => {
     setBeds(e.target.value);
   };
 
-  const [baths, setBaths] = React.useState<number>(0);
+  const [baths, setBaths] = React.useState<number | "">("");
   const handleBathsChange = (e: any) => {
     setBaths(e.target.value);
   };
 
-  const [floor, setFloor] = React.useState<number>(0);
+  const [floor, setFloor] = React.useState<number | "">("");
   const handleFloorChange = (e: any) => {
     setFloor(e.target.value);
   };
 
-  const [area, setArea] = React.useState<number>(0);
+  const [area, setArea] = React.useState<number | "">("");
   const handleAreaChange = (e: any) => {
     setArea(e.target.value);
   };
 
-  const [price, setPrice] = React.useState<number>(0);
+  const [price, setPrice] = React.useState<number | "">("");
   const handlePriceChange = (e: any) => {
     setPrice(e.target.value);
   };
@@ -101,6 +105,25 @@ export default function Home() {
   const [address, setAddress] = React.useState<any>("");
   const handleAddressChange = (e: any) => {
     setAddress(e.target.value);
+  };
+
+  const [zone, setZone] = React.useState<any>("");
+  const [district, setDistrict] = React.useState<any>("");
+  const [division, setDivision] = React.useState<any>("");
+  const [location, setLocation] = React.useState<any>({});
+
+  const [streetNo, setStreetNo] = React.useState<number | "">("");
+  const handleStreetNoChange = (e: any) => {
+    setStreetNo(e.target.value);
+  };
+  const [houseNo, setHouseNo] = React.useState<number | "">("");
+  const handleHouseNoChange = (e: any) => {
+    setHouseNo(e.target.value);
+  };
+
+  const [description, setDescription] = React.useState<any>("");
+  const handleDescriptionChange = (e: any) => {
+    setDescription(e.target.value);
   };
 
   const [mapAddress, setMapAddress] = React.useState<any>("");
@@ -112,57 +135,140 @@ export default function Home() {
   };
 
   let [apartmentFiles, setApartmentFiles] = useState<any[]>([]);
-  let [apartmentFilesURL, setApartmentFilesURL] = useState<any[]>([]);
+  let apartmentFilesURL: any[] = [];
 
+  let blueprintFilesURL: any[] = [];
   let [blueprintFiles, setBlueprintFiles] = useState<any[]>([]);
-  let [blueprintFilesURL, setBlueprintFilesURL] = useState<any[]>([]);
 
-  let uploadingOnFirebase = (files: any, urls: any, setUrls: any, location: any) => {
+  let count = 0;
+
+  let uploadingOnFirebase = async (
+    files: any,
+    urls: any,
+    location: any
+  ) => {
     files.forEach((file: any) => {
       // console.log(apartmentFile);
-      const storageRef = ref(storage, `${location}/${new Date().getTime()}_${randomInRange(0, 10000000000)}_${file.name}`);
+      const storageRef = ref(
+        storage,
+        `${location}/${new Date().getTime()}_${randomInRange(0, 10000000000)}_${
+          file.name
+        }`
+      );
 
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(
         "state_changed",
-        (snapshot) => {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          // const progress =
-          //   (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          // console.log("Upload is " + progress + "% done");
-          // switch (snapshot.state) {
-          //   case "paused":
-          //     console.log("Upload is paused");
-          //     break;
-          //   case "running":
-          //     console.log("Upload is running");
-          //     break;
-          // }
-        },
+        (snapshot) => {},
         (error) => {
           // Handle unsuccessful uploads
+          setMessage("image file uploading failed");
+          setSeverity("error");
+          setOpenToast(true);
         },
         () => {
           // Handle successful uploads on complete
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
-            setUrls([...urls, downloadURL]);
+            // console.log("File available at", downloadURL);
+            urls.push(downloadURL);
+            count++;
+            if (count === apartmentFiles.length + blueprintFiles.length) {
+              addingApartment();
+            }
           });
         }
       );
     });
-  }
+  };
 
-  let onPublish = () => {
-    uploadingOnFirebase(apartmentFiles, apartmentFilesURL, setApartmentFilesURL, "apartments");
-    uploadingOnFirebase(blueprintFiles, blueprintFilesURL, setBlueprintFilesURL, "blueprints");
+  let [addingApartmentLoading, setAddingApartmentLoading] = useState(false);
+
+  let [openToast, setOpenToast] = React.useState(false);
+  let [message, setMessage] = React.useState("");
+  let [severity, setSeverity] = React.useState("success");
+
+  let addingApartment = async () => {
+    let params = {
+      apartment: {
+        types: apartmentTypes.map((type) => apartmentTypeReverseMapping[type]),
+        vacancy: true,
+        description,
+        floor,
+        bedrooms: beds,
+        washrooms: baths,
+        area_sqft: area,
+        price,
+        blueprint_url: blueprintFilesURL[0],
+      },
+
+      keywords: {
+        starpoint_ids: keywords,
+      },
+      facilities: {
+        facility_ids: facilities,
+      },
+      location: {
+        detailed_address: address,
+        street_no: streetNo,
+        house_no: houseNo,
+        zone: zone,
+        district: district,
+        division: division,
+        latitude: location.lat,
+        longitude: location.lng,
+      },
+      images: {
+        image_urls: apartmentFilesURL,
+      },
+    };
+    let data: any = await addApartment(params);
+    console.log(data);
+    setAddingApartmentLoading(false);
+    count = 0;
+    if (data.success) {
+      setOpenToast(true);
+      setMessage(data.data);
+      setSeverity("success");
+    } else {
+      setOpenToast(true);
+      setMessage(data.message);
+      setSeverity("error");
+    }
+  };
+
+  let onPublish = async () => {
+    apartmentFilesURL = [];
+    blueprintFilesURL = [];
+    setAddingApartmentLoading(true);
+    count = 0;
+
+    uploadingOnFirebase(
+      apartmentFiles,
+      apartmentFilesURL,
+      "apartments"
+    );
+    uploadingOnFirebase(
+      blueprintFiles,
+      blueprintFilesURL,
+      "blueprints"
+    );
+
+    console.log("Uploaded");
   };
 
   return (
     <>
+      <LoaderComponent loading={addingApartmentLoading} />
+      <ToastComponent
+        message={message}
+        open={openToast}
+        onClose={setOpenToast}
+        onCross={setOpenToast}
+        severity={severity}
+      />
       <Grid container spacing={0} key={1} mt={0}>
         <Grid
           item
@@ -364,9 +470,33 @@ export default function Home() {
             </Grid>
             <Grid container my={1}>
               <Grid container item md={6} lg={6}>
+                <Grid item md={6} lg={6}>
+                  <Box mx={2}>
+                    <TextFieldComponent
+                      label="Street no."
+                      type="number"
+                      value={streetNo}
+                      handleChange={handleStreetNoChange}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item md={6} lg={6}>
+                  <Box mx={2}>
+                    <TextFieldComponent
+                      label="house no."
+                      type="number"
+                      value={houseNo}
+                      handleChange={handleHouseNoChange}
+                    />
+                  </Box>
+                </Grid>
                 <Grid item md={12} lg={12}>
                   <Box mx={2}>
-                    <TextAreaComponent title={"Description"} />
+                    <TextAreaComponent
+                      value={description}
+                      handleChange={handleDescriptionChange}
+                      title={"Description"}
+                    />
                   </Box>
                 </Grid>
                 <Grid item md={6} lg={6}>
@@ -383,9 +513,12 @@ export default function Home() {
                     draggable
                     fromAddress
                     openMap={true}
-                    setLatLng={(location: any) => {}}
+                    setLatLng={setLocation}
                     address={mapAddress}
                     height={"100%"}
+                    setZone={setZone}
+                    setDistrict={setDistrict}
+                    setDivision={setDivision}
                   ></Map>
                 </Box>
               </Grid>
