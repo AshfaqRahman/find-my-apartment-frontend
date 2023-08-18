@@ -6,7 +6,7 @@ import { getCookie } from 'cookies-next';
 export async function searchApartments(data: any) {
 
     try {
-
+        console.log("searchApartments :: ", data)
         const res = await axios.get(
             apiUrls.apartments.list,
             {
