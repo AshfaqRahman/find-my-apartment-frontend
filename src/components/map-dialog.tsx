@@ -38,7 +38,10 @@ export default function MapDialogComponent(props: any) {
               address={address}
               setAddress={props.setSearchAddress}
               draggable
-              setLatLng={() => {}}
+              setLatLng={props.setLatLng}
+              setZone={props.setZone}
+              setDistrict={props.setDistrict}
+              setDivision={props.setDivision}
               height="100%"
               width="100%"
             />
