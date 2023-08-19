@@ -123,6 +123,7 @@ export default function AppBarComponent() {
       link: "/my-preferences",
       onClick: () => {
         handleCloseUserMenu();
+        window.location.href = "/my-preference";
       },
     },
     {
