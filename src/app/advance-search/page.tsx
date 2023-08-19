@@ -188,6 +188,9 @@ export default function Home() {
               <LocationSearchMapComponent
                 handleLocationChange={(location: any) => setLocation(location)}
                 handleRadiusChange={(r: any) => setRadius(r)}
+                setZone={() => {}}
+                setDistrict={() => {}}
+                setDivision={() => {}}
               />
             </Box>
           </Grid>
