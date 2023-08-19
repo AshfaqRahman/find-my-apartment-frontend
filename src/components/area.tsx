@@ -15,40 +15,37 @@ export default function Area(props: any) {
   };
   return (
     <>
-      <Grid
-        item
-        lg={props.grid_slider_lg}
-        md={props.grid_slider_md}
-        sx={{ mx: "1px", padding: 0 }}
-      >
-        <Box sx={{ mx: props.box_slider_mx, px: props.box_slider_px }}>
-          <SliderComponent
-            title={"Area"}
-            min={_area.min}
-            max={_area.max}
-            value={props.area}
-            handleChange={handleAreaChange}
-          />
-        </Box>
-      </Grid>
-      <Grid item lg={props.grid_text_lg} md={props.grid_text_md}>
-        <Box sx={{ mx: props.box_text_mx, px: props.box_text_px }}>
-          <TextFieldComponent
-            label={"Min"}
-            type={"number"}
-            value={props.area[0]}
-            handleChange={handleMinAreaChange}
-          />
-        </Box>
-      </Grid>
-      <Grid item lg={props.grid_text_lg} md={props.grid_text_md}>
-        <Box sx={{ mx: props.box_text_mx, px: props.box_text_px }}>
-          <TextFieldComponent
-            label={"Max"}
-            value={props.area[1]}
-            handleChange={handleMaxAreaChange}
-          />
-        </Box>
+      <Grid container>
+        <Grid item lg={12} md={12}>
+          <Box sx={{ px: 2 }}>
+            <SliderComponent
+              title={"Area"}
+              min={_area.min}
+              max={_area.max}
+              value={props.area}
+              handleChange={handleAreaChange}
+            />
+          </Box>
+        </Grid>
+        <Grid item lg={6} md={6}>
+          <Box sx={{ px: 1 }}>
+            <TextFieldComponent
+              label={"Min"}
+              type={"number"}
+              value={props.area[0]}
+              handleChange={handleMinAreaChange}
+            />
+          </Box>
+        </Grid>
+        <Grid item lg={6} md={6}>
+          <Box sx={{ px: 1 }}>
+            <TextFieldComponent
+              label={"Max"}
+              value={props.area[1]}
+              handleChange={handleMaxAreaChange}
+            />
+          </Box>
+        </Grid>
       </Grid>
     </>
   );
