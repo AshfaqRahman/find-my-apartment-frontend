@@ -184,10 +184,12 @@ export default function Home() {
             </Box>
           </Grid>
           <Grid item container lg={12} md={12}>
-            <LocationSearchMapComponent
-              handleLocationChange={(location: any) => setLocation(location)}
-              handleRadiusChange={(r: any) => setRadius(r)}
-            />
+            <Box px={1}>
+              <LocationSearchMapComponent
+                handleLocationChange={(location: any) => setLocation(location)}
+                handleRadiusChange={(r: any) => setRadius(r)}
+              />
+            </Box>
           </Grid>
 
           <Grid key={3} item lg={12} md={12}>
