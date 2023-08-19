@@ -2,17 +2,18 @@ import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } f
 import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
 import BathtubOutlinedIcon from '@mui/icons-material/BathtubOutlined';
 import Link from '@mui/material/Link';
+import { _cardRadius, _divRadius } from "@/static/constants";
 
 
 export default function Apartment(props: any) {
     let contactOwner = () => {
-        console.log(props.data.owner);
+        
         // needs work
     };
 
   return (
     <>
-      <Card sx={{ margin: 1 }}>
+      <Card sx={{ margin: 2, borderRadius: _cardRadius }}>
         <CardContent>
             <Grid container>
                 <Grid item xs>

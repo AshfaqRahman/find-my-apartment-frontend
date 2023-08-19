@@ -2,7 +2,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } fro
 
 export default function SelectComponent(props: any) {
   return (
-    <Box sx={{ maxWidth: 240 }}>
+    <Box width={"100%"} sx={{ }}>
       <FormControl fullWidth>
         <InputLabel >{props.title}</InputLabel>
         <Select

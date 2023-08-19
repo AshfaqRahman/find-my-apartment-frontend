@@ -5,17 +5,27 @@ export const apiUrls = {
 		list: `${HOST}/api/apartments`,
         create: '/api/apartments',
         update: '/api/apartments/:id',
-        delete: '/api/apartments/:id'
+        delete: '/api/apartments/:id',
+		add: `${HOST}/api/apartments/add`,
+	},
+
+	fixed_values: {
+		facilities: `${HOST}/api/fixed-values/facilities`,
+		keywords: `${HOST}/api/fixed-values/starpoints`,
 	},
 
 	user: {
 		upgrade: '/api/user/upgrade',
 		modify: '/api/user',
 		usage: 'api/user/usage',
+		preferece: `${HOST}/api/user/my-preference`
 	},
 	auth: {
 		register: `${HOST}/api/auth/register`,
 		login: `${HOST}/api/auth/login`,
+		logout: `${HOST}/api/auth/logout`,
+		checkAuth: `${HOST}/api/auth/is-token-valid`,
+		
 	},
 	expenses: {
 		add: '/api/expenses/add',

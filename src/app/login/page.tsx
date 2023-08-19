@@ -3,39 +3,26 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Image from 'next/image'
 import { LoginApi } from './apis';
+import { redirect } from 'next/navigation';
 
-import { redirect } from "next/navigation";
-
-import { useRouter } from "next/navigation";
-import { Rochester } from "next/font/google";
-import { _color, _pageHeight, _pageMargin } from "@/static/constants";
-import ButtonComponent from "@/mui-components/buttons";
-import { Alert, LinearProgress, Snackbar } from "@mui/material";
-import LoaderComponent from "@/components/loader";
-import ToastComponent from "@/mui-components/toast";
-import { setCookie } from "cookies-next";
-
-const rochester = Rochester({ weight: "400", subsets: ["latin"] });
-const theme = createTheme({
-  typography: {
-    fontFamily: rochester.style.fontFamily,
-  },
-});
-
-function Copyright(props:any) {
+function Copyright(props: any) {
   return (
     <Grid align="center" style={{backgroundColor:"E6E6E6", fontSize:"14px"}} {...props}>
       {'Copyright © '}
       <Link color="inherit" href="/">
         Find My Apartment
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
     </Grid>
   );

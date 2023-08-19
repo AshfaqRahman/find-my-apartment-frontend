@@ -1,10 +1,11 @@
+import { _color } from "@/static/constants";
 import Slider from "@mui/material/Slider";
 
 export default function SliderComponent(props: any) {
   return (
     <>
       <div className="flex justify-between">
-        <span>{props.title}</span>
+        <span style={{"fontWeight": "bold" , color: _color.secondary}}>{props.title}</span>
       </div>
       <Slider
         getAriaLabel={() => "Temperature range"}

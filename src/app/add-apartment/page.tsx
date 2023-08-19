@@ -1,59 +1,70 @@
 "use client";
 import * as React from "react";
-import { useCallback, useState } from "react";
+import { Inter, Rochester, Satisfy } from "next/font/google";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { Box, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  TextareaAutosize,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+
 import ButtonComponent from "@/mui-components/buttons";
 import MultiSelectComponent from "@/mui-components/multi-select";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import {
   _apartmentTypes,
   _area,
   _baths,
   _beds,
   _budget,
+  _centeringStyle,
+  _color,
+  _divRadius,
+  _mapHeightInAddApartment,
+  _pageHeight,
+  apartmentTypeReverseMapping,
 } from "@/static/constants";
-import SliderComponent from "@/mui-components/slider";
-import TextFieldComponent from "@/mui-components/text-field";
-import Budget from "@/components/budget";
-import Area from "@/components/area";
-import HOST from "@/static/host";
-import axios from "axios";
-import Apartment from "@/components/apartment";
-import SelectComponent from "@/mui-components/select";
-import { searchApartments } from "./apis";
-import { apiUrls } from "@/lib/apiUrls";
+import Dropzone from "@/components/ReactComponents/dropzone";
 import ApartmentTypesComponent from "@/components/apartment-types";
-import BedsSelectionComponent from "@/components/beds-selection";
-import BathsSelectionComponent from "@/components/baths-selection";
-import FacilitiesComponent from "@/components/facilities";
 import KeywordsComponent from "@/components/keywords";
+import FacilitiesComponent from "@/components/facilities";
+import TextFieldComponent from "@/mui-components/text-field";
 import Map from "@/components/map";
+import TextAreaComponent from "@/mui-components/text-area";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 
-const localPath = "advance-search";
+import { storage } from "@/services/firebase-config";
+import { randomInRange } from "@/static/utils";
+import { addApartment } from "./apis";
+import LoaderComponent from "@/components/loader";
+import ToastComponent from "@/mui-components/toast";
+
+const rochester = Rochester({ weight: "400", subsets: ["latin"] });
+const theme = createTheme({
+  typography: {
+    fontFamily: rochester.style.fontFamily,
+  },
+});
 
 export default function Home() {
+  // const onSearch = =async (data: any) => {
+  // 	setSelected(data);
+  // };
+
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
   const handleApartmentTypeChange = (types: any) => {
     setApartmentTypes(types);
-  };
-
-  const [beds, setBeds] = React.useState([]);
-  const handleBedsChange = (selectedOptions: any) => {
-    setBeds(selectedOptions);
-  };
-
-  const [baths, setBaths] = React.useState(_baths);
-  const handleBathsChange = (selectedOptions: any) => {
-    setBaths(selectedOptions);
-  };
-
-  const [budget, setBudget] = React.useState([10000, 99999]);
-  const [area, setArea] = React.useState([500, 10000]);
-
-  const [facilities, setFacilities] = React.useState([]);
-  const handleFacilitiesChange = (types: any) => {
-    setFacilities(types);
   };
 
   const [keywords, setKeywords] = React.useState([]);
@@ -61,102 +72,458 @@ export default function Home() {
     setKeywords(types);
   };
 
-  let [apartments, setApartments] = React.useState([
-    {
-      id: 1,
-      price: 10000,
-      bedrooms: 3,
-      baths: 2,
-      area_sqft: 1000,
-      apartment_type: "Flat",
-      address: "Dhaka",
-      type: "Family",
-    },
-    {
-      id: 2,
-      price: 10000,
-      bedrooms: 3,
-      baths: 2,
-      area_sqft: 1000,
-      apartment_type: "Flat",
-      address: "Dhaka",
-      type: "Family",
-    },
-  ]);
+  const [facilities, setFacilities] = React.useState([]);
+  const handleFacilitiesChange = (types: any) => {
+    setFacilities(types);
+  };
 
-  let apartmentStatuses = ["Any", "Vacant", "Occupied"];
-  let [apartmentStatus, setApartmentStatus] = React.useState("Any");
+  const [beds, setBeds] = React.useState<number | "">("");
+  const handleBedsChange = (e: any) => {
+    setBeds(e.target.value);
+  };
 
-  const handleApartmentStatusChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+  const [baths, setBaths] = React.useState<number | "">("");
+  const handleBathsChange = (e: any) => {
+    setBaths(e.target.value);
+  };
+
+  const [floor, setFloor] = React.useState<number | "">("");
+  const handleFloorChange = (e: any) => {
+    setFloor(e.target.value);
+  };
+
+  const [area, setArea] = React.useState<number | "">("");
+  const handleAreaChange = (e: any) => {
+    setArea(e.target.value);
+  };
+
+  const [price, setPrice] = React.useState<number | "">("");
+  const handlePriceChange = (e: any) => {
+    setPrice(e.target.value);
+  };
+
+  const [address, setAddress] = React.useState<any>("");
+  const handleAddressChange = (e: any) => {
+    setAddress(e.target.value);
+  };
+
+  const [zone, setZone] = React.useState<any>("");
+  const [district, setDistrict] = React.useState<any>("");
+  const [division, setDivision] = React.useState<any>("");
+  const [location, setLocation] = React.useState<any>({});
+
+  const [streetNo, setStreetNo] = React.useState<number | "">("");
+  const handleStreetNoChange = (e: any) => {
+    setStreetNo(e.target.value);
+  };
+  const [houseNo, setHouseNo] = React.useState<number | "">("");
+  const handleHouseNoChange = (e: any) => {
+    setHouseNo(e.target.value);
+  };
+
+  const [description, setDescription] = React.useState<any>("");
+  const handleDescriptionChange = (e: any) => {
+    setDescription(e.target.value);
+  };
+
+  const [mapAddress, setMapAddress] = React.useState<any>("");
+
+  const pageHeight = _pageHeight;
+
+  let setOnMap = (e: any): void => {
+    setMapAddress(address);
+  };
+
+  let [apartmentFiles, setApartmentFiles] = useState<any[]>([]);
+  let apartmentFilesURL: any[] = [];
+
+  let blueprintFilesURL: any[] = [];
+  let [blueprintFiles, setBlueprintFiles] = useState<any[]>([]);
+
+  let count = 0;
+
+  let uploadingOnFirebase = async (
+    files: any,
+    urls: any,
+    location: any
   ) => {
-    setApartmentStatus(event.target.value);
+    files.forEach((file: any) => {
+      // console.log(apartmentFile);
+      const storageRef = ref(
+        storage,
+        `${location}/${new Date().getTime()}_${randomInRange(0, 10000000000)}_${
+          file.name
+        }`
+      );
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {},
+        (error) => {
+          // Handle unsuccessful uploads
+          setMessage("image file uploading failed");
+          setSeverity("error");
+          setOpenToast(true);
+        },
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            // console.log("File available at", downloadURL);
+            urls.push(downloadURL);
+            count++;
+            if (count === apartmentFiles.length + blueprintFiles.length) {
+              addingApartment();
+            }
+          });
+        }
+      );
+    });
   };
 
-  let orderByes = [
-    "price lowest",
-    "nearest",
-    "latest",
-    "price highest",
-    "preference",
-  ];
-  let [orderBy, setOrderBy] = React.useState("");
+  let [addingApartmentLoading, setAddingApartmentLoading] = useState(false);
 
-  const handleOrderByChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOrderBy(event.target.value);
-  };
+  let [openToast, setOpenToast] = React.useState(false);
+  let [message, setMessage] = React.useState("");
+  let [severity, setSeverity] = React.useState("success");
 
-  const saveSearch = () => {
-    console.log("saving search ...");
-  };
+  let addingApartment = async () => {
+    let params = {
+      apartment: {
+        types: apartmentTypes.map((type) => apartmentTypeReverseMapping[type]),
+        vacancy: true,
+        description,
+        floor,
+        bedrooms: beds,
+        washrooms: baths,
+        area_sqft: area,
+        price,
+        blueprint_url: blueprintFilesURL[0],
+      },
 
-  // const onSearch = =async (data: any) => {
-  // 	setSelected(data);
-  // };
-
-  const search = async () => {
-    // console.log("searching ...");
-    // const url = `${HOST}/apartments`;
-    const params = {
-      apartmentTypes: apartmentTypes,
-      beds: beds,
-      baths: baths,
-      price_min: +budget[0],
-      price_max: +budget[1],
-      area_min: +area[0],
-      area_max: +area[1],
-      facilities: facilities,
-      keywords: keywords,
+      keywords: {
+        starpoint_ids: keywords,
+      },
+      facilities: {
+        facility_ids: facilities,
+      },
+      location: {
+        detailed_address: address,
+        street_no: streetNo,
+        house_no: houseNo,
+        zone: zone,
+        district: district,
+        division: division,
+        latitude: location.lat,
+        longitude: location.lng,
+      },
+      images: {
+        image_urls: apartmentFilesURL,
+      },
     };
-    console.log("params: ", params);
-    let data = await searchApartments(params);
+    let data: any = await addApartment(params);
     console.log(data);
+    setAddingApartmentLoading(false);
+    count = 0;
+    if (data.success) {
+      setOpenToast(true);
+      setMessage(data.data);
+      setSeverity("success");
+    } else {
+      setOpenToast(true);
+      setMessage(data.message);
+      setSeverity("error");
+    }
+  };
+
+  let onPublish = async () => {
+    apartmentFilesURL = [];
+    blueprintFilesURL = [];
+    setAddingApartmentLoading(true);
+    count = 0;
+
+    uploadingOnFirebase(
+      apartmentFiles,
+      apartmentFilesURL,
+      "apartments"
+    );
+    uploadingOnFirebase(
+      blueprintFiles,
+      blueprintFilesURL,
+      "blueprints"
+    );
+
+    console.log("Uploaded");
   };
 
   return (
     <>
-      <Grid container spacing={0} key={1}>
-        <Grid key={"1_ex"} className="left-part" minHeight={"92vh"} container item lg={3} md={3}>
-        </Grid>
-        <Grid key={2} minHeight={"92vh"} maxHeight={"92vh"} position={"fixed"} left={{ md: "25%",lg: "25%" }} overflow={"auto"} container item lg={6} md={6} className={'middle-part'}>
-          <Grid key={1} item lg={6}  md={6} className="center-content">
-            <Box sx={{ margin: "10px" }}>
-              <Typography variant="h4"  >Add Apartment</Typography>
-            </Box>
+      <LoaderComponent loading={addingApartmentLoading} />
+      <ToastComponent
+        message={message}
+        open={openToast}
+        onClose={setOpenToast}
+        onCross={setOpenToast}
+        severity={severity}
+      />
+      <Grid container spacing={0} key={1} mt={0}>
+        <Grid
+          item
+          container
+          height={pageHeight}
+          position={"fixed"}
+          overflow={"auto"}
+          md={12}
+          lg={12}
+          sx={{
+            ..._centeringStyle,
+            bgcolor: _color.background_left,
+          }}
+        >
+          <Grid
+            key={2}
+            container
+            item
+            pt={3}
+            spacing={0}
+            sx={{
+              width: "66vw",
+              bgcolor: _color.background_upper,
+              borderRadius: _divRadius,
+            }}
+          >
+            <Grid key={1} item lg={6} md={6}>
+              <Box sx={{ ..._centeringStyle }}>
+                <ThemeProvider theme={theme}>
+                  <Typography
+                    sx={{
+                      ml: 1,
+                      fontSize: "1.75rem",
+                      fontWeight: 600,
+                      letterSpacing: ".3rem",
+                      color: "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Add Apartment
+                  </Typography>
+                </ThemeProvider>
+              </Box>
+            </Grid>
+            <Grid key={2} item lg={6} md={6}>
+              <Box sx={{ ..._centeringStyle }}>
+                <ButtonComponent
+                  variant="contained"
+                  style="primary"
+                  onClick={onPublish}
+                >
+                  Publish
+                </ButtonComponent>
+              </Box>
+            </Grid>
+            <Grid item key={"apartment image"} lg={6} md={6}>
+              <Box
+                sx={{
+                  ..._centeringStyle,
+                }}
+              >
+                <Dropzone
+                  title="Apartment's Image(max 10 files)"
+                  maxFiles={10}
+                  onUpload={(files: any) => {
+                    setApartmentFiles(files);
+                  }}
+                >
+                  {(dropzoneProps: any) => {
+                    return <></>;
+                  }}
+                </Dropzone>
+              </Box>
+            </Grid>
+            <Grid item key={"blueprint"} lg={6} md={6}>
+              <Box
+                sx={{
+                  ..._centeringStyle,
+                }}
+              >
+                <Dropzone
+                  title="Blueprint(1 image)"
+                  maxFiles={1}
+                  onUpload={(files: any) => {
+                    setBlueprintFiles(files);
+                  }}
+                >
+                  {(dropzoneProps: any) => {
+                    return <></>;
+                  }}
+                </Dropzone>
+              </Box>
+            </Grid>
+            <Grid key={"apartment type"} item lg={4} md={4}>
+              <Box mx={2}>
+                <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
+              </Box>
+            </Grid>
+            <Grid key={"KeywordsComponent"} item lg={4} md={4}>
+              <Box mx={2}>
+                <KeywordsComponent onChange={handleKeywordsChange} />
+              </Box>
+            </Grid>
+            <Grid key={"FacilitiesComponent"} item lg={4} md={4}>
+              <Box mx={2}>
+                <FacilitiesComponent onChange={handleFacilitiesChange} />
+              </Box>
+            </Grid>
+            <Grid key={5} container my={1}>
+              <Grid item lg={4} md={4}>
+                <Box mx={2}>
+                  <TextFieldComponent
+                    label="Beds"
+                    type="number"
+                    value={beds}
+                    handleChange={handleBedsChange}
+                  />
+                </Box>
+              </Grid>
+              <Grid item lg={4} md={4}>
+                <Box mx={2}>
+                  <TextFieldComponent
+                    label="Baths"
+                    type="number"
+                    value={baths}
+                    handleChange={handleBathsChange}
+                  />
+                </Box>
+              </Grid>
+              <Grid item lg={4} md={4}>
+                <Box mx={2}>
+                  <TextFieldComponent
+                    label="Floor"
+                    type="number"
+                    value={floor}
+                    handleChange={handleFloorChange}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container my={1}>
+              <Grid item lg={4} md={4}>
+                <Box mx={2}>
+                  <TextFieldComponent
+                    label="Area(sq. ft.)"
+                    type="number"
+                    value={area}
+                    handleChange={handleAreaChange}
+                  />
+                </Box>
+              </Grid>
+              <Grid item lg={4} md={4}>
+                <Box mx={2}>
+                  <TextFieldComponent
+                    label="Price"
+                    type="number"
+                    value={price}
+                    handleChange={handlePriceChange}
+                  />
+                </Box>
+              </Grid>
+              <Grid item lg={3} md={3}>
+                <Box ml={2}>
+                  <TextFieldComponent
+                    label="Address"
+                    value={address}
+                    handleChange={handleAddressChange}
+                  />
+                </Box>
+              </Grid>
+              <Grid
+                item
+                lg={1}
+                md={1}
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "flex-end",
+                }}
+              >
+                <Box mr={2}>
+                  <Tooltip title="see on map">
+                    <IconButton
+                      size="large"
+                      color="error"
+                      sx={{
+                        bgcolor: _color.background_upper,
+                        borderRadius: _divRadius,
+                        height: "40px",
+                        width: "40px",
+                      }}
+                      onClick={setOnMap}
+                    >
+                      <LocationOnIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container my={1}>
+              <Grid container item md={6} lg={6}>
+                <Grid item md={6} lg={6}>
+                  <Box mx={2}>
+                    <TextFieldComponent
+                      label="Street no."
+                      type="number"
+                      value={streetNo}
+                      handleChange={handleStreetNoChange}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item md={6} lg={6}>
+                  <Box mx={2}>
+                    <TextFieldComponent
+                      label="house no."
+                      type="number"
+                      value={houseNo}
+                      handleChange={handleHouseNoChange}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item md={12} lg={12}>
+                  <Box mx={2}>
+                    <TextAreaComponent
+                      value={description}
+                      handleChange={handleDescriptionChange}
+                      title={"Description"}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item md={6} lg={6}>
+                  <Box mx={2}>
+                    <b>Contact</b>
+                    <table></table>
+                  </Box>
+                </Grid>
+              </Grid>
+              <Grid item md={6} lg={6}>
+                <Box mx={2} height={_mapHeightInAddApartment}>
+                  <Map
+                    setAddress={setAddress}
+                    draggable
+                    fromAddress
+                    openMap={true}
+                    setLatLng={setLocation}
+                    address={mapAddress}
+                    height={"100%"}
+                    setZone={setZone}
+                    setDistrict={setDistrict}
+                    setDivision={setDivision}
+                  ></Map>
+                </Box>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid key={2} item lg={6}  md={6} className={"center-content"}>
-            <Box sx={{ margin: "10px" }}>
-              <ButtonComponent variant="contained">Publish</ButtonComponent>
-            </Box>
-          </Grid>
-          <Grid key={3} item lg={12} md={12}>
-            {/* {apartments.map((x, idx) => {
-              return <Apartment data={x} key={idx} />;
-            })} */}
-          </Grid>
-        </Grid>
-        <Grid key={3} position={"fixed"}  left={"66.67%"} container item lg={3} md={3} className={"right-part"}>
-          {/* <Map address="ece building, buet, dhaka" /> */}
         </Grid>
       </Grid>
     </>
