@@ -147,7 +147,7 @@ export default function Home() {
             key={2}
             container
             item
-            pt={3}
+            p={3}
             mt={2}
             spacing={0}
             sx={{
@@ -248,18 +248,10 @@ export default function Home() {
                 </Box>
               </Grid>
               <Grid item lg={6} md={6}>
-                <Box mx={2}>
+                <Box px={2}>
                   <Budget
                     key={6}
                     budget={budget}
-                    grid_slider_lg={12}
-                    grid_slider_md={12}
-                    box_slider_mx={1}
-                    box_slider_px={2}
-                    grid_text_lg={6}
-                    grid_text_md={6}
-                    box_text_mx={1}
-                    box_text_px={"0px"}
                     setBudget={setBudget}
                   />
                 </Box>
@@ -269,14 +261,6 @@ export default function Home() {
                   <Area
                     key={7}
                     area={area}
-                    grid_slider_lg={12}
-                    grid_slider_md={12}
-                    box_slider_mx={1}
-                    box_slider_px={2}
-                    grid_text_lg={6}
-                    grid_text_md={6}
-                    box_text_mx={1}
-                    box_text_px={"0px"}
                     setArea={setArea}
                   />
                 </Box>
@@ -295,139 +279,20 @@ export default function Home() {
               </Grid>
 
               <Grid item container lg={6} md={6} px={1}>
-                <LocationSearchMapComponent
-                  handleLocationChange={(location: any) =>
-                    {}
-                  }
-                  handleRadiusChange={(r: any) => {}}
-                />
+
+                <Box px={2} >
+                  <LocationSearchMapComponent
+                    handleLocationChange={(location: any) =>
+                      {}
+                    }
+                    handleRadiusChange={(r: any) => {}}
+                  />
+                </Box>
               </Grid>
               <Grid key={"FacilitiesComponent"} item lg={6} md={6}>
                 <Box mx={2}>
                   <FacilitiesComponent onChange={handleFacilitiesChange} />
                 </Box>
-              </Grid>
-
-              {/* <Grid item lg={4} md={4}>
-                <Box mx={2}>
-                  <TextFieldComponent
-                    label="Baths"
-                    type="number"
-                    value={baths}
-                    handleChange={handleBathsChange}
-                  />
-                </Box>
-              </Grid> */}
-              <Grid item lg={4} md={4}>
-                <Box mx={2}>
-                  {/* <TextFieldComponent
-                    label="Floor"
-                    type="number"
-                    value={floor}
-                    handleChange={handleFloorChange}
-                  /> */}
-                </Box>
-              </Grid>
-            </Grid>
-            <Grid container>
-              <Grid item lg={4} md={4}>
-                <Box mx={2}>
-                  {/* <TextFieldComponent
-                    label="Area(sq. ft.)"
-                    type="number"
-                    value={area}
-                    handleChange={handleAreaChange}
-                  /> */}
-                </Box>
-              </Grid>
-              <Grid item lg={4} md={4}>
-                <Box mx={2}>
-                  {/* <TextFieldComponent
-                    label="Price"
-                    type="number"
-                    value={price}
-                    handleChange={handlePriceChange}
-                  /> */}
-                </Box>
-              </Grid>
-              <Grid item lg={3} md={3}>
-                <Box ml={2}>
-                  {/* <TextFieldComponent
-                    label="Address"
-                    value={address}
-                    handleChange={handleAddressChange}
-                  /> */}
-                </Box>
-              </Grid>
-              <Grid
-                item
-                lg={1}
-                md={1}
-                sx={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "flex-end",
-                }}
-              >
-                <Box mr={2}>
-                  {/* <Tooltip title="see on map">
-                    <IconButton
-                      size="large"
-                      color="error"
-                      sx={{
-                        bgcolor: _color.background_upper,
-                        borderRadius: _divRadius,
-                        height: "40px",
-                        width: "40px",
-                      }}
-                      onClick={setOnMap}
-                    >
-                      <LocationOnIcon />
-                    </IconButton>
-                  </Tooltip> */}
-                </Box>
-              </Grid>
-            </Grid>
-            <Grid container my={1}>
-              <Grid container item md={6} lg={6}>
-                <Grid item md={6} lg={6}>
-                  <Box mx={2}>
-                    {/* <TextFieldComponent
-                      label="Street no."
-                      type="number"
-                      value={streetNo}
-                      handleChange={handleStreetNoChange}
-                    /> */}
-                  </Box>
-                </Grid>
-                <Grid item md={6} lg={6}>
-                  <Box mx={2}>
-                    {/* <TextFieldComponent
-                      label="house no."
-                      type="number"
-                      value={houseNo}
-                      handleChange={handleHouseNoChange}
-                    /> */}
-                  </Box>
-                </Grid>
-                <Grid item md={12} lg={12}>
-                  <Box mx={2}>
-                    {/* <TextAreaComponent
-                      value={description}
-                      handleChange={handleDescriptionChange}
-                      title={"Description"}
-                    /> */}
-                  </Box>
-                </Grid>
-                <Grid item md={6} lg={6}>
-                  <Box mx={2}>
-                    <b>Contact</b>
-                    <table></table>
-                  </Box>
-                </Grid>
-              </Grid>
-              <Grid item md={6} lg={6}>
-                <Box mx={2} height={_mapHeightInAddApartment}></Box>
               </Grid>
             </Grid>
           </Grid>
