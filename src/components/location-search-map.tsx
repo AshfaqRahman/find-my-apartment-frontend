@@ -39,9 +39,9 @@ export default function LocationSearchMapComponent(props: any) {
   // }, [openMap])
 
   return (
-    <>
+    <Grid container  spacing={2}>
       <Grid item lg={10} md={10}>
-        <Box px={1} sx={{ ..._centeringStyle }}>
+        <Box  sx={{ ..._centeringStyle }}>
           <TextFieldComponent
             label="Address"
             value={searchAddress}
@@ -82,14 +82,15 @@ export default function LocationSearchMapComponent(props: any) {
           <></>
         )}
       </Grid>
-      <Grid px={1} item md={12} lg={12}>
+      <Grid  item md={12} lg={12}>
         <TextFieldComponent
           label="Radius(in k.m.)"
           type="number"
           value={radius}
+          fullWidth
           handleChange={handleRadiusChange}
         />
       </Grid>
-    </>
+    </Grid>
   );
 }
