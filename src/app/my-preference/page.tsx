@@ -46,7 +46,7 @@ import {
 
 import { storage } from "@/services/firebase-config";
 import { randomInRange } from "@/static/utils";
-import { addApartment } from "./apis";
+import { setPreference } from "./apis";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
 import LocationSearchMapComponent from "@/components/location-search-map";
@@ -106,10 +106,80 @@ export default function Home() {
     setFacilities(types);
   };
 
+
+  const [address, setAddress] = React.useState<any>("");
+  const handleAddressChange = (e: any) => {
+    setAddress(e.target.value);
+  };
+
+  const [zone, setZone] = React.useState<any>("");
+  const [district, setDistrict] = React.useState<any>("");
+  const [division, setDivision] = React.useState<any>("");
+  const [location, setLocation] = React.useState<any>("");
+
+  const [streetNo, setStreetNo] = React.useState<number | "">("");
+  const handleStreetNoChange = (e: any) => {
+    setStreetNo(e.target.value);
+  };
+  const [houseNo, setHouseNo] = React.useState<number | "">("");
+  const handleHouseNoChange = (e: any) => {
+    setHouseNo(e.target.value);
+  };
+  const [radius, setRadius] = React.useState<number | "">("");
+
+
   const [keywords, setKeywords] = React.useState([]);
   const handleKeywordsChange = (types: any) => {
     setKeywords(types);
   };
+
+  const savePreference = async () => {
+    let params = {
+      keywords: {
+        starpoint_ids: keywords,
+      },
+      facilities: {
+        facility_ids: facilities,
+      },
+
+      location: {
+        detailed_address: address,
+        street_no: streetNo,
+        house_no: houseNo,
+        zone: zone,
+        district: district,
+        division: division,
+        latitude: location.lat,
+        longitude: location.lng,
+      },
+      user_preference: {
+        radius,
+        max_bedrooms: maxBeds,
+        min_bedrooms: minBeds,
+        max_washrooms: maxBaths,
+        min_washrooms: minBaths,
+        min_budget: +budget[0],
+        max_budget: +budget[1],
+        max_area: +area[1],
+        min_area: +area[0],
+        types: apartmentTypes.map((type) => apartmentTypeReverseMapping[type]),
+        max_floor: maxFloor,
+        min_floor: minFloor,
+      }
+    }
+    let data: any = await setPreference(params);
+    console.log(data);
+    setSavingPreferences(false);
+    if (data.success) {
+      setOpenToast(true);
+      setMessage(data.data);
+      setSeverity("success");
+    } else {
+      setOpenToast(true);
+      setMessage(data.message);
+      setSeverity("error");
+    }
+  }
 
   const height = _pageHeight;
 
@@ -179,7 +249,7 @@ export default function Home() {
                 <ButtonComponent
                   variant="contained"
                   style="primary"
-                  onClick={() => {}}
+                  onClick={savePreference}
                 >
                   Save
                 </ButtonComponent>
@@ -282,10 +352,12 @@ export default function Home() {
 
                 <Box px={2} >
                   <LocationSearchMapComponent
-                    handleLocationChange={(location: any) =>
-                      {}
-                    }
-                    handleRadiusChange={(r: any) => {}}
+                    handleLocationChange={(location: any) => setLocation(location)}
+                    handleRadiusChange={(r: any) => {setRadius(r)}}
+                    setAddress={setAddress}
+                    setDistrict={setDistrict}
+                    setDivision={setDivision}
+                    setZone={setZone}
                   />
                 </Box>
               </Grid>
