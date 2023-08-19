@@ -63,7 +63,6 @@ export default function Home() {
     setNoOfPersons(selectedOptions);
   };
 
-  
   const [searchAddress, setSearchAddress] = React.useState<any>("");
   const [radius, setRadius] = React.useState<number | "">("");
 
@@ -252,10 +251,12 @@ export default function Home() {
           </Grid>
 
           <Grid item container lg={12} md={12}>
-            <LocationSearchMapComponent
-              handleAddressChange={(address: any) => setSearchAddress(address)}
-              handleRadiusChange={(r: any) => setRadius(r)}
-            />
+            <Box px={1}>
+              <LocationSearchMapComponent
+                handleLocationChange={(location: any) => {}}
+                handleRadiusChange={(r: any) => setRadius(r)}
+              />
+            </Box>
           </Grid>
           <Grid item lg={4} md={4}>
             <GendersSelectionComponent onChange={handleNoOfPersonsChange} />
