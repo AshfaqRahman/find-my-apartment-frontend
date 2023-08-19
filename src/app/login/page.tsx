@@ -11,6 +11,24 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Image from 'next/image'
 import { LoginApi } from './apis';
 
+import { redirect } from "next/navigation";
+
+import { useRouter } from "next/navigation";
+import { Rochester } from "next/font/google";
+import { _color, _pageHeight, _pageMargin } from "@/static/constants";
+import ButtonComponent from "@/mui-components/buttons";
+import { Alert, LinearProgress, Snackbar } from "@mui/material";
+import LoaderComponent from "@/components/loader";
+import ToastComponent from "@/mui-components/toast";
+import { setCookie } from "cookies-next";
+
+const rochester = Rochester({ weight: "400", subsets: ["latin"] });
+const theme = createTheme({
+  typography: {
+    fontFamily: rochester.style.fontFamily,
+  },
+});
+
 function Copyright(props:any) {
   return (
     <Grid align="center" style={{backgroundColor:"E6E6E6", fontSize:"14px"}} {...props}>
@@ -24,18 +42,36 @@ function Copyright(props:any) {
 }
 
 export default function Login() {
-  var [email, setEmail] = React.useState("")
-  var [password, setPassword] = React.useState("")
+  const { push } = useRouter();
+  let [loggingLoader, setLoggingLoader] = React.useState(false);
+  var [email, setEmail] = React.useState("");
+  var [password, setPassword] = React.useState("");
+  let [openError, setOpenError] = React.useState(false);
+  let [openSuccess, setOpenSuccess] = React.useState(false);
+  let [message, setMessage] = React.useState("");
 
   let loginSubmit = async () => {
+    setLoggingLoader(true);
     const data = {
       email: email,
       password: password,
-    }
-    console.log(data);
-    const response = await LoginApi(data)
-    if(response.success){
-      // redirect("/advance-search");
+    };
+    const response: any = await LoginApi(data);
+    if (response.success) {
+      // console.log(response);
+      setMessage("Login Successful");
+      setOpenSuccess(true);
+      setTimeout(() => {
+        setLoggingLoader(false);
+        setCookie("token", response.data.token, {
+          maxAge: 1 * 24 * 60 * 60, // 1 days
+        })
+        push("/advance-search");
+      }, 1000);
+    } else {
+      setLoggingLoader(false);
+      setMessage(response.message);
+      setOpenError(true);
     }
   };
 
@@ -109,7 +145,23 @@ export default function Login() {
               </Box>
             </Grid>
           </Grid>
-        </Grid>
+      
+      
+      <ToastComponent
+        message={message}
+        open={openError}
+        onClose={setOpenError}
+        onCross={setOpenError}
+        severity="error"
+      />
+      <ToastComponent
+        message={message}
+        open={openSuccess}
+        onClose={setOpenSuccess}
+        onCross={setOpenSuccess}
+        severity="success"
+      />
+      </Grid>
       
       <Copyright/>
     </>

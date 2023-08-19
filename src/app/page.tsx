@@ -9,8 +9,12 @@ import {
   _beds,
   _budget,
 } from "@/static/constants";
-
-import AppBarComponent from "@/components/app-bar-home";
+import AppBarHomeComponent from "@/components/app-bar-home";
+import ToastComponent from "@/mui-components/toast";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { getCookie } from "cookies-next";
+import { checkAuth } from "./apis";
 import Link from "next/link";
 
 function Copyright(props:any) {
@@ -26,11 +30,31 @@ function Copyright(props:any) {
 }
 
 export default function Home() {
+  const { push } = useRouter();
+
+  let [openToast, setOpenToast] = React.useState(false);
+  let [message, setMessage] = React.useState("");
+  let [severity, setSeverity] = React.useState("success");
+  useEffect(() => {
+    console.log("Home::useEffect");
+    // console.log(getCookie("token"));
+    checkAuth().then((response) => {
+      // console.log(response);
+      if (response.success) {
+        setSeverity("success");
+        setMessage(response.data.message);
+        setOpenToast(true);
+        setTimeout(() => {
+          push("/advance-search");
+        }, 1000);
+      }
+    });
+  }, []);
   const imgSize = 160, wdt = "30vw";
   return (
     <>
-      <AppBarComponent>
-      </AppBarComponent>
+      <AppBarHomeComponent>
+      </AppBarHomeComponent>
       
       <Grid>  
         <Grid>
@@ -238,8 +262,15 @@ export default function Home() {
             </Card>
           </Grid>
         </Card>
+        
+      <ToastComponent
+          message={message}
+          open={openToast}
+          onClose={setOpenToast}
+          onCross={setOpenToast}
+          severity={severity}
+        />
       </Grid>
-
       <Copyright/>
     </>
   );

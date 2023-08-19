@@ -9,9 +9,14 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
-import SelectComponent from '@/mui-components/select';
-import { RegisterApi } from './apis';
 import Image from 'next/image';
+import SelectComponent from "@/mui-components/select";
+import { RegisterApi } from "./apis";
+import { useRouter } from "next/navigation";
+import { _color, _pageHeight } from "@/static/constants";
+import ButtonComponent from "@/mui-components/buttons";
+import LoaderComponent from "@/components/loader";
+import ToastComponent from "@/mui-components/toast";
 
 function Copyright(props:any) {
   return (
@@ -30,33 +35,50 @@ function Copyright(props:any) {
 const defaultTheme = createTheme()
 
 export default function SignUp() {
-  var [firstName, setFirstName] = React.useState("")
-  var [lastName, setLastName] = React.useState("")
-  var [email, setEmail] = React.useState("")
-  var [password, setPassword] = React.useState("")
-  var [phone_no, setPhoneNo] = React.useState("")
-  var [gender, setGender] = React.useState("")
+  const { push } = useRouter();
+  var [firstName, setFirstName] = React.useState("");
+  var [lastName, setLastName] = React.useState("");
+  var [email, setEmail] = React.useState("");
+  var [password, setPassword] = React.useState("");
+  var [phone_no, setPhoneNo] = React.useState("");
+  var [gender, setGender] = React.useState("");
+
+  let [registerLoading, setRegisterLoading] = React.useState(false);
+  let [openError, setOpenError] = React.useState(false);
+  let [openSuccess, setOpenSuccess] = React.useState(false);
+  let [message, setMessage] = React.useState("");
 
   let registerSubmit = async () => {
+    setRegisterLoading(true);
     const data = {
       first_name: firstName,
       last_name: lastName,
       email: email,
       password: password,
       phone_no: phone_no,
-      gender: gender
-    }
-    console.log(data);
-    const response = await RegisterApi(data)
-    if(response.success){
+      gender: gender,
+    };
+    const response = await RegisterApi(data);
+    
+    if (response.success) {
       // redirect
-      
+      setMessage("Sign Up Successful");
+      setOpenSuccess(true);
+      setTimeout(() => {
+        setRegisterLoading(false);
+        push("/login");
+      }, 1000);
+    } else {
+      setRegisterLoading(false);
+      setMessage(response.message);
+      setOpenError(true);
     }
-  }
+  };
 
   return (
     <>
       <Grid container style={{backgroundColor: "#E6E6E6", height:"96.5vh"}}>
+      <LoaderComponent loading={registerLoading} />
         <Grid item xs>
           <Grid style={{display: "flex", justifyContent: "right", padding: 10}}>
             <Image 
@@ -161,7 +183,20 @@ export default function SignUp() {
           </Grid>        
         </Grid>
       </Grid>
-
+      <ToastComponent
+        message={message}
+        open={openError}
+        onClose={setOpenError}
+        onCross={setOpenError}
+        severity="error"
+      />
+      <ToastComponent
+        message={message}
+        open={openSuccess}
+        onClose={setOpenSuccess}
+        onCross={setOpenSuccess}
+        severity="success"
+      />
       <Copyright/>
     </>
     
