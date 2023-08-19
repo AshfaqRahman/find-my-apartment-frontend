@@ -9,6 +9,8 @@ export default function LocationSearchMapComponent(props: any) {
   const [searchAddress, setSearchAddress] = useState<any>("");
   const handleSearchAddressChange = (e: any) => {
     setSearchAddress(e.target.value);
+    if(props.setAddress)
+      props.setAddress(e.target.value);
   };
 
   const [location, setLocation] = useState<any>();
@@ -74,9 +76,9 @@ export default function LocationSearchMapComponent(props: any) {
             searchAddress={searchAddress}
             setSearchAddress={setSearchAddress}
             setLatLng={setLocation}
-            setZone={() => {}}
-            setDistrict={() => {}}
-            setDivision={() => {}}
+            setZone={props.setZone}
+            setDistrict={props.setDistrict}
+            setDivision={props.setDivision}
           />
         ) : (
           <></>
