@@ -27,11 +27,12 @@ import {
 import LoaderComponent from "@/components/loader";
 
 import Carousel from "react-material-ui-carousel";
-import Overview from "./components/overview";
-import FacStar from "./components/facStar";
-import Address from "./components/address";
+import Overview from "../components/overview";
+import FacStar from "../components/facStar";
+import Address from "../components/address";
 
-export default function ApartmentDetails() {
+export default function ApartmentDetails(params: any) {
+  console.log(params);
 
   let [fetchingApartments, setFetchingApartments] = React.useState(false);
 
