@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
@@ -74,16 +74,32 @@ export default function Home() {
   let [apartments, setApartments] = React.useState([]);
 
   let apartmentStatuses = ["Any", "Vacant", "Occupied"];
-  let [apartmentStatus, setApartmentStatus] = React.useState("Any");
+  let [apartmentStatus, setApartmentStatus] = useState("Any");
 
-  let orderByes = [
-    "price lowest",
-    "nearest",
-    "latest",
-    "price highest",
-    "preference",
-  ];
-  let [orderBy, setOrderBy] = React.useState("");
+  let orderByes : any = {
+    "price lowest": {
+      key: "price",
+      order: 1,
+    },
+    "price highest": {
+      key: "price",
+      order: -1,
+    },
+    "latest": {
+      key: "created_at",
+      order: -1,
+    },
+    // "nearest",
+    // "price highest",
+    // "preference",
+  };
+  let [orderBy, setOrderBy] = useState<string>("");
+
+  useEffect(() => {
+    let apts = [...apartments];
+    apts.sort((a: any, b: any) => orderByes[orderBy].order * (a[orderByes[orderBy].key] > b[orderByes[orderBy].key] ? 1 : -1));
+    setApartments(apts);
+  }, [orderBy]);
 
   const saveSearch = () => {
     console.log("saving search ...");
@@ -106,7 +122,6 @@ export default function Home() {
 
   const [location, setLocation] = React.useState<any>("");
   const [radius, setRadius] = React.useState<number | "">("");
-  
 
   const [searchAddress, setSearchAddress] = React.useState<any>("");
 
@@ -314,7 +329,7 @@ export default function Home() {
               <Box sx={{ width: "100%" }}>
                 <SelectComponent
                   title={"Order By"}
-                  elements={orderByes}
+                  elements={Object.keys(orderByes)}
                   value={orderBy}
                   handleChange={setOrderBy}
                 />
