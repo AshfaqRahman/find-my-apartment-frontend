@@ -18,7 +18,8 @@ export const apiUrls = {
 		upgrade: '/api/user/upgrade',
 		modify: '/api/user',
 		usage: 'api/user/usage',
-		preference: `${HOST}/api/user/my-preference`
+		preference: `${HOST}/api/user/my-preference`,
+		info: `${HOST}/api/user/profile`
 	},
 	auth: {
 		register: `${HOST}/api/auth/register`,

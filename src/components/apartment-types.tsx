@@ -6,17 +6,13 @@ import React from "react";
 
 export default function ApartmentTypesComponent(props: any) {
   const [inputTypes, setInputTypes] = React.useState("");
-  const [selectedApartmentTypes, setSelectedApartmentTypes] = React.useState([]);
   const [apartmentTypes, setApartmentTypes] = React.useState(_apartmentTypes);
-  React.useEffect(() => {
-    props.onChange(selectedApartmentTypes);
-  }, [selectedApartmentTypes]);
   return (
     <Box>
       <AutoCompleteComponent 
         multiple={true}
-        value={selectedApartmentTypes}
-        setValue={setSelectedApartmentTypes}
+        value={props.value}
+        setValue={props.setValue}
         inputValue={inputTypes}
         setInputValue={setInputTypes}
         options={apartmentTypes}

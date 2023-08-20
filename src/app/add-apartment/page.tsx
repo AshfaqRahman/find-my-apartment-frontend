@@ -46,7 +46,7 @@ import {
 
 import { storage } from "@/services/firebase-config";
 import { randomInRange } from "@/static/utils";
-import { addApartment } from "./apis";
+import { addApartment, getUserData } from "./apis";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
 
@@ -186,9 +186,30 @@ export default function Home() {
 
   let [addingApartmentLoading, setAddingApartmentLoading] = useState(false);
 
-  let [openToast, setOpenToast] = React.useState(false);
-  let [message, setMessage] = React.useState("");
-  let [severity, setSeverity] = React.useState("success");
+  let [openToast, setOpenToast] = useState(false);
+  let [message, setMessage] = useState("");
+  let [severity, setSeverity] = useState("success");
+  
+  let [contactInfo, setContactInfo] = useState({
+    email: "",
+    phone_no: "",
+  });
+  
+  
+
+  useEffect(() => {
+    (async () => {
+      let data: any = await getUserData();
+      console.log(data);
+      if(data.success) {
+        setContactInfo(data.data);
+      } else {
+        setOpenToast(true);
+        setMessage(data.message);
+        setSeverity("error");
+      }
+    })();
+  }, []);
 
   let addingApartment = async () => {
     let params = {
@@ -364,17 +385,18 @@ export default function Home() {
             </Grid>
             <Grid key={"apartment type"} item lg={4} md={4}>
               <Box mx={2}>
-                <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
+                <ApartmentTypesComponent value={apartmentTypes} setValue={setApartmentTypes} />
               </Box>
             </Grid>
             <Grid key={"KeywordsComponent"} item lg={4} md={4}>
               <Box mx={2}>
-                <KeywordsComponent onChange={handleKeywordsChange} />
+                <KeywordsComponent 
+                value={keywords} setValue={setKeywords} />
               </Box>
             </Grid>
             <Grid key={"FacilitiesComponent"} item lg={4} md={4}>
               <Box mx={2}>
-                <FacilitiesComponent onChange={handleFacilitiesChange} />
+                <FacilitiesComponent value={facilities} setValue={setFacilities}/>
               </Box>
             </Grid>
             <Grid key={5} container my={1}>
@@ -502,7 +524,20 @@ export default function Home() {
                 <Grid item md={6} lg={6}>
                   <Box mx={2}>
                     <b>Contact</b>
-                    <table></table>
+                    <Grid container>
+                      <Grid item md={5} lg={5}>
+                        Email
+                      </Grid>
+                      <Grid item md={7} lg={7}>
+                        : {contactInfo.email}
+                      </Grid>
+                      <Grid item md={5} lg={5}>
+                        Phone
+                      </Grid>
+                      <Grid item md={7} lg={7}>
+                        : {contactInfo.phone_no}
+                      </Grid>
+                    </Grid>
                   </Box>
                 </Grid>
               </Grid>

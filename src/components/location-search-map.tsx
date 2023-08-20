@@ -6,26 +6,13 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useEffect, useState } from "react";
 
 export default function LocationSearchMapComponent(props: any) {
-  const [searchAddress, setSearchAddress] = useState<any>("");
   const handleSearchAddressChange = (e: any) => {
-    setSearchAddress(e.target.value);
-    if(props.setAddress)
-      props.setAddress(e.target.value);
+    props.setAddress(e.target.value);
   };
 
-  const [location, setLocation] = useState<any>();
-  useEffect(() => {
-    props.handleLocationChange(location);
-  }, [location]);
-
-  let [radius, setRadius] = useState<number | "">("");
   let handleRadiusChange = (e: any) => {
-    setRadius(e.target.value);
+    props.setRadius(e.target.value);
   };
-
-  useEffect(() => {
-    props.handleRadiusChange(radius);
-  }, [radius]);
 
   let [openMap, setOpenMap] = useState(false);
 
@@ -36,17 +23,13 @@ export default function LocationSearchMapComponent(props: any) {
     setOpenMap(true);
   };
 
-  // useEffect(() => {
-  //   console.log("map address", mapAddress);
-  // }, [openMap])
-
   return (
-    <Grid container  spacing={2}>
+    <Grid container spacing={2}>
       <Grid item lg={10} md={10}>
-        <Box  sx={{ ..._centeringStyle }}>
+        <Box sx={{ ..._centeringStyle }}>
           <TextFieldComponent
             label="Address"
-            value={searchAddress}
+            value={props.searchAddress}
             handleChange={handleSearchAddressChange}
           />
         </Box>
@@ -73,9 +56,9 @@ export default function LocationSearchMapComponent(props: any) {
           <MapDialogComponent
             openMap={openMap}
             closeMap={() => setOpenMap(false)}
-            searchAddress={searchAddress}
-            setSearchAddress={setSearchAddress}
-            setLatLng={setLocation}
+            searchAddress={props.searchAddress}
+            setSearchAddress={props.setSearchAddress}
+            setLatLng={props.setLocation}
             setZone={props.setZone}
             setDistrict={props.setDistrict}
             setDivision={props.setDivision}
@@ -84,11 +67,11 @@ export default function LocationSearchMapComponent(props: any) {
           <></>
         )}
       </Grid>
-      <Grid  item md={12} lg={12}>
+      <Grid item md={12} lg={12}>
         <TextFieldComponent
           label="Radius(in k.m.)"
           type="number"
-          value={radius}
+          value={props.radius}
           fullWidth
           handleChange={handleRadiusChange}
         />

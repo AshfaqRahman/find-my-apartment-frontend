@@ -28,6 +28,7 @@ import {
   _divRadius,
   _mapHeightInAddApartment,
   _pageHeight,
+  apartmentTypeMapping,
   apartmentTypeReverseMapping,
 } from "@/static/constants";
 import Dropzone from "@/components/ReactComponents/dropzone";
@@ -64,9 +65,6 @@ const theme = createTheme({
 
 export default function Home() {
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
-  const handleApartmentTypeChange = (types: any) => {
-    setApartmentTypes(types);
-  };
 
   const [minBeds, setMinBeds] = React.useState<number | "">("");
   const handleMinBedsChange = (e: any) => {
@@ -108,9 +106,6 @@ export default function Home() {
 
 
   const [address, setAddress] = React.useState<any>("");
-  const handleAddressChange = (e: any) => {
-    setAddress(e.target.value);
-  };
 
   const [zone, setZone] = React.useState<any>("");
   const [district, setDistrict] = React.useState<any>("");
@@ -129,11 +124,9 @@ export default function Home() {
 
 
   const [keywords, setKeywords] = React.useState([]);
-  const handleKeywordsChange = (types: any) => {
-    setKeywords(types);
-  };
 
   const savePreference = async () => {
+    setSavingPreferences(true);
     let params = {
       keywords: {
         starpoint_ids: keywords,
@@ -182,31 +175,34 @@ export default function Home() {
   }
 
   let setSavedPreference = (data: any) => {
-    setMinBaths(data.user_preference.min_washrooms);
-    setMaxBaths(data.user_preference.max_washrooms);
-    setMinBeds(data.user_preference.min_bedrooms);
-    setMaxBeds(data.user_preference.max_bedrooms);
-    setMinFloor(data.user_preference.min_floor);
-    setMaxFloor(data.user_preference.max_floor);
-    setBudget([data.user_preference.min_budget, data.user_preference.max_budget]);
-    setArea([data.user_preference.min_area, data.user_preference.max_area]);
-    setApartmentTypes(data.user_preference.types.map((type: any) => _apartmentTypes[type]));
-    setKeywords(data.keywords.starpoint_ids);
-    setFacilities(data.facilities.facility_ids);
+    setMinBaths(data.min_washrooms);
+    setMaxBaths(data.max_washrooms);
+    setMinBeds(data.min_bedrooms);
+    setMaxBeds(data.max_bedrooms);
+    setMinFloor(data.min_floor);
+    setMaxFloor(data.max_floor);
+    setBudget([data.min_budget, data.max_budget]);
+    setArea([data.min_area, data.max_area]);
+    setApartmentTypes(data.types.map((type: any) => apartmentTypeMapping[type]));
+    setKeywords(data.keywords.map((keyword: any) => keyword.starpoint.starpoint_id));
+    setFacilities(data.facilities.map((facility: any) => facility.facility.facilities_id));
     setAddress(data.location.detailed_address);
+    setRadius(data.radius);
+    setStreetNo(data.location.street_no);
+    setHouseNo(data.location.house_no);
+    setZone(data.location.zone);
+    setDistrict(data.location.district);
+    setDivision(data.location.division);
+    setLocation({ lat: data.location.latitude, lng: data.location.longitude });
   }
 
   useEffect(() => {
     setSavingPreferences(true);
     (async () => {
       let data: any = await getPreference();
-      console.log(data);
-      // setSavedPreference(data.data);
       setSavingPreferences(false);
       if (data.success) {
-        setOpenToast(true);
-        setMessage(data.data);
-        setSeverity("success");
+        setSavedPreference(data.data)
       } else {
         setOpenToast(true);
         setMessage(data.message);
@@ -372,13 +368,14 @@ export default function Home() {
               <Grid key={"apartment type"} item lg={6} md={6}>
                 <Box mx={2}>
                   <ApartmentTypesComponent
-                    onChange={handleApartmentTypeChange}
+                    value={apartmentTypes}
+                    setValue={setApartmentTypes}
                   />
                 </Box>
               </Grid>
               <Grid key={"KeywordsComponent"} item lg={6} md={6}>
                 <Box mx={2}>
-                  <KeywordsComponent onChange={handleKeywordsChange} />
+                  <KeywordsComponent value={keywords} setValue={setKeywords} />
                 </Box>
               </Grid>
 
@@ -386,8 +383,11 @@ export default function Home() {
 
                 <Box px={2} >
                   <LocationSearchMapComponent
-                    handleLocationChange={(location: any) => setLocation(location)}
-                    handleRadiusChange={(r: any) => {setRadius(r)}}
+                    setRadius={setRadius}
+                    radius={radius}
+                    setLocation={setLocation}
+                    searchAddress={address}
+                    setSearchAddress={setAddress}
                     setAddress={setAddress}
                     setDistrict={setDistrict}
                     setDivision={setDivision}
@@ -397,7 +397,7 @@ export default function Home() {
               </Grid>
               <Grid key={"FacilitiesComponent"} item lg={6} md={6}>
                 <Box mx={2}>
-                  <FacilitiesComponent onChange={handleFacilitiesChange} />
+                  <FacilitiesComponent value={facilities} setValue={setFacilities} />
                 </Box>
               </Grid>
             </Grid>

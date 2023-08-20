@@ -106,6 +106,13 @@ export default function Home() {
 
   const [location, setLocation] = React.useState<any>("");
   const [radius, setRadius] = React.useState<number | "">("");
+  
+
+  const [searchAddress, setSearchAddress] = React.useState<any>("");
+
+  const [zone, setZone] = React.useState<any>("");
+  const [district, setDistrict] = React.useState<any>("");
+  const [division, setDivision] = React.useState<any>("");
 
   const search = async () => {
     setFetchingApartments(true);
@@ -186,18 +193,25 @@ export default function Home() {
           <Grid item container lg={12} md={12}>
             <Box px={1}>
               <LocationSearchMapComponent
-                handleLocationChange={(location: any) => setLocation(location)}
-                handleRadiusChange={(r: any) => setRadius(r)}
-                setZone={() => {}}
-                setDistrict={() => {}}
-                setDivision={() => {}}
+                setRadius={setRadius}
+                radius={radius}
+                setLocation={setLocation}
+                searchAddress={searchAddress}
+                setSearchAddress={setSearchAddress}
+                setAddress={setSearchAddress}
+                setDistrict={setDistrict}
+                setDivision={setDivision}
+                setZone={setZone}
               />
             </Box>
           </Grid>
 
           <Grid key={3} item lg={12} md={12}>
             <Box mx={1}>
-              <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
+              <ApartmentTypesComponent
+                value={apartmentTypes}
+                setValue={setApartmentTypes}
+              />
             </Box>
           </Grid>
           <Grid
@@ -249,12 +263,15 @@ export default function Home() {
           />
           <Grid key={8} item lg={12} md={12}>
             <Box mx={1}>
-              <FacilitiesComponent onChange={handleFacilitiesChange} />
+              <FacilitiesComponent
+                value={facilities}
+                setValue={setFacilities}
+              />
             </Box>
           </Grid>
           <Grid key={9} item lg={12} md={12}>
             <Box mx={1}>
-              <KeywordsComponent onChange={handleKeywordsChange} />
+              <KeywordsComponent value={keywords} setValue={setKeywords} />
             </Box>
           </Grid>
         </Grid>
