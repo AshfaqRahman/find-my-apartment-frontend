@@ -2,17 +2,30 @@ import { apiUrls } from '@/lib/apiUrls';
 import axios from 'axios';
 
 
-export const searchApartments = async (data: any) => {
-	const res = await axios.get(
-        apiUrls.apartments.list,
-        {
-            params: data
-        }
-    )
+export const getApartment = async (data: any) => {
+	
+    try {
+        console.log("getApartment :: ", data)
+        const res = await axios.get(
+            `${apiUrls.apartment.get}/${data.apartment_id}`,
+            {
+                headers: {
+                    Authorization: `${data.token}`,
+                },
+            }
+        )
     
-    return res.data
-};
 
-export const find = async (data) => {
-    
-}
+        return { data: res.data, success: res.status === 200 }
+
+    } catch (error: any) {
+        console.log("getApartment :: error", error);
+        if (error.response.status === 403) {
+            return {
+                success: false,
+                message: error.response.data.message,
+            }
+        }
+        // return error.response.data
+    }
+};

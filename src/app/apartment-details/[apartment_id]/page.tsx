@@ -1,14 +1,9 @@
 "use client";
 import * as React from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import {
-  Box,
-  Chip,
-  Divider,
-  Grid
-} from "@mui/material";
+import { Box, Chip, Divider, Grid } from "@mui/material";
 import ButtonComponent from "@/mui-components/buttons";
 import MultiSelectComponent from "@/mui-components/multi-select";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -30,61 +25,91 @@ import Carousel from "react-material-ui-carousel";
 import Overview from "../components/overview";
 import FacStar from "../components/facStar";
 import Address from "../components/address";
+import { getApartment } from "../apis";
+import ToastComponent from "@/mui-components/toast";
 
 export default function ApartmentDetails(params: any) {
-  console.log(params);
+  let [apartment, setApartment] = useState<any>();
 
-  let [fetchingApartments, setFetchingApartments] = React.useState(false);
+  let [openToast, setOpenToast] = React.useState(false);
+  let [message, setMessage] = React.useState("");
+  let [severity, setSeverity] = React.useState("success");
 
-  var items = [
-    {
-      name: "Random Name #1",
-      description: "Probably the most random thing you have ever seen!",
-      img: "/dhaka-view.jpg",
-    },
-    {
-      name: "Random Name #2",
-      description: "Hello World!",
-      img: "/apartment.jpg",
-    },
-  ];
+  let [loadingApartment, setLoadingApartment] = useState(true);
 
-  let facilities = ["wifi", "parking", "elevator"]
+  useEffect(() => {
+    let apartment_id = params.params.apartment_id;
+    setLoadingApartment(true);
+    (async () => {
+      let data: any = await getApartment({ apartment_id });
+      if (!data.success) {
+        setMessage(data.message);
+        setSeverity("error");
+        setOpenToast(true);
+      } else {
+        setApartment(data.data);
+        setLoadingApartment(false);
+      }
+    })();
+  }, []);
 
-  let star_points = ["hospital", "school", "university", "shopping mall"]
+  let facilities = ["wifi", "parking", "elevator"];
+
+  let star_points = ["hospital", "school", "university", "shopping mall"];
+
+  let imageWidth = 70;
 
   let tabs: any = [
     {
       title: "Overview",
       onClick: () => window.scrollTo(0, tabs[0].ref.current.offsetTop),
       ref: useRef(null),
-      jsx: <Overview photo="/blueprint1.jpg" type="Family" bedrooms="4" bathrooms="3" zone="Lalbag" floor="5" area="1200" price="20000" description="Welcome to this charming two-bedroom apartment nestled in the heart of the bustling city. With its prime location, you'll have easy access to all the amenities and attractions that make urban living exciting."/>,
+      jsx: (
+        <Overview
+          apartment={apartment}
+          photo="/blueprint1.jpg"
+          type="Family"
+          bedrooms="4"
+          bathrooms="3"
+          zone="Lalbag"
+          floor="5"
+          area="1200"
+          price="20000"
+          description="Welcome to this charming two-bedroom apartment nestled in the heart of the bustling city. With its prime location, you'll have easy access to all the amenities and attractions that make urban living exciting."
+        />
+      ),
     },
     {
       title: "Address",
       onClick: () => window.scrollTo(0, tabs[1].ref.current.offsetTop),
       ref: useRef(null),
-      jsx: <Address house_no="78A" street_no="6" zone="Lalbag" district="Dhaka"/>,
+      jsx: <Address location={apartment?.location} house_no="78A" street_no="6" zone="Lalbag" district="Dhaka"/>,
     },
     {
       title: "Facilities",
       onClick: () => window.scrollTo(0, tabs[2].ref.current.offsetTop),
       ref: useRef(null),
-      jsx: <FacStar type="Facilities" list={facilities}/>,
+      jsx: <FacStar type="Facilities" list={apartment?.facilities?.map((facility: any) => facility.facility.title)}/>,
     },
     {
       title: "Star Points",
-      onClick: () => window.scrollTo(0, tabs[3].ref.current.offsetTop),
-      ref: useRef(null),
-      jsx: <FacStar type="Starpoints" list={star_points} />,
+    onClick: () => window.scrollTo(0, tabs[3].ref.current.offsetTop),
+    ref: useRef(null),
+    jsx: <FacStar type="Starpoints" list={apartment?.starpoints.map((star: any) => star.starpoint.title)} />,
     },
   ];
 
-  let imageWidth = 70;
-
   return (
     <>
-      <LoaderComponent loading={fetchingApartments} />
+      <LoaderComponent loading={loadingApartment} />
+
+      <ToastComponent
+        message={message}
+        open={openToast}
+        onClose={setOpenToast}
+        onCross={setOpenToast}
+        severity={severity}
+      />
       <Grid
         container
         spacing={0}
@@ -102,13 +127,17 @@ export default function ApartmentDetails(params: any) {
         >
           <Grid item>
             <Box width={imageWidth + "vw"}>
-              <Carousel height={"35vw"} animation="slide">
-                {items.map((item, i) => (
-                  <Box key={i}>
-                    <Item item={item} />
-                  </Box>
-                ))}
-              </Carousel>
+              {loadingApartment ? (
+                <></>
+              ) : (
+                <Carousel animation="slide">
+                  {apartment?.images?.map((image, i) => (
+                    <Box key={i} height={"60vh"}>
+                      <Item img={image.image_url} />
+                    </Box>
+                  ))}
+                </Carousel>
+              )}
             </Box>
             <ButtonComponent variant={"contained"} style={"primary"}>
               <LocationOnIcon />
@@ -118,7 +147,8 @@ export default function ApartmentDetails(params: any) {
         </Grid>
 
         <Grid item md={12} lg={12} my={2}>
-          <Box sx={{
+          <Box
+            sx={{
               ..._centeringStyle,
               justifyContent: "space-between",
               px: (100 - imageWidth) / 2 + "vw",
@@ -141,13 +171,15 @@ export default function ApartmentDetails(params: any) {
         <Grid item md={12} lg={12} sx={{ ..._centeringStyle }}>
           <Box width={imageWidth + "vw"}>
             <Grid container>
-              {
-                tabs.map((tab: any, i: number) => (
+              {tabs.map((tab: any, i: number) => {
+                return loadingApartment ? (
+                  <div key={i}></div>
+                ) : (
                   <Grid key={i} my={2} item lg={12} md={12}>
                     <div ref={tab.ref}>{tab.jsx}</div>
                   </Grid>
-                ))
-              }
+                );
+              })}
             </Grid>
           </Box>
         </Grid>
@@ -163,15 +195,12 @@ export default function ApartmentDetails(params: any) {
 
 function Item(props: any) {
   return (
-    <Image
-      src={props.item.img}
-      fill={true}
-      loading="lazy" // optional
+    <img
+      src={props.img}
+      width={"100%"}
+      height={"100%"}
       alt="Apartment"
       style={{ borderRadius: _divRadius }}
-      onClick={() => {
-        console.log("props.item.description: ", props.item.description);
-      }}
     />
   );
 }
