@@ -26,7 +26,7 @@ import HOST from "@/static/host";
 import axios from "axios";
 import Apartment from "@/components/apartment";
 import SelectComponent from "@/mui-components/select";
-import { searchApartments } from "./apis";
+import { addToWishlist, getWishlist, removeFromWishlist, searchApartments } from "./apis";
 import { apiUrls } from "@/lib/apiUrls";
 import ApartmentTypesComponent from "@/components/apartment-types";
 import BedsSelectionComponent from "@/components/beds-selection";
@@ -47,6 +47,42 @@ export default function Home() {
   const handleApartmentTypeChange = (types: any) => {
     setApartmentTypes(types);
   };
+
+  const [wishlist, setWishlist] = React.useState<any>([]);
+
+  useEffect(() => {
+    (async () => {
+      let data = await getWishlist();
+      setWishlist(data.data.map((x: any) => x.apartment_id));
+      console.log(data);
+    })();
+  }, []);
+
+  let addingInWishlist = async (apartment_id: any) => {
+    let data = await addToWishlist({ apartment_id })
+    console.log(data);
+    
+    setWishlist(data.data.map((x: any) => x.apartment_id));
+    if (!data.success) {
+      setSeverity("error");
+      setMessage(data.data.message);
+      setOpenToast(true);
+      return;
+    }
+  }
+
+  let removingFromWishlist = async (apartment_id: any) => {
+    let data = await removeFromWishlist({ apartment_id })
+    console.log(data);
+    
+    setWishlist(data.data.map((x: any) => x.apartment_id));
+    if (!data.success) {
+      setSeverity("error");
+      setMessage(data.data.message);
+      setOpenToast(true);
+      return;
+    }
+  }
 
   const [beds, setBeds] = React.useState([]);
   const handleBedsChange = (selectedOptions: any) => {
@@ -349,7 +385,10 @@ export default function Home() {
               {apartments.map((x: any, idx) => {
                 return (
                   <Apartment
-                    onClick={() => {
+                    addToWishlist={() => addingInWishlist(x.id)}
+                    removeFromWishlist={() => removingFromWishlist(x.id)}
+                    inWishlist={wishlist.includes(x.id)}
+                    setMapLocation={() => {
                       let lat = randomInRange(22, 24);
                       let lng = randomInRange(89, 91);
                       // console.log(lat, lng);
