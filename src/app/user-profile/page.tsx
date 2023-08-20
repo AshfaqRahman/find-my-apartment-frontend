@@ -90,7 +90,7 @@ export default function User() {
   useEffect(() => {
     setLoadingUserData(true);
     (async () => {
-      let data = await getUserData();
+      let data: any = await getUserData();
       console.log(data);
       setLoadingUserData(false);
       if(data.success) {
