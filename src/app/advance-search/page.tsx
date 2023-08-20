@@ -54,7 +54,7 @@ export default function Home() {
     (async () => {
       let data = await getWishlist();
       setWishlist(data.data.map((x: any) => x.apartment_id));
-      console.log(data);
+      // console.log(data);
     })();
   }, []);
 
