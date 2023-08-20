@@ -23,15 +23,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed, faShower } from "@fortawesome/free-solid-svg-icons";
 import FacilitiesIconsComponent from "./facilities-icons";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { useEffect, useState } from "react";
 
 export default function Apartment(props: any) {
   let facilities = props.data.facilities.map(
     (facility: any) => facility.facility.title
   );
 
-  let handleClick = async () => {
-    props.onClick();
+  let showOnMap = async () => {
+    props.setMapLocation();
   };
+
+  let inWishlist = props.inWishlist;
+
+  let margin = 3;
+  let color = "#2ea300";
 
   return (
     <>
@@ -56,7 +62,9 @@ export default function Apartment(props: any) {
                 BDT. {props.data.price}
               </Typography>
               <Typography key={3} gutterBottom variant="h6" component="div">
-                {props.data.types.map((type: any) => apartmentTypeMapping[type]).join(", ")}
+                {props.data.types
+                  .map((type: any) => apartmentTypeMapping[type])
+                  .join(", ")}
               </Typography>
               <Typography key={4} gutterBottom component="div">
                 Road no. {props.data.location.street_no},{" "}
@@ -92,6 +100,7 @@ export default function Apartment(props: any) {
                           height: "20px",
                           mr: 1,
                           fontSize: "15px",
+                          padding: 1.5,
                         }}
                       >
                         {x.starpoint.title}
@@ -109,19 +118,67 @@ export default function Apartment(props: any) {
                     alignItems: "flex-end",
                   }}
                 >
-                  <IconButton
-                    size="large"
-                    color="error"
-                    sx={{
-                      bgcolor: _color.background_upper,
-                      borderRadius: _divRadius,
-                      height: "40px",
-                      width: "40px",
-                    }}
-                    onClick={handleClick}
-                  >
-                    <LocationOnIcon />
-                  </IconButton>
+                  <Tooltip title="see on map">
+                    <IconButton
+                      size="large"
+                      color="error"
+                      sx={{
+                        bgcolor: _color.background_upper,
+                        borderRadius: _divRadius,
+                        height: "40px",
+                        width: "40px",
+                      }}
+                      onClick={showOnMap}
+                    >
+                      <LocationOnIcon />
+                    </IconButton>
+                  </Tooltip>
+
+                  {!props.inWishlist ? (
+                    <IconButton
+                      size="large"
+                      color="error"
+                      sx={{
+                        bgcolor: _color.background_upper,
+                        borderRadius: _divRadius,
+                        height: "40px",
+                        width: "40px",
+                      }}
+                      onClick={props.addToWishlist}
+                    >
+                      <Tooltip title={"add to wishlist"}>
+                        <img
+                          style={{ margin: margin }}
+                          src="/wishlist.png"
+                          height={30}
+                          color={color}
+                          alt="playground"
+                        />
+                      </Tooltip>
+                    </IconButton>
+                  ) : (
+                    <IconButton
+                      size="large"
+                      color="error"
+                      sx={{
+                        bgcolor: _color.background_upper,
+                        borderRadius: _divRadius,
+                        height: "40px",
+                        width: "40px",
+                      }}
+                      onClick={props.removeFromWishlist}
+                    >
+                      <Tooltip title={"remove from wishlist"}>
+                        <img
+                          style={{ margin: margin }}
+                          src="/heart.png"
+                          height={30}
+                          color={color}
+                          alt="playground"
+                        />
+                      </Tooltip>
+                    </IconButton>
+                  )}
                 </Grid>
               </Grid>
             </CardContent>
