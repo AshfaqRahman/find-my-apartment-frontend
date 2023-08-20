@@ -28,10 +28,8 @@ import LoaderComponent from "@/components/loader";
 
 import Carousel from "react-material-ui-carousel";
 import Overview from "./components/overview";
-import Facilities from "./components/facilities";
-import StarPoints from "./components/star-points";
-import Pricing from "./components/pricing";
-import { faBed, faShower } from "@fortawesome/free-solid-svg-icons";
+import FacStar from "./components/facStar";
+import Address from "./components/address";
 
 export default function ApartmentDetails() {
 
@@ -50,32 +48,34 @@ export default function ApartmentDetails() {
     },
   ];
 
+  let facilities = ["wifi", "parking", "elevator"]
 
+  let star_points = ["hospital", "school", "university", "shopping mall"]
 
   let tabs: any = [
     {
       title: "Overview",
       onClick: () => window.scrollTo(0, tabs[0].ref.current.offsetTop),
       ref: useRef(null),
-      jsx: <Overview type="Family" bedrooms="4" bathrooms="3" zone="Lalbag" floor="5" area="1200" description="Welcome to this charming two-bedroom apartment nestled in the heart of the bustling city. With its prime location, you'll have easy access to all the amenities and attractions that make urban living exciting."/>,
+      jsx: <Overview photo="/blueprint1.jpg" type="Family" bedrooms="4" bathrooms="3" zone="Lalbag" floor="5" area="1200" price="20000" description="Welcome to this charming two-bedroom apartment nestled in the heart of the bustling city. With its prime location, you'll have easy access to all the amenities and attractions that make urban living exciting."/>,
+    },
+    {
+      title: "Address",
+      onClick: () => window.scrollTo(0, tabs[1].ref.current.offsetTop),
+      ref: useRef(null),
+      jsx: <Address house_no="78A" street_no="6" zone="Lalbag" district="Dhaka"/>,
     },
     {
       title: "Facilities",
-      onClick: () => window.scrollTo(0, tabs[1].ref.current.offsetTop),
+      onClick: () => window.scrollTo(0, tabs[2].ref.current.offsetTop),
       ref: useRef(null),
-      jsx: <Facilities />,
+      jsx: <FacStar type="Facilities" list={facilities}/>,
     },
     {
       title: "Star Points",
-      onClick: () => window.scrollTo(0, tabs[2].ref.current.offsetTop),
-      ref: useRef(null),
-      jsx: <StarPoints />,
-    },
-    {
-      title: "Pricing",
       onClick: () => window.scrollTo(0, tabs[3].ref.current.offsetTop),
       ref: useRef(null),
-      jsx: <Pricing />,
+      jsx: <FacStar type="Starpoints" list={star_points} />,
     },
   ];
 
