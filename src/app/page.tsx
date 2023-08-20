@@ -60,7 +60,7 @@ export default function Home() {
       
       <Grid container style={{paddingBottom:"5px"}}>  
         <Grid item md={12} lg={12}>
-          <Box height={416} bgcolor={"red"}>
+          <Box height={416}>
           <Image 
               src={homepageImage}
               alt="Apartment"/> 
