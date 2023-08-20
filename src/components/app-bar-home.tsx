@@ -66,7 +66,7 @@ const settings = [
   "Logout",
 ];
 
-export default function AppBarHomeComponent() {
+export default function AppBarHomeComponent(props: any) {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
