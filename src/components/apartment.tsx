@@ -24,6 +24,7 @@ import { faBed, faShower } from "@fortawesome/free-solid-svg-icons";
 import FacilitiesIconsComponent from "./facilities-icons";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Apartment(props: any) {
   let facilities = props.data.facilities.map(
@@ -39,6 +40,10 @@ export default function Apartment(props: any) {
   let margin = 3;
   let color = "#2ea300";
 
+  const { push } = useRouter();
+
+
+
   return (
     <>
       <Card
@@ -53,6 +58,7 @@ export default function Apartment(props: any) {
           image={props.data.images[0].image_url}
           title="green iguana"
           key={1}
+          onClick={() => {push("/apartment-details/" + props.data.id)}}
         />
         <Grid container>
           <Box width={"100%"}>

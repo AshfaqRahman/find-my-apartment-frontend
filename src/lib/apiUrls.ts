@@ -8,6 +8,9 @@ export const apiUrls = {
         delete: '/api/apartments/:id',
 		add: `${HOST}/api/apartments/add`,
 	},
+	apartment: {
+		get: `${HOST}/api/apartments`,
+	},
 	wishlist: {
 		list: `${HOST}/api/wishlist`,
 		add: `${HOST}/api/wishlist/add`,
