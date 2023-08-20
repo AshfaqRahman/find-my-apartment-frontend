@@ -46,12 +46,11 @@ export default function Apartment(props: any) {
           display: "flex",
           margin: 3,
           borderRadius: _cardRadius,
-          cursor: "pointer",
         }}
       >
         <CardMedia
-          sx={{ width: "50%" }}
-          image="/apartment.jpg"
+          sx={{ width: "50%", cursor: "pointer" }}
+          image={props.data.images[0].image_url}
           title="green iguana"
           key={1}
         />
@@ -96,6 +95,7 @@ export default function Apartment(props: any) {
                         variant="contained"
                         color="info"
                         sx={{
+                          cursor: "default",
                           borderRadius: "50px",
                           height: "20px",
                           mr: 1,
