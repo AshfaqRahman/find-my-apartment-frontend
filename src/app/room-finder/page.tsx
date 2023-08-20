@@ -66,6 +66,11 @@ export default function Home() {
   const [searchAddress, setSearchAddress] = React.useState<any>("");
   const [radius, setRadius] = React.useState<number | "">("");
 
+  const [zone, setZone] = React.useState<any>("");
+  const [district, setDistrict] = React.useState<any>("");
+  const [division, setDivision] = React.useState<any>("");
+  const [location, setLocation] = React.useState<any>("");
+
   const [personsInRoom, setPersonsInRoom] = React.useState([]);
   const handlePersonsInRoomChange = (selectedOptions: any) => {
     setPersonsInRoom(selectedOptions);
@@ -253,11 +258,15 @@ export default function Home() {
           <Grid item container lg={12} md={12}>
             <Box px={1}>
               <LocationSearchMapComponent
-                handleLocationChange={(location: any) => {}}
-                handleRadiusChange={(r: any) => setRadius(r)}
-                setZone={() => {}}
-                setDistrict={() => {}}
-                setDivision={() => {}}
+                    setRadius={setRadius}
+                    radius={radius}
+                    setLocation={setLocation}
+                    searchAddress={searchAddress}
+                    setSearchAddress={setSearchAddress}
+                    setAddress={setSearchAddress}
+                    setDistrict={setDistrict}
+                    setDivision={setDivision}
+                    setZone={setZone}
               />
             </Box>
           </Grid>
