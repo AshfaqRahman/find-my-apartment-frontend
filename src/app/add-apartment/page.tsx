@@ -364,17 +364,18 @@ export default function Home() {
             </Grid>
             <Grid key={"apartment type"} item lg={4} md={4}>
               <Box mx={2}>
-                <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
+                <ApartmentTypesComponent value={apartmentTypes} setValue={setApartmentTypes} />
               </Box>
             </Grid>
             <Grid key={"KeywordsComponent"} item lg={4} md={4}>
               <Box mx={2}>
-                <KeywordsComponent onChange={handleKeywordsChange} />
+                <KeywordsComponent 
+                value={keywords} setValue={setKeywords} />
               </Box>
             </Grid>
             <Grid key={"FacilitiesComponent"} item lg={4} md={4}>
               <Box mx={2}>
-                <FacilitiesComponent onChange={handleFacilitiesChange} />
+                <FacilitiesComponent value={facilities} setValue={setFacilities}/>
               </Box>
             </Grid>
             <Grid key={5} container my={1}>
