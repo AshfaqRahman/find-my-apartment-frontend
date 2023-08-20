@@ -14,7 +14,7 @@ export const apiUrls = {
 	wishlist: {
 		list: `${HOST}/api/wishlist`,
 		add: `${HOST}/api/wishlist/add`,
-		remove: `${HOST}/api/wishlist/remove`,
+		remove: `${HOST}/api/wishlist`,
 	},
 
 	fixed_values: {
