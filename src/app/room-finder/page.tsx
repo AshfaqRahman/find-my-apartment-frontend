@@ -106,36 +106,6 @@ export default function Home() {
       facilities: "security, wifi, parking, rooftop, laundry",
     },
     {
-      id: 6,
-      price: 15000,
-      bedrooms: 3,
-      baths: 2,
-      area_sqft: 1400,
-      address: "Dhaka",
-      type: "Family",
-      title: "Bari Bhara Deowa Hoibe",
-      textBody:
-        "The quick brown fox jumps over the lazy dog. And so I need a billion dollars.",
-      owner: "makumhakan",
-      star_points: "Fire Station, Bank, School, University",
-      facilities: "security, wifi, parking, rooftop, laundry",
-    },
-    {
-      id: 5,
-      price: 15000,
-      bedrooms: 3,
-      baths: 2,
-      area_sqft: 1400,
-      address: "Dhaka",
-      type: "Family",
-      title: "Bari Bhara Deowa Hoibe",
-      textBody:
-        "The quick brown fox jumps over the lazy dog. And so I need a billion dollars.",
-      owner: "makumhakan",
-      star_points: "Fire Station, Bank, School, University",
-      facilities: "security, wifi, parking, rooftop, laundry",
-    },
-    {
       id: 2,
       price: 24000,
       bedrooms: 3,
@@ -191,7 +161,6 @@ export default function Home() {
   };
 
   const search = async () => {
-    // console.log("searching ...");
     const params = {
       apartmentTypes: apartmentTypes,
       baths: baths,
@@ -202,9 +171,6 @@ export default function Home() {
       facilities: facilities,
       keywords: keywords,
     };
-    // console.log("params: ", params);
-    let data = await findRooms(params);
-    // console.log(data);
   };
 
   let height = _pageHeight;
@@ -221,14 +187,14 @@ export default function Home() {
           overflow={"auto"}
           container
           item
-          lg={3}
-          md={3}
+          lg={4}
+          md={4}
           sx={{
             backgroundColor: _color.background_left,
           }}
         >
-          <Grid key={1} item lg={6} md={6}>
-            <Box sx={{ ..._centeringStyle, mt: "10px" }}>
+          <Grid key={1} item lg={6} md={6} style={{display:"flex", justifyContent:"left"}}>
+            <Box sx={{ ..._centeringStyle, m: "10px", mt:"20px"}}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
@@ -238,8 +204,9 @@ export default function Home() {
               </ButtonComponent>
             </Box>
           </Grid>
-          <Grid item lg={6} md={6}>
-            <Box sx={{ ..._centeringStyle, mt: "10px" }}>
+
+          <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"right"}}>
+            <Box sx={{ ..._centeringStyle, m: "10px", mt:"20px"}}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
@@ -307,17 +274,15 @@ export default function Home() {
             </Box>
           </Grid>
         </Grid>
-        <Grid
-          key={2}
+        <Grid 
           minHeight={{ height }}
           maxHeight={{ height }}
           position={"fixed"}
-          left={"25%"}
-          overflow={"auto"}
+          right={"0%"}
           container
           item
-          lg={9}
-          md={9}
+          lg={8}
+          md={8 }
         >
           <Grid
             item
@@ -329,7 +294,7 @@ export default function Home() {
             sx={{
               ..._centeringStyle,
               bgcolor: _color.background_upper,
-              borderRadius: _divRadius,
+              borderRadius: "10px",
             }}
             md={12}
           >
@@ -378,14 +343,14 @@ export default function Home() {
             </Grid>
           </Grid>
 
-          <Grid key={3} container item lg={12} md={12} m={2} height={"78vh"}>
+          <Grid key={3} container item lg={12} md={12} m={2} mt={1} height={"78vh"}>
             <Grid
               item
               lg={12}
               md={12}
               sx={{
                 bgcolor: _color.background_upper,
-                borderRadius: _divRadius,
+                borderRadius: "10px",
               }}
             >
               {posts.map((x, idx) => {

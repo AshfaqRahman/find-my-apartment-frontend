@@ -1,6 +1,6 @@
+"use client"
+
 import { Card, Grid } from "@mui/material";
-import BedIcon from '@mui/icons-material/Bed';
-import BathtubIcon from '@mui/icons-material/Bathtub';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed, faShower } from "@fortawesome/free-solid-svg-icons";
 
