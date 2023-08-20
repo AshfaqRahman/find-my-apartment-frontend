@@ -72,7 +72,7 @@ export default function Home() {
   }
 
   let removingFromWishlist = async (apartment_id: any) => {
-    let data = await removeFromWishlist({ apartment_id })
+    let data = await removeFromWishlist({ id: apartment_id })
     console.log(data);
     
     setWishlist(data.data.map((x: any) => x.apartment_id));
@@ -288,28 +288,12 @@ export default function Home() {
           <Budget
             key={6}
             budget={budget}
-            grid_slider_lg={12}
-            grid_slider_md={12}
-            box_slider_mx={1}
-            box_slider_px={2}
-            grid_text_lg={6}
-            grid_text_md={6}
-            box_text_mx={1}
-            box_text_px={"0px"}
             setBudget={setBudget}
           />
 
           <Area
             key={7}
             area={area}
-            grid_slider_lg={12}
-            grid_slider_md={12}
-            box_slider_mx={1}
-            box_slider_px={2}
-            grid_text_lg={6}
-            grid_text_md={6}
-            box_text_mx={1}
-            box_text_px={"0px"}
             setArea={setArea}
           />
           <Grid key={8} item lg={12} md={12}>

@@ -88,21 +88,20 @@ export const removeFromWishlist = async (params: any) => {
     try {
         console.log("removeFromWishlist");
         const res = await axios.delete(
-            apiUrls.wishlist.remove,
+            `${apiUrls.wishlist.remove}/${params.id}`,
             {
-                params,
                 headers: {
                     Authorization: `${getCookie('token')}`,
                 }
             }
         )
-
+        
         return {
             data: res.data,
             success: res.status === 200,
         }
     } catch (error: any) {
-        return {
+                return {
             success: false,
             message: error.response.data.message,
         }
