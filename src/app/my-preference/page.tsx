@@ -46,7 +46,7 @@ import {
 
 import { storage } from "@/services/firebase-config";
 import { randomInRange } from "@/static/utils";
-import { setPreference } from "./apis";
+import { getPreference, setPreference } from "./apis";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
 import LocationSearchMapComponent from "@/components/location-search-map";
@@ -180,6 +180,40 @@ export default function Home() {
       setSeverity("error");
     }
   }
+
+  let setSavedPreference = (data: any) => {
+    setMinBaths(data.user_preference.min_washrooms);
+    setMaxBaths(data.user_preference.max_washrooms);
+    setMinBeds(data.user_preference.min_bedrooms);
+    setMaxBeds(data.user_preference.max_bedrooms);
+    setMinFloor(data.user_preference.min_floor);
+    setMaxFloor(data.user_preference.max_floor);
+    setBudget([data.user_preference.min_budget, data.user_preference.max_budget]);
+    setArea([data.user_preference.min_area, data.user_preference.max_area]);
+    setApartmentTypes(data.user_preference.types.map((type: any) => _apartmentTypes[type]));
+    setKeywords(data.keywords.starpoint_ids);
+    setFacilities(data.facilities.facility_ids);
+    setAddress(data.location.detailed_address);
+  }
+
+  useEffect(() => {
+    setSavingPreferences(true);
+    (async () => {
+      let data: any = await getPreference();
+      console.log(data);
+      // setSavedPreference(data.data);
+      setSavingPreferences(false);
+      if (data.success) {
+        setOpenToast(true);
+        setMessage(data.data);
+        setSeverity("success");
+      } else {
+        setOpenToast(true);
+        setMessage(data.message);
+        setSeverity("error");
+      }
+    })();
+  }, []);
 
   const height = _pageHeight;
 
