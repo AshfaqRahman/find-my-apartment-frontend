@@ -5,12 +5,9 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import {
   Box,
-  Button,
   Chip,
   Divider,
-  Grid,
-  Paper,
-  Typography,
+  Grid
 } from "@mui/material";
 import ButtonComponent from "@/mui-components/buttons";
 import MultiSelectComponent from "@/mui-components/multi-select";
@@ -27,114 +24,18 @@ import {
   _mapWidth,
   _pageHeight,
 } from "@/static/constants";
-import SliderComponent from "@/mui-components/slider";
-import TextFieldComponent from "@/mui-components/text-field";
-import Budget from "@/components/budget";
-import Area from "@/components/area";
-import HOST from "@/static/host";
-import axios from "axios";
-import Apartment from "@/components/apartment";
-import SelectComponent from "@/mui-components/select";
-import { searchApartments } from "./apis";
-import { apiUrls } from "@/lib/apiUrls";
-import ApartmentTypesComponent from "@/components/apartment-types";
-import BedsSelectionComponent from "@/components/beds-selection";
-import BathsSelectionComponent from "@/components/baths-selection";
-import FacilitiesComponent from "@/components/facilities";
-import KeywordsComponent from "@/components/keywords";
-import Map from "@/components/map";
-import { randomInRange } from "@/static/utils";
 import LoaderComponent from "@/components/loader";
-import ToastComponent from "@/mui-components/toast";
 
 import Carousel from "react-material-ui-carousel";
 import Overview from "./components/overview";
 import Facilities from "./components/facilities";
 import StarPoints from "./components/star-points";
 import Pricing from "./components/pricing";
+import { faBed, faShower } from "@fortawesome/free-solid-svg-icons";
 
-const localPath = "advance-search";
-
-export default function Home() {
-  const [apartmentTypes, setApartmentTypes] = React.useState([]);
-  const handleApartmentTypeChange = (types: any) => {
-(types);
-    setApartmentTypes(types);
-  };
-
-  const [beds, setBeds] = React.useState([]);
-  const handleBedsChange = (selectedOptions: any) => {
-    setBeds(selectedOptions);
-  };
-
-  const [baths, setBaths] = React.useState(_baths);
-  const handleBathsChange = (selectedOptions: any) => {
-    setBaths(selectedOptions);
-  };
-
-  const [budget, setBudget] = React.useState([10000, 99999]);
-  const [area, setArea] = React.useState([500, 10000]);
-
-  const [facilities, setFacilities] = React.useState([]);
-  const handleFacilitiesChange = (types: any) => {
-    setFacilities(types);
-  };
-
-  const [keywords, setKeywords] = React.useState([]);
-  const handleKeywordsChange = (types: any) => {
-    setKeywords(types);
-  };
-
-  let apartmentStatuses = ["Any", "Vacant", "Occupied"];
-  let [apartmentStatus, setApartmentStatus] = React.useState("Any");
-
-  let orderByes = [
-    "price lowest",
-    "nearest",
-    "latest",
-    "price highest",
-    "preference",
-  ];
-  let [orderBy, setOrderBy] = React.useState("");
-
-  const saveSearch = () => {
-    console.log("saving search ...");
-  };
-
-  // const onSearch = =async (data: any) => {
-  // 	setSelected(data);
-  // };
-  let height = _pageHeight;
-  let mapWidth = _mapWidth;
-
-  let [mapLat, setMapLat] = React.useState();
-  let [mapLng, setMapLng] = React.useState();
-
-  let [openSuccess, setOpenSuccess] = React.useState(false);
-  let [message, setMessage] = React.useState("");
+export default function ApartmentDetails() {
 
   let [fetchingApartments, setFetchingApartments] = React.useState(false);
-
-  const search = async () => {
-    // console.log("searching ...");
-    // const url = `${HOST}/apartments`;
-    setFetchingApartments(true);
-    const params = {
-      apartmentTypes: apartmentTypes,
-      beds: beds,
-      baths: baths,
-      price_min: +budget[0],
-      price_max: +budget[1],
-      area_min: +area[0],
-      area_max: +area[1],
-      facilities: facilities,
-      keywords: keywords,
-    };
-    let data: any[] = await searchApartments(params);
-    setMessage(`${data.length} apartments are found`);
-    setOpenSuccess(true);
-    setFetchingApartments(false);
-  };
 
   var items = [
     {
@@ -149,15 +50,14 @@ export default function Home() {
     },
   ];
 
-  // const overview = useRef(null);
-  // const scrollToOverview = () => window.scrollTo(0, overview.current.offsetTop)
+
 
   let tabs: any = [
     {
       title: "Overview",
       onClick: () => window.scrollTo(0, tabs[0].ref.current.offsetTop),
       ref: useRef(null),
-      jsx: <Overview />,
+      jsx: <Overview type="Family" bedrooms="4" bathrooms="3" zone="Lalbag" floor="5" area="1200" description="Welcome to this charming two-bedroom apartment nestled in the heart of the bustling city. With its prime location, you'll have easy access to all the amenities and attractions that make urban living exciting."/>,
     },
     {
       title: "Facilities",
@@ -217,8 +117,7 @@ export default function Home() {
         </Grid>
 
         <Grid item md={12} lg={12} my={2}>
-          <Box
-            sx={{
+          <Box sx={{
               ..._centeringStyle,
               justifyContent: "space-between",
               px: (100 - imageWidth) / 2 + "vw",
