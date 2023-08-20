@@ -69,7 +69,7 @@ export default function LocationSearchMapComponent(props: any) {
       </Grid>
       <Grid item md={12} lg={12}>
         <TextFieldComponent
-          label="Radius(in k.m.)"
+          label="Range (in km)"
           type="number"
           value={props.radius}
           fullWidth

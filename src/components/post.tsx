@@ -1,7 +1,6 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@mui/material";
-import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
-import BathtubOutlinedIcon from '@mui/icons-material/BathtubOutlined';
-import Link from '@mui/material/Link';
+"use client"
+
+import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
 import { _cardRadius, _divRadius } from "@/static/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed, faShower } from "@fortawesome/free-solid-svg-icons";
@@ -18,16 +17,12 @@ export default function Post(props: any) {
       <Card sx={{ margin: 2, borderRadius: _cardRadius }}>
         <CardContent>
             <Grid container>
-                <Grid item md={7}>
+                <Grid item md={8}>
                     <Typography key={2} gutterBottom variant="h5" component="div" fontWeight={400}>
                         <b>{props.data.title}</b>
                     </Typography>
                 </Grid>
-
-                <Grid item md={2} display={"flex"} alignItems={"center"} justifyContent={"left"}>
-                    {props.data.type}
-                </Grid>
-                <Grid item md={3} display={"flex"} alignItems={"center"} fontSize={"20px"}  justifyContent={"right"}>
+                <Grid item md={4} display={"flex"} alignItems={"center"} fontSize={"20px"}  justifyContent={"right"}>
                     <b>BDT. {props.data.price}</b> 
                 </Grid>
             </Grid>
@@ -37,33 +32,94 @@ export default function Post(props: any) {
             </Grid>
             
             <Grid container>
-                <Grid item md={2}>
+                <Grid item md={3} style={{display:"flex", justifyContent:"left"}}>
+                    <b>{props.data.type}</b>  
+                </Grid>
+
+                <Grid item md={3} style={{display:"flex", justifyContent:"left"}}>
+                    <FontAwesomeIcon icon={faBed} style={{ margin: 3 }} />{" "} <b>{props.data.bedrooms}</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <FontAwesomeIcon icon={faShower} style={{ margin: 3 }} />{" "} <b>{props.data.bathrooms}</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                </Grid>
+
+                <Grid item md={3} style={{display:"flex", justifyContent:"center"}}>
                     {props.data.area_sqft} sqft 
                 </Grid>
 
-                <Grid item md={2}>
-                    <FontAwesomeIcon icon={faBed} style={{ margin: 3 }} />{" "} <b>{props.data.bedrooms}</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <Grid item md={3} style={{display:"flex", justifyContent:"right"}}>
+                    {props.data.zone}{", "}{props.data.district} 
+                </Grid> 
+            </Grid>
+
+            <Card style={{marginTop:"5px", marginBottom:"7.5px"}}>
+                <Grid container style={{margin:"2px"}}>
+                    <Grid item md={1.3} style={{display:"flex", alignItems:"center"}}>
+                        Facilities
+                    </Grid>
+                    <Grid item md={0.2} style={{display:"flex", alignItems:"center"}}>
+                        :
+                    </Grid>
+                    
+                    <Grid item md={10} lg={10}>
+                        {props.data.facilities.map((x: any, idx: number) => {
+                            return (
+                            <Button
+                                key={idx}
+                                variant="contained"
+                                color="info"
+                                sx={{
+                                borderRadius: "50px",
+                                height: "20px",
+                                mr: 1,
+                                fontSize: "14px",
+                                margin: "5px",
+                                }}
+                            >
+                                {x}
+                            </Button>
+                            );
+                        })}
+                    </Grid>
                 </Grid>
+            </Card>
 
-                <Grid item md={2}>
-                    <FontAwesomeIcon icon={faBed} style={{ margin: 3 }} />{" "} <b>{props.data.baths}</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <Card style={{marginTop:"7.5px", marginBottom:"0px"}}>
+                <Grid container style={{margin:"2px"}}>
+                    <Grid item md={1.3}  style={{display:"flex", alignItems:"center"}}>
+                        Starpoints
+                    </Grid>
+                    <Grid item md={0.2} style={{display:"flex", alignItems:"center"}}>
+                        :
+                    </Grid>
+                    
+                    <Grid item md={10} lg={10}>
+                        {props.data.star_points.map((x: any, idx: number) => {
+                            return (
+                            <Button
+                                key={idx}
+                                variant="contained"
+                                color="info"
+                                sx={{
+                                borderRadius: "50px",
+                                height: "20px",
+                                mr: 1,
+                                fontSize: "14px",
+                                margin: "5px"
+                                }}
+                            >
+                                {x}
+                            </Button>
+                            );
+                        })}
+                    </Grid>
                 </Grid>
-            </Grid>
-
-            <Grid>
-                <b>Facilities:</b> {props.data.facilities} 
-            </Grid>
-
-            <Grid>
-                <b>Starpoints:</b> {props.data.star_points} 
-            </Grid>
+            </Card>
  
             <Button
                 type="submit"
                 onClick={contactOwner}
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 2, mb: 1 }}
                 >
                 Contact Owner
             </Button>

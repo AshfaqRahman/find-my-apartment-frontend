@@ -101,14 +101,15 @@ export default function Home() {
       bedrooms: 3,
       baths: 2,
       area_sqft: 1400,
-      address: "Dhaka",
+      zone: "Motijheel",
+      district: "Dhaka",
       type: "Family",
       title: "Bari Bhara Deowa Hoibe",
       textBody:
         "The quick brown fox jumps over the lazy dog. And so I need a billion dollars.",
       owner: "makumhakan",
-      star_points: "Fire Station, Bank, School, University",
-      facilities: "security, wifi, parking, rooftop, laundry",
+      star_points: ["Fire Station", "Bank", "School", "University"],
+      facilities: ["security", "wifi", "parking", "rooftop", "laundry"]
     },
     {
       id: 2,
@@ -116,15 +117,15 @@ export default function Home() {
       bedrooms: 3,
       baths: 2,
       area_sqft: 1860,
-      address: "Dhaka",
+      zone: "Dhanmondi",
+      district: "Dhaka",
       type: "Family",
       title: "Apartment for Rent",
       textBody:
         "I tried so hard and got so far. But in the end, it doesn't even matter. I had to fall to lose it all. But in the end, it doesn't even matter.",
       owner: "tuluashfak",
-      star_points: "Hospital, Shopping Mall, School, Museum, Bus Stop, Airport",
-      facilities:
-        "security, wifi, parking, wheelchair accessibility, playground, air conditioning/heating, elevator",
+      star_points: ["Fire Station", "Bank, School", "University"],
+      facilities: ["security", "wifi", "parking", "rooftop", "laundry"]
     },
     {
       id: 3,
@@ -132,14 +133,15 @@ export default function Home() {
       bedrooms: 3,
       baths: 2,
       area_sqft: 1300,
-      address: "Dhaka",
+      zone: "Azimpur",
+      district: "Dhaka",
       type: "Bachelor",
       title: "Bachelor Bhaiyera, Eidike Ashun",
       textBody:
         "The child is grown, the dream is gone. I have become comfortably numb. Hello? Is there anybody in there? Just node if you can hear me. Is there anyone home?",
       owner: "maruiffa",
-      star_points: "Hospital, Gym, Theater, Railway Station, Bus Stop, Park",
-      facilities: "security, wifi, maintenance, laundry, parking, elevator",
+      star_points: ["Fire Station", "Bank, School", "University"],
+      facilities: ["security", "wifi", "parking", "rooftop", "laundry"]
     },
   ]);
 
@@ -147,7 +149,6 @@ export default function Home() {
   let [apartmentStatus, setApartmentStatus] = React.useState("Any");
 
   let orderByes = [
-    "Nearest",
     "Latest",
     "Lowest Price",
     "Highest Price",
@@ -237,22 +238,27 @@ export default function Home() {
               />
             </Box>
           </Grid>
+
           <Grid item lg={4} md={4}>
             <GendersSelectionComponent onChange={handleNoOfPersonsChange} />
           </Grid>
+
           <Grid item lg={4} md={4}>
             <BathsSelectionComponent onChange={handleBathsChange} />
           </Grid>
+
           <Grid item lg={4} md={4}>
             <NoOfResidentsSelectionComponent
               onChange={handleNoOfPersonsChange}
             />
           </Grid>
+
           <Grid item lg={6} md={6}>
             <PersonsInRoomSelectionComponent
               onChange={handlePersonsInRoomChange}
             />
           </Grid>
+
           <Grid item lg={6} md={6}>
             <NoOfLivingRoomsSelectionComponent
               onChange={handleNoOfPersonsChange}
@@ -272,11 +278,13 @@ export default function Home() {
             box_text_px={"0px"}
             setBudget={setBudget}
           />
+
           <Grid key={8} item lg={12} md={12}>
             <Box mx={1}>
               <FacilitiesComponent value={facilities} setValue={setFacilities} />
             </Box>
           </Grid>
+          
           <Grid key={9} item lg={12} md={12}>
             <Box mx={1}>
               <KeywordsComponent 
@@ -285,14 +293,16 @@ export default function Home() {
           </Grid>
         </Grid>
         <Grid 
+          key = {2}
           minHeight={{ height }}
           maxHeight={{ height }}
           position={"fixed"}
+          overflow={"auto"}
           right={"0%"}
           container
           item
           lg={8}
-          md={8 }
+          md={8}
         >
           <Grid
             item
