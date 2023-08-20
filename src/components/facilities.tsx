@@ -10,13 +10,8 @@ export default function FacilitiesComponent(props: any) {
   const { push } = useRouter();
 
   const [inputFacility, setInputFacilty] = React.useState("");
-  const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
   const [facilities, setFacilities] = useState<any[]>([]);
   let [facilitiesWithId, setfacilitiesWithId] = useState<any[]>([]);
-
-  // let getFacilities = async () {
-
-  // }
 
   React.useEffect(() => {
     console.log("FacilitiesComponent::fetching facilities");
@@ -31,20 +26,18 @@ export default function FacilitiesComponent(props: any) {
     })
   }, [])
 
-  React.useEffect(() => {
-
-    let facilitiesID = facilitiesWithId.filter(facilities => selectedFacilities.includes(facilities.title)).map(facilities => facilities.facilities_id);
-    console.log(facilitiesID);
-    props.onChange(facilitiesID);
-
-  }, [selectedFacilities]);
-
   return (
     <Box>
       <AutoCompleteComponent 
         multiple={true}
-        value={selectedFacilities}
-        setValue={setSelectedFacilities}
+        value={props.value.map((id: any) => facilitiesWithId.filter((facilities) => facilities.facilities_id === id)[0]?.title)}
+        setValue={(values: any) => {
+          props.setValue(
+            facilitiesWithId
+              .filter((facilities) => values.includes(facilities.title))
+              .map((facilities) => facilities.facilities_id)
+          );
+        }}
         inputValue={inputFacility}
         setInputValue={setInputFacilty}
         options={facilities}
