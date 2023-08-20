@@ -8,6 +8,11 @@ export const apiUrls = {
         delete: '/api/apartments/:id',
 		add: `${HOST}/api/apartments/add`,
 	},
+	wishlist: {
+		list: `${HOST}/api/wishlist`,
+		add: `${HOST}/api/wishlist/add`,
+		remove: `${HOST}/api/wishlist/remove`,
+	},
 
 	fixed_values: {
 		facilities: `${HOST}/api/fixed-values/facilities`,
@@ -18,7 +23,8 @@ export const apiUrls = {
 		upgrade: '/api/user/upgrade',
 		modify: '/api/user',
 		usage: 'api/user/usage',
-		preferece: `${HOST}/api/user/my-preference`
+		preference: `${HOST}/api/user/my-preference`,
+		info: `${HOST}/api/user/profile`
 	},
 	auth: {
 		register: `${HOST}/api/auth/register`,

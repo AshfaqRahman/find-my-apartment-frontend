@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
@@ -26,7 +26,7 @@ import HOST from "@/static/host";
 import axios from "axios";
 import Apartment from "@/components/apartment";
 import SelectComponent from "@/mui-components/select";
-import { searchApartments } from "./apis";
+import { addToWishlist, getWishlist, removeFromWishlist, searchApartments } from "./apis";
 import { apiUrls } from "@/lib/apiUrls";
 import ApartmentTypesComponent from "@/components/apartment-types";
 import BedsSelectionComponent from "@/components/beds-selection";
@@ -47,6 +47,42 @@ export default function Home() {
   const handleApartmentTypeChange = (types: any) => {
     setApartmentTypes(types);
   };
+
+  const [wishlist, setWishlist] = React.useState<any>([]);
+
+  useEffect(() => {
+    (async () => {
+      let data = await getWishlist();
+      setWishlist(data.data.map((x: any) => x.apartment_id));
+      // console.log(data);
+    })();
+  }, []);
+
+  let addingInWishlist = async (apartment_id: any) => {
+    let data = await addToWishlist({ apartment_id })
+    console.log(data);
+    
+    setWishlist(data.data.map((x: any) => x.apartment_id));
+    if (!data.success) {
+      setSeverity("error");
+      setMessage(data.data.message);
+      setOpenToast(true);
+      return;
+    }
+  }
+
+  let removingFromWishlist = async (apartment_id: any) => {
+    let data = await removeFromWishlist({ apartment_id })
+    console.log(data);
+    
+    setWishlist(data.data.map((x: any) => x.apartment_id));
+    if (!data.success) {
+      setSeverity("error");
+      setMessage(data.data.message);
+      setOpenToast(true);
+      return;
+    }
+  }
 
   const [beds, setBeds] = React.useState([]);
   const handleBedsChange = (selectedOptions: any) => {
@@ -74,16 +110,32 @@ export default function Home() {
   let [apartments, setApartments] = React.useState([]);
 
   let apartmentStatuses = ["Any", "Vacant", "Occupied"];
-  let [apartmentStatus, setApartmentStatus] = React.useState("Any");
+  let [apartmentStatus, setApartmentStatus] = useState("Any");
 
-  let orderByes = [
-    "price lowest",
-    "nearest",
-    "latest",
-    "price highest",
-    "preference",
-  ];
-  let [orderBy, setOrderBy] = React.useState("");
+  let orderByes : any = {
+    "price lowest": {
+      key: "price",
+      order: 1,
+    },
+    "price highest": {
+      key: "price",
+      order: -1,
+    },
+    "latest": {
+      key: "created_at",
+      order: -1,
+    },
+    // "nearest",
+    // "price highest",
+    // "preference",
+  };
+  let [orderBy, setOrderBy] = useState<string>("");
+
+  useEffect(() => {
+    let apts = [...apartments];
+    apts.sort((a: any, b: any) => orderByes[orderBy].order * (a[orderByes[orderBy].key] > b[orderByes[orderBy].key] ? 1 : -1));
+    setApartments(apts);
+  }, [orderBy]);
 
   const saveSearch = () => {
     console.log("saving search ...");
@@ -106,6 +158,12 @@ export default function Home() {
 
   const [location, setLocation] = React.useState<any>("");
   const [radius, setRadius] = React.useState<number | "">("");
+
+  const [searchAddress, setSearchAddress] = React.useState<any>("");
+
+  const [zone, setZone] = React.useState<any>("");
+  const [district, setDistrict] = React.useState<any>("");
+  const [division, setDivision] = React.useState<any>("");
 
   const search = async () => {
     setFetchingApartments(true);
@@ -186,18 +244,25 @@ export default function Home() {
           <Grid item container lg={12} md={12}>
             <Box px={1}>
               <LocationSearchMapComponent
-                handleLocationChange={(location: any) => setLocation(location)}
-                handleRadiusChange={(r: any) => setRadius(r)}
-                setZone={() => {}}
-                setDistrict={() => {}}
-                setDivision={() => {}}
+                setRadius={setRadius}
+                radius={radius}
+                setLocation={setLocation}
+                searchAddress={searchAddress}
+                setSearchAddress={setSearchAddress}
+                setAddress={setSearchAddress}
+                setDistrict={setDistrict}
+                setDivision={setDivision}
+                setZone={setZone}
               />
             </Box>
           </Grid>
 
           <Grid key={3} item lg={12} md={12}>
             <Box mx={1}>
-              <ApartmentTypesComponent onChange={handleApartmentTypeChange} />
+              <ApartmentTypesComponent
+                value={apartmentTypes}
+                setValue={setApartmentTypes}
+              />
             </Box>
           </Grid>
           <Grid
@@ -249,12 +314,15 @@ export default function Home() {
           />
           <Grid key={8} item lg={12} md={12}>
             <Box mx={1}>
-              <FacilitiesComponent onChange={handleFacilitiesChange} />
+              <FacilitiesComponent
+                value={facilities}
+                setValue={setFacilities}
+              />
             </Box>
           </Grid>
           <Grid key={9} item lg={12} md={12}>
             <Box mx={1}>
-              <KeywordsComponent onChange={handleKeywordsChange} />
+              <KeywordsComponent value={keywords} setValue={setKeywords} />
             </Box>
           </Grid>
         </Grid>
@@ -297,7 +365,7 @@ export default function Home() {
               <Box sx={{ width: "100%" }}>
                 <SelectComponent
                   title={"Order By"}
-                  elements={orderByes}
+                  elements={Object.keys(orderByes)}
                   value={orderBy}
                   handleChange={setOrderBy}
                 />
@@ -317,7 +385,10 @@ export default function Home() {
               {apartments.map((x: any, idx) => {
                 return (
                   <Apartment
-                    onClick={() => {
+                    addToWishlist={() => addingInWishlist(x.id)}
+                    removeFromWishlist={() => removingFromWishlist(x.id)}
+                    inWishlist={wishlist.includes(x.id)}
+                    setMapLocation={() => {
                       let lat = randomInRange(22, 24);
                       let lng = randomInRange(89, 91);
                       // console.log(lat, lng);

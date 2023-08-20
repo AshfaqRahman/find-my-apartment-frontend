@@ -18,14 +18,14 @@ export default function Address(props: any) {
           <b>Address</b>
         </Typography>
 
-        <Grid container md={12} style={{margin:"5px"}}>
-            <Grid md={6}>House No.: <b>{props.house_no}</b></Grid>
-            <Grid md={4}>Zone: <b>{props.zone}</b></Grid>
+        <Grid container style={{margin:"5px"}}>
+            <Grid item md={6}>House No.: <b>{props.house_no}</b></Grid>
+            <Grid item md={4}>Zone: <b>{props.zone}</b></Grid>
         </Grid>
 
-        <Grid container md={12} style={{margin:"5px"}}>
-            <Grid md={6}>Street No.: <b>{props.street_no}</b></Grid>
-            <Grid md={4}>District: <b>{props.district}</b></Grid>
+        <Grid container style={{margin:"5px"}}>
+            <Grid item md={6}>Street No.: <b>{props.street_no}</b></Grid>
+            <Grid item md={4}>District: <b>{props.district}</b></Grid>
         </Grid>
       </Box>
     );

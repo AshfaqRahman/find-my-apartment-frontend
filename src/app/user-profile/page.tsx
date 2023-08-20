@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import {
@@ -35,7 +35,7 @@ import HOST from "@/static/host";
 import axios from "axios";
 import Apartment from "@/components/apartment";
 import SelectComponent from "@/mui-components/select";
-import { searchApartments } from "./apis";
+import { getUserData } from "./apis";
 import { apiUrls } from "@/lib/apiUrls";
 import ApartmentTypesComponent from "@/components/apartment-types";
 import BedsSelectionComponent from "@/components/beds-selection";
@@ -50,6 +50,7 @@ import Carousel from "react-material-ui-carousel";
 
 import { Inter, Rochester, Satisfy } from "next/font/google";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useRouter } from "next/router";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const theme = createTheme({
@@ -60,136 +61,59 @@ const theme = createTheme({
 
 const localPath = "advance-search";
 
-export default function Home() {
-  const [apartmentTypes, setApartmentTypes] = React.useState([]);
-  const handleApartmentTypeChange = (types: any) => {
-    types;
-    setApartmentTypes(types);
-  };
+export default function User() {
 
-  const [beds, setBeds] = React.useState([]);
-  const handleBedsChange = (selectedOptions: any) => {
-    setBeds(selectedOptions);
-  };
+  var [firstName, setFirstName] = React.useState("")
+  var [lastName, setLastName] = React.useState("")
+  var [email, setEmail] = React.useState("")
+  var [phoneNo, setPhoneNo] = React.useState("")
+  let [gender, setGender] = React.useState("");
 
-  const [baths, setBaths] = React.useState(_baths);
-  const handleBathsChange = (selectedOptions: any) => {
-    setBaths(selectedOptions);
-  };
+  let [loadingUserData, setLoadingUserData] = React.useState(false);
 
-  const [budget, setBudget] = React.useState([10000, 99999]);
-  const [area, setArea] = React.useState([500, 10000]);
-
-  const [facilities, setFacilities] = React.useState([]);
-  const handleFacilitiesChange = (types: any) => {
-    setFacilities(types);
-  };
-
-  const [keywords, setKeywords] = React.useState([]);
-  const handleKeywordsChange = (types: any) => {
-    setKeywords(types);
-  };
-
-  let apartmentStatuses = ["Any", "Vacant", "Occupied"];
-  let [apartmentStatus, setApartmentStatus] = React.useState("Any");
-
-  let orderByes = [
-    "price lowest",
-    "nearest",
-    "latest",
-    "price highest",
-    "preference",
-  ];
-  let [orderBy, setOrderBy] = React.useState("");
-
-  const saveSearch = () => {
-    console.log("saving search ...");
-  };
-
-  // const onSearch = =async (data: any) => {
-  // 	setSelected(data);
-  // };
-  let height = _pageHeight;
-  let mapWidth = _mapWidth;
-
-  let [mapLat, setMapLat] = React.useState();
-  let [mapLng, setMapLng] = React.useState();
-
-  let [openSuccess, setOpenSuccess] = React.useState(false);
-  let [message, setMessage] = React.useState("");
-
-  let [fetchingApartments, setFetchingApartments] = React.useState(false);
-
-  const search = async () => {
-    // console.log("searching ...");
-    // const url = `${HOST}/apartments`;
-    setFetchingApartments(true);
-    const params = {
-      apartmentTypes: apartmentTypes,
-      beds: beds,
-      baths: baths,
-      price_min: +budget[0],
-      price_max: +budget[1],
-      area_min: +area[0],
-      area_max: +area[1],
-      facilities: facilities,
-      keywords: keywords,
-    };
-    let data: any[] = await searchApartments(params);
-    setMessage(`${data.length} apartments are found`);
-    setOpenSuccess(true);
-    setFetchingApartments(false);
-  };
-
-  var items = [
-    {
-      name: "Random Name #1",
-      description: "Probably the most random thing you have ever seen!",
-      img: "/dhaka-view.jpg",
-    },
-    {
-      name: "Random Name #2",
-      description: "Hello World!",
-      img: "/apartment.jpg",
-    },
-  ];
-
-  // const overview = useRef(null);
-  // const scrollToOverview = () => window.scrollTo(0, overview.current.offsetTop)
-
-  let tabs: any = [
-    // {
-    //   title: "Overview",
-    //   onClick: () => window.scrollTo(0, tabs[0].ref.current.offsetTop),
-    //   ref: useRef(null),
-    //   jsx: <Overview />,
-    // },
-    // {
-    //   title: "Facilities",
-    //   onClick: () => window.scrollTo(0, tabs[1].ref.current.offsetTop),
-    //   ref: useRef(null),
-    //   jsx: <Facilities />,
-    // },
-    // {
-    //   title: "Star Points",
-    //   onClick: () => window.scrollTo(0, tabs[2].ref.current.offsetTop),
-    //   ref: useRef(null),
-    //   jsx: <StarPoints />,
-    // },
-    // {
-    //   title: "Pricing",
-    //   onClick: () => window.scrollTo(0, tabs[3].ref.current.offsetTop),
-    //   ref: useRef(null),
-    //   jsx: <Pricing />,
-    // },
-  ];
-
-  let imageWidth = 70;
   let [isEditable, setIsEditable] = React.useState(false);
+
+  
+  let [openToast, setOpenToast] = React.useState(false);
+  let [message, setMessage] = React.useState("");
+  let [severity, setSeverity] = React.useState("success");
+
+  let setUserInfo = (data: any) => {
+    setFirstName(data.first_name);
+    setLastName(data.last_name);
+    setEmail(data.email);
+    setPhoneNo(data.phone_no);
+    setGender(data.gender);
+  }
+
+
+  useEffect(() => {
+    setLoadingUserData(true);
+    (async () => {
+      let data: any = await getUserData();
+      console.log(data);
+      setLoadingUserData(false);
+      if(data.success) {
+        setUserInfo(data.data);
+      } else {
+        setOpenToast(true);
+        setMessage(data.message);
+        setSeverity("error");
+      }
+    })();
+  }, []);
 
   return (
     <>
-      <LoaderComponent loading={fetchingApartments} />
+      <LoaderComponent loading={loadingUserData} />
+      <ToastComponent
+        message={message}
+        open={openToast}
+        onClose={setOpenToast}
+        onCross={setOpenToast}
+        severity={severity}
+      />
+
       <Grid container spacing={0} key={1} pt={3}>
         <Grid item lg={12} md={12} sx={{ ..._centeringStyle, width: "100vw" }}>
           <Box
@@ -225,7 +149,7 @@ export default function Home() {
                 sx={{ ..._centeringStyle, alignItems: "flex-start" }}
               >
                 <Image
-                  src={"/apartment.jpg"}
+                  src={"/profile_image.jpg"}
                   width={200}
                   height={200}
                   style={{
@@ -247,30 +171,30 @@ export default function Home() {
                   <Grid spacing={3} container>
                     <Grid px={2} item lg={6} md={6}>
                       <Box >
-                        <TextFieldComponent label={"First Name"} value={"alu"} disabled={!isEditable} />
+                        <TextFieldComponent label={"First name"} value={firstName} handleChange={(e: any) => setFirstName(e.target.value) } disabled={!isEditable} />
                       </Box>
                     </Grid>
                     <Grid px={2} item lg={6} md={6}>
                       <Box >
-                        <TextFieldComponent label={"Last Name"} value={"shosha"} disabled={!isEditable} />
+                        <TextFieldComponent label={"Last name"} value={lastName} disabled={!isEditable} />
                       </Box>
                     </Grid>
                     <Grid px={2} item lg={12} md={12}>
                       <Box >
-                        <TextFieldComponent label={"Email"} value={"shosha"} disabled={!isEditable}/>
+                        <TextFieldComponent label={"Email"} value={email}  disabled={!isEditable}/>
                       </Box>
                     </Grid>
                     <Grid px={2} item lg={12} md={12}>
                       <Box >
-                        <TextFieldComponent label={"Phone no."} value={"shosha"} disabled={!isEditable} />
+                        <TextFieldComponent label={"Phone no."} value={phoneNo} disabled={!isEditable} />
                       </Box>
                     </Grid>
                     <Grid px={2} item lg={12} md={12}>
                       <Box >
-                        <TextFieldComponent label={"Gender"} value={"shosha"} disabled={!isEditable}/>
+                        <TextFieldComponent label={"Gender"} value={gender} disabled={!isEditable}/>
                       </Box>
                     </Grid>
-                    <Grid px={2} item lg={6} md={6}>
+                    {/* <Grid px={2} item lg={6} md={6}>
                       <Box >
                         <ButtonComponent fullWidth style="primary" variant="contained" onClick={() => setIsEditable(true)}>
                           Edit
@@ -283,7 +207,7 @@ export default function Home() {
                           Save
                         </ButtonComponent>
                       </Box>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Box>
               </Grid>
@@ -292,91 +216,7 @@ export default function Home() {
           <Grid item></Grid>
         </Grid>
       </Grid>
-      {/* <Grid
-        container
-        spacing={0}
-        key={1}
-        pt={3}
-        bgcolor={_color.background_left}
-      >
-        <Grid
-          item
-          container
-          sx={{
-            ..._centeringStyle,
-          }}
-        >
-          <Grid item>
-            <Box width={imageWidth + "vw"}>
-              <Carousel height={"35vw"} animation="slide">
-                {items.map((item, i) => (
-                  <Box key={i}>
-                    <Item item={item} />
-                  </Box>
-                ))}
-              </Carousel>
-            </Box>
-            <ButtonComponent variant={"contained"} style={"primary"}>
-              <LocationOnIcon />
-              Map
-            </ButtonComponent>
-          </Grid>
-        </Grid>
-
-        <Grid item md={12} lg={12} my={2}>
-          <Box
-            sx={{
-              ..._centeringStyle,
-              justifyContent: "space-between",
-              px: (100 - imageWidth) / 2 + "vw",
-            }}
-          >
-            {tabs.map((tab: any, i: number) => (
-              <ButtonComponent
-                key={i}
-                variant={"text"}
-                style={"tab"}
-                fullWidth={true}
-                onClick={tab.onClick}
-              >
-                {tab.title}
-              </ButtonComponent>
-            ))}
-          </Box>
-        </Grid>
-
-        <Grid item md={12} lg={12} sx={{ ..._centeringStyle }}>
-          <Box width={imageWidth + "vw"}>
-            <Grid container>
-              {tabs.map((tab: any, i: number) => (
-                <Grid key={i} my={2} item lg={12} md={12}>
-                  <div ref={tab.ref}>{tab.jsx}</div>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </Grid>
-        <Grid item mt={2} md={12} lg={12}>
-          <Divider>
-            <Chip label="Similar Apartments" />
-          </Divider>
-        </Grid>
-      </Grid> */}
     </>
   );
 }
 
-function Item(props: any) {
-  return (
-    <Image
-      src={props.item.img}
-      fill={true}
-      loading="lazy" // optional
-      alt="Apartment"
-      style={{ borderRadius: _divRadius }}
-      onClick={() => {
-        console.log("props.item.description: ", props.item.description);
-      }}
-    />
-  );
-}
