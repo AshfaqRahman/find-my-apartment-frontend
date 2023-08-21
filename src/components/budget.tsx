@@ -34,7 +34,7 @@ export default function Budget(props: any) {
         <Grid item lg={6} md={6}>
           <Box sx={{ px: 1 }}>
             <TextFieldComponent
-              label={"Min"}
+              label={"Min Budget"}
               value={props.budget[0]}
               handleChange={handleMinBudgetChange}
             />
@@ -43,7 +43,7 @@ export default function Budget(props: any) {
         <Grid item lg={6} md={6}>
           <Box sx={{ px: 1 }}>
             <TextFieldComponent
-              label={"Max"}
+              label={"Max Budget"}
               value={props.budget[1]}
               handleChange={handleMaxBudgetChange}
             />

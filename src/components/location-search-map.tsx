@@ -34,9 +34,9 @@ export default function LocationSearchMapComponent(props: any) {
           />
         </Box>
       </Grid>
-      <Grid item lg={2} md={2}>
+      <Grid item lg={2} md={2} style={{display:"flex", alignItems:"center"}}>
         <Box mr={2}>
-          <Tooltip title="see on map">
+          <Tooltip title="See on map">
             <IconButton
               size="large"
               color="error"

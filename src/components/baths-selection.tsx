@@ -25,10 +25,10 @@ export default function BathsSelectionComponent(props: any) {
   };
 
   return (
-    <Box sx={{ mx: "1px", padding: 0 }}>
+    <Box sx={{ mx: "10px"}}>
       <MultiSelectComponent
         elements={baths}
-        title={"Baths"}
+        title={"Bathrooms"}
         handleChange={handleBathsChange}
       />
     </Box>

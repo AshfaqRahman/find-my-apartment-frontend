@@ -28,7 +28,7 @@ export default function PersonsInRoomSelectionComponent(props: any) {
     <Box sx={{ mx: "10px" }}>
       <MultiSelectComponent
         elements={personsInRoom}
-        title={"Persons In Room"}
+        title={"No. of Roommates"}
         handleChange={handlePersonsInRoomChange}
       />
     </Box>

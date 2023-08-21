@@ -1,6 +1,6 @@
 import MultiSelectComponent from "@/mui-components/multi-select";
 import { _beds, _noOfLivingRooms } from "@/static/constants";
-import { Box } from "@mui/material";
+import { Box, FormControl, MenuItem, Select } from "@mui/material";
 import React from "react";
 
 export default function NoOfLivingRoomsSelectionComponent(props: any) {
@@ -28,7 +28,7 @@ export default function NoOfLivingRoomsSelectionComponent(props: any) {
     <Box sx={{ mx: "10px" }}>
       <MultiSelectComponent
         elements={noOfLivingRooms}
-        title={"#Living Rooms"}
+        title={"Bedrooms"}
         handleChange={handleNoOfLivingRoomsChange}
       />
     </Box>

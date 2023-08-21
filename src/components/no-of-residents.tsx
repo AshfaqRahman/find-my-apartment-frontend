@@ -28,7 +28,7 @@ export default function NoOfResidentsSelectionComponent(props: any) {
     <Box sx={{ mx: "10px" }}>
       <MultiSelectComponent
         elements={noOfResidents}
-        title={"#Residents"}
+        title={"No. of Residents"}
         handleChange={handleNoOfResidentsChange}
       />
     </Box>

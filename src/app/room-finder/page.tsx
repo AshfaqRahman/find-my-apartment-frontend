@@ -3,7 +3,7 @@ import * as React from "react";
 import { useCallback, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { Box, Checkbox, Grid, Typography } from "@mui/material";
+import { Box, Card, Checkbox, Grid, Typography } from "@mui/material";
 import ButtonComponent from "@/mui-components/buttons";
 import MultiSelectComponent from "@/mui-components/multi-select";
 import {
@@ -39,14 +39,15 @@ import NoOfResidentsSelectionComponent from "@/components/no-of-residents";
 import NoOfLivingRoomsSelectionComponent from "@/components/no-of-living-rooms";
 import GendersSelectionComponent from "@/components/genders";
 
-import { Inter, Rochester, Satisfy } from "next/font/google";
+import { Inter, Rochester, Satisfy, Lato } from "next/font/google";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import LocationSearchMapComponent from "@/components/location-search-map";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
+const lato = Lato({ weight: "700", subsets: ["latin"] });
 const theme = createTheme({
   typography: {
-    fontFamily: rochester.style.fontFamily,
+    fontFamily: lato.style.fontFamily,
   },
 });
 
@@ -103,7 +104,7 @@ export default function Home() {
       area_sqft: 1400,
       zone: "Motijheel",
       district: "Dhaka",
-      type: "Family",
+      type: "Bachelor",
       title: "Bari Bhara Deowa Hoibe",
       textBody:
         "The quick brown fox jumps over the lazy dog. And so I need a billion dollars.",
@@ -119,7 +120,7 @@ export default function Home() {
       area_sqft: 1860,
       zone: "Dhanmondi",
       district: "Dhaka",
-      type: "Family",
+      type: "Sublet",
       title: "Apartment for Rent",
       textBody:
         "I tried so hard and got so far. But in the end, it doesn't even matter. I had to fall to lose it all. But in the end, it doesn't even matter.",
@@ -195,12 +196,13 @@ export default function Home() {
           item
           lg={4}
           md={4}
+          ml={1}
           sx={{
-            backgroundColor: _color.background_left,
+            backgroundColor: _color.background_lighter,
           }}
         >
           <Grid key={1} item lg={6} md={6} style={{display:"flex", justifyContent:"left"}}>
-            <Box sx={{ ..._centeringStyle, m: "10px", mt:"20px"}}>
+            <Box sx={{ ..._centeringStyle, m: "10px", mt:"25px"}}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
@@ -212,7 +214,7 @@ export default function Home() {
           </Grid>
 
           <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"right"}}>
-            <Box sx={{ ..._centeringStyle, m: "10px", mt:"20px"}}>
+            <Box sx={{ ..._centeringStyle, m: "10px", mt:"25px"}}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
@@ -239,53 +241,57 @@ export default function Home() {
             </Box>
           </Grid>
 
-          <Grid item lg={4} md={4}>
+          <Grid item lg={12} md={12} mt={2}>
             <GendersSelectionComponent onChange={handleNoOfPersonsChange} />
           </Grid>
 
-          <Grid item lg={4} md={4}>
-            <BathsSelectionComponent onChange={handleBathsChange} />
-          </Grid>
-
-          <Grid item lg={4} md={4}>
-            <NoOfResidentsSelectionComponent
-              onChange={handleNoOfPersonsChange}
-            />
-          </Grid>
-
-          <Grid item lg={6} md={6}>
-            <PersonsInRoomSelectionComponent
-              onChange={handlePersonsInRoomChange}
-            />
-          </Grid>
-
-          <Grid item lg={6} md={6}>
+          <Grid item lg={12} md={12} mt={2} style={{display:"flex"}}>
             <NoOfLivingRoomsSelectionComponent
               onChange={handleNoOfPersonsChange}
             />
           </Grid>
 
-          <Budget
-            key={6}
-            budget={budget}
-            grid_slider_lg={12}
-            grid_slider_md={12}
-            box_slider_mx={"5px"}
-            box_slider_px={"15px"}
-            grid_text_lg={6}
-            grid_text_md={6}
-            box_text_mx={"5px"}
-            box_text_px={"0px"}
-            setBudget={setBudget}
-          />
+          <Grid item lg={12} md={12} mt={2}>
+            <BathsSelectionComponent onChange=      {handleBathsChange} 
+            />
+          </Grid>
 
-          <Grid key={8} item lg={12} md={12}>
-            <Box mx={1}>
-              <FacilitiesComponent value={facilities} setValue={setFacilities} />
-            </Box>
+          <Grid item lg={12} md={12} mt={2}>
+            <PersonsInRoomSelectionComponent
+              onChange={handlePersonsInRoomChange}
+            />
+          </Grid>
+
+          <Grid item lg={12} md={12} mt={2}>
+            <NoOfResidentsSelectionComponent
+              onChange={handleNoOfPersonsChange}
+            />
+          </Grid>
+
+          <Grid  item lg={12} md={12} mt={2}>           
+            <Budget
+              key={6}
+              budget={budget}
+              grid_slider_lg={12}
+              grid_slider_md={12}
+              box_slider_mx={"5px"}
+              box_slider_px={"15px"}
+              grid_text_lg={6}
+              grid_text_md={6}
+              box_text_mx={"5px"}
+              box_text_px={"0px"}
+              setBudget={setBudget}
+            />
           </Grid>
           
-          <Grid key={9} item lg={12} md={12}>
+          
+            <Grid key={8} item lg={12} md={12} mt={2}>
+              <Box mx={1}>
+                <FacilitiesComponent value={facilities} setValue={setFacilities} />
+              </Box>
+            </Grid>
+          
+          <Grid key={9} item lg={12} md={12} mt={2}>
             <Box mx={1}>
               <KeywordsComponent 
                 value={keywords} setValue={setKeywords} />
@@ -313,12 +319,12 @@ export default function Home() {
             mx={2}
             sx={{
               ..._centeringStyle,
-              bgcolor: _color.background_upper,
+              bgcolor: _color.background_lighter,
               borderRadius: "10px",
             }}
             md={12}
           >
-            <Grid key={1} item lg={5} md={5} p={3}>
+            <Grid key={1} item lg={4.5} md={4.5} p={3}>
               <Box sx={{ ..._centeringStyle }}>
                 <ThemeProvider theme={theme}>
                   <Typography
@@ -326,14 +332,14 @@ export default function Home() {
                     component="a"
                     sx={{
                       ml: 1,
-                      fontSize: "1.75rem",
-                      fontWeight: 600,
-                      letterSpacing: ".3rem",
+                      fontSize: "2rem",
+                      fontWeight: 900,
+                      letterSpacing: "0rem",
                       color: "inherit",
                       textDecoration: "none",
                     }}
                   >
-                    Posts For You
+                    <b>Posts For You</b>
                   </Typography>
                 </ThemeProvider>
               </Box>
@@ -348,13 +354,13 @@ export default function Home() {
                 />
               </Box>
             </Grid>
-            <Grid item lg={2} md={2} p={3}>
+            <Grid item lg={3} md={3} p={3}>
               <Box sx={{ ..._centeringStyle, margin: 0 }}>
                 <Checkbox />
                 <Typography sx={{ fontWeight: "bold" }}>My Posts</Typography>
               </Box>
             </Grid>
-            <Grid item lg={2} md={2} p={3}>
+            <Grid item lg={1.5} md={1.5} p={3}>
               <Box sx={{ ..._centeringStyle, margin: 0 }}>
                 <ButtonComponent style="primary" variant="contained">
                   Post
@@ -378,9 +384,6 @@ export default function Home() {
               })}
             </Grid>
           </Grid>
-          {/* <Grid key={3} item lg={12} md={12}>
-            
-          </Grid> */}
         </Grid>
       </Grid>
     </>
