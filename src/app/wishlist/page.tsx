@@ -15,25 +15,79 @@ import {
   _mapWidth,
   _pageHeight,
 } from "@/static/constants";
+import { useEffect, useState } from "react";
+import ToastComponent from "@/mui-components/toast";
+import LoaderComponent from "@/components/loader";
+import { getWishlistApartments } from "./apis";
 
 export default function Wishlist() {
   let height = _pageHeight;
 
   let [apartments, setApartments] = React.useState([]);
-  let [fetchingApartments, setFetchingApartments] = React.useState(false);
+  // let [fetchingApartments, setFetchingApartments] = React.useState(false);
 
   let apartmentStatuses = ["Any", "Vacant", "Occupied"];
   let [apartmentStatus, setApartmentStatus] = React.useState("Any");
-  let orderByes = ["Price Lowest", "Price Highest", "Latest", "Preference"];
-  let [orderBy, setOrderBy] = React.useState("");
 
-  const getWishlist = async() => {
+  let orderByes : any = {
+    "price lowest": {
+      key: "price",
+      order: 1,
+    },
+    "price highest": {
+      key: "price",
+      order: -1,
+    },
+    "latest": {
+      key: "created_at",
+      order: -1,
+    },
+    // "nearest",
+    // "price highest",
+    // "preference",
+  };
+  let [orderBy, setOrderBy] = useState<string>("");
+
+  useEffect(() => {
+    let apts = [...apartments];
+    apts.sort((a: any, b: any) => orderByes[orderBy].order * (a[orderByes[orderBy].key] > b[orderByes[orderBy].key] ? 1 : -1));
+    setApartments(apts);
+  }, [orderBy]);
+
+  let [openToast, setOpenToast] = React.useState(false);
+  let [message, setMessage] = React.useState("");
+  let [severity, setSeverity] = React.useState("success");
+
+  let [fetchingApartments, setFetchingApartments] = React.useState(false);
+
+  useEffect(() => {
     setFetchingApartments(true);
-  
-  }
+    (async () => {
+      let data: any = await getWishlistApartments();
+      // console.log(data);
+      if (!data.success) {
+        setFetchingApartments(false);
+        setSeverity("error");
+        setMessage(data.message);
+        setOpenToast(true);
+      } else {
+        setFetchingApartments(false);
+        setApartments(data.data);
+      }
+    })();
+  }, []);
 
   return (
     <>
+      <LoaderComponent loading={fetchingApartments} />
+
+      <ToastComponent
+        message={message}
+        open={openToast}
+        onClose={setOpenToast}
+        onCross={setOpenToast}
+        severity={severity}
+      />
       <Grid position={"fixed"} container>
         <Grid
           item
@@ -70,7 +124,7 @@ export default function Wishlist() {
                 <Box sx={{ width: "100%" }}>
                   <SelectComponent
                     title={"Order By"}
-                    elements={orderByes}
+                    elements={Object.keys(orderByes)}
                     value={orderBy}
                     handleChange={setOrderBy}
                   />
