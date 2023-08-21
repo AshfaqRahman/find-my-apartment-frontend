@@ -25,6 +25,8 @@ import FacilitiesIconsComponent from "./facilities-icons";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { addToWishlist, removeFromWishlist } from "./api/wishlist-api";
+import ToastComponent from "@/mui-components/toast";
 
 export default function Apartment(props: any) {
   let facilities = props.data.facilities;
@@ -33,17 +35,59 @@ export default function Apartment(props: any) {
     props.setMapLocation();
   };
 
-  let inWishlist = props.inWishlist;
+  let [inWishlist, setInWishlist] = useState(props.data.in_wishlist);
 
   let margin = 3;
   let color = "#2ea300";
 
   const { push } = useRouter();
 
+  let [openToast, setOpenToast] = useState(false);
+  let [message, setMessage] = useState("");
+  let [severity, setSeverity] = useState("success");
 
+  let addingWishlist = async () => {
+    setInWishlist(true);
+
+    let data = await addToWishlist({ apartment_id: props.data.id });
+    // console.log(data);
+    if (!data.success) {
+      setSeverity("error");
+      setMessage(data.message);
+      setOpenToast(true);
+      setInWishlist(false);
+    } else {
+      setSeverity("success");
+      setMessage("Apartment is added in your wishlist");
+      setOpenToast(true);
+    }
+  };
+
+  let removingWishlist = async () => {
+    setInWishlist(false);
+    let data = await removeFromWishlist({ apartment_id: props.data.id });
+    // console.log(data);
+    if (!data.success) {
+      setSeverity("error");
+      setMessage(data.message);
+      setOpenToast(true);
+      setInWishlist(true);
+    } else {
+      setSeverity("success");
+      setMessage(data.data.message);
+      setOpenToast(true);
+    }
+  };
 
   return (
     <>
+      <ToastComponent
+        message={message}
+        open={openToast}
+        onClose={setOpenToast}
+        onCross={setOpenToast}
+        severity={severity}
+      />
       <Card
         sx={{
           display: "flex",
@@ -56,7 +100,9 @@ export default function Apartment(props: any) {
           image={props.data.images[0]}
           title="green iguana"
           key={1}
-          onClick={() => {push("/apartment-details/" + props.data.id)}}
+          onClick={() => {
+            push("/apartment-details/" + props.data.id);
+          }}
         />
         <Grid container>
           <Box width={"100%"}>
@@ -138,17 +184,16 @@ export default function Apartment(props: any) {
                     </IconButton>
                   </Tooltip>
 
-                  {!props.data.in_wishlist ? (
+                  {!inWishlist ? (
                     <IconButton
                       size="large"
-                      color="error"
                       sx={{
                         bgcolor: _color.background_upper,
                         borderRadius: _divRadius,
                         height: "40px",
                         width: "40px",
                       }}
-                      onClick={props.addToWishlist}
+                      onClick={addingWishlist}
                     >
                       <Tooltip title={"add to wishlist"}>
                         <img
@@ -170,7 +215,7 @@ export default function Apartment(props: any) {
                         height: "40px",
                         width: "40px",
                       }}
-                      onClick={props.removeFromWishlist}
+                      onClick={removingWishlist}
                     >
                       <Tooltip title={"remove from wishlist"}>
                         <img
