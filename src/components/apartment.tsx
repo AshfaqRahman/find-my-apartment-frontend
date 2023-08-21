@@ -27,9 +27,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Apartment(props: any) {
-  let facilities = props.data.facilities.map(
-    (facility: any) => facility.facility.title
-  );
+  let facilities = props.data.facilities;
 
   let showOnMap = async () => {
     props.setMapLocation();
@@ -55,7 +53,7 @@ export default function Apartment(props: any) {
       >
         <CardMedia
           sx={{ width: "50%", cursor: "pointer" }}
-          image={props.data.images[0].image_url}
+          image={props.data.images[0]}
           title="green iguana"
           key={1}
           onClick={() => {push("/apartment-details/" + props.data.id)}}
@@ -109,7 +107,7 @@ export default function Apartment(props: any) {
                           padding: 1.5,
                         }}
                       >
-                        {x.starpoint.title}
+                        {x}
                       </Button>
                     );
                   })}
@@ -140,7 +138,7 @@ export default function Apartment(props: any) {
                     </IconButton>
                   </Tooltip>
 
-                  {!props.inWishlist ? (
+                  {!props.data.in_wishlist ? (
                     <IconButton
                       size="large"
                       color="error"

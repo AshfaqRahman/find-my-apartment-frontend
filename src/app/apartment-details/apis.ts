@@ -1,5 +1,6 @@
 import { apiUrls } from '@/lib/apiUrls';
 import axios from 'axios';
+import { getCookie } from 'cookies-next';
 
 
 export const getApartment = async (data: any) => {
@@ -10,10 +11,11 @@ export const getApartment = async (data: any) => {
             `${apiUrls.apartment.get}/${data.apartment_id}`,
             {
                 headers: {
-                    Authorization: `${data.token}`,
+                    Authorization: `${getCookie('token')}`,
                 },
             }
         )
+        console.log(res);
     
 
         return { data: res.data, success: res.status === 200 }

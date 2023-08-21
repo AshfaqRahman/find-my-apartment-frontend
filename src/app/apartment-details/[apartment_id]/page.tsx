@@ -89,13 +89,13 @@ export default function ApartmentDetails(params: any) {
       title: "Facilities",
       onClick: () => window.scrollTo(0, tabs[2].ref.current.offsetTop),
       ref: useRef(null),
-      jsx: <FacStar type="Facilities" list={apartment?.facilities?.map((facility: any) => facility.facility.title)}/>,
+      jsx: <FacStar type="Facilities" list={apartment?.facilities}/>,
     },
     {
       title: "Star Points",
     onClick: () => window.scrollTo(0, tabs[3].ref.current.offsetTop),
     ref: useRef(null),
-    jsx: <FacStar type="Starpoints" list={apartment?.starpoints.map((star: any) => star.starpoint.title)} />,
+    jsx: <FacStar type="Starpoints" list={apartment?.starpoints} />,
     },
   ];
 
@@ -133,7 +133,7 @@ export default function ApartmentDetails(params: any) {
                 <Carousel animation="slide">
                   {apartment?.images?.map((image, i) => (
                     <Box key={i} height={"60vh"}>
-                      <Item img={image.image_url} />
+                      <Item img={image} />
                     </Box>
                   ))}
                 </Carousel>
