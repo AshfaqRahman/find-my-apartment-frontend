@@ -109,6 +109,7 @@ export default function AppBarComponent() {
       link: "/my-wishlist",
       onClick: () => {
         handleCloseUserMenu();
+        window.location.href = "/wishlist";
       },
     },
     {
@@ -231,16 +232,16 @@ export default function AppBarComponent() {
                   </ButtonComponent>
                 ))}
               </Box>
-              <Box sx={{ flexGrow: 1 }}>
+              {/* <Box sx={{ flexGrow: 1 }}>
                 <Tooltip title="Notifications">
-                  {/* <FontAwesomeIcon icon={"fa-solid fa-bell"} beat size="lg" /> */}
+                  <FontAwesomeIcon icon={"fa-solid fa-bell"} beat size="lg" />
                   <FontAwesomeIcon icon={faBell} beat />
-                  {/* <CircleNotificationsIcon
+                  <CircleNotificationsIcon
                     sx={{ color: _color.primary, cursor: "pointer" }}
                     fontSize="large"
-                  /> */}
+                  />
                 </Tooltip>
-              </Box>
+              </Box> */}
 
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
