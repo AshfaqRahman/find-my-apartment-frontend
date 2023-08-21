@@ -133,7 +133,6 @@ export default function Wishlist() {
             </Grid>
             <Grid
               container
-              bgcolor={_color.background_upper}
               borderRadius={_divRadius}
               my={2}
               height={"78vh"}
@@ -160,6 +159,7 @@ export default function Wishlist() {
                       //   setMapLat(x.location.latitude);
                       //   setMapLng(x.location.longitude);
                       // }}
+                      showMap={false}
                       data={x}
                       key={idx}
                     />

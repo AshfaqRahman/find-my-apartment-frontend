@@ -168,7 +168,7 @@ export default function Apartment(props: any) {
                     alignItems: "flex-end",
                   }}
                 >
-                  <Tooltip title="see on map">
+                  {props.showMap ? (<Tooltip title="see on map">
                     <IconButton
                       size="large"
                       color="error"
@@ -182,9 +182,9 @@ export default function Apartment(props: any) {
                     >
                       <LocationOnIcon />
                     </IconButton>
-                  </Tooltip>
+                  </Tooltip>) : (<></>)}
 
-                  {!inWishlist ? (
+                  {props.noWishlist ? (<></>) : !inWishlist ? (
                     <IconButton
                       size="large"
                       sx={{

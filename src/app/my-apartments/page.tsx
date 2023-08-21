@@ -36,7 +36,7 @@ import Map from "@/components/map";
 import { randomInRange } from "@/static/utils";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
-import { getRecommendation } from "./apis";
+import { getMyApartments } from "./apis";
 
 const localPath = "advance-search";
 
@@ -71,7 +71,7 @@ export default function Home() {
   useEffect(() => {
     setFetchingApartments(true);
     (async () => {
-      let response: any = await getRecommendation();
+      let response: any = await getMyApartments();
       console.log(response);
       if (!response.success) {
         setSeverity("error");
@@ -113,28 +113,9 @@ export default function Home() {
           <Box width={"60vw"}>
             <Grid
               container
-              width={"60vw"}
-              bgcolor={_color.background_upper}
               borderRadius={_divRadius}
               my={2}
-            >
-
-              <Grid item lg={6} md={6} p={3}>
-                <Box sx={{ width: "100%" }}>
-                  <SelectComponent
-                    title={"Order By"}
-                    elements={Object.keys(recommendationOn)}
-                    value={selectedRecommendationType}
-                    handleChange={setSelectedRecommendationType}
-                  />
-                </Box>
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              borderRadius={_divRadius}
-              my={2}
-              height={"78vh"}
+              height={"91vh"}
             >
               <Grid
                 item
@@ -151,6 +132,7 @@ export default function Home() {
                       data={x}
                       key={idx}
                       showMap={false}
+                      noWishlist={true}
                     />
                   );
                 })}

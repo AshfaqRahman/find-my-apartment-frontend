@@ -340,6 +340,7 @@ export default function Home() {
                       setMapLat(x.location.latitude);
                       setMapLng(x.location.longitude);
                     }}
+                    showMap
                     data={x}
                     key={idx}
                   />

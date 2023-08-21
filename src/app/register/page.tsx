@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { _color, _pageHeight } from "@/static/constants";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
+import { Typography } from '@mui/material';
 
 function Copyright(props: any) {
   return (
@@ -85,11 +86,12 @@ export default function Register() {
           
         <Grid item xs style={{display:"flex", justifyContent:"center"}}>
           <Grid style={{width:"30vw"}}>
-            <Box sx={{marginTop: 2, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <Box pt={5} sx={{marginTop: 2, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
 
-              <Image src="/register.png" width={150} height={150} alt="Register"/>
+              <Image src="/add-user.png" width={50} height={50} alt="Register"/>
+              <Typography fontSize={"1.5rem"} fontWeight={"bold"}>Sign Up</Typography> 
 
-              <Box>
+              <Box pt={5}>
                 <Grid container spacing={2}>
                   <Grid item md={6}>
                     <TextField
@@ -165,7 +167,7 @@ export default function Register() {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Register
+                  Sign Up
                 </Button>
                 
                 <Grid container>

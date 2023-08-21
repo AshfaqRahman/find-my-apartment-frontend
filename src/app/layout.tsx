@@ -9,10 +9,10 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
 
-export const metadata = {
-  title: "Next.js App Router + Material UI v5",
-  description: "Next.js App Router + Material UI v5",
-};
+// export const metadata = {
+//   title: "Next.js App Router + Material UI v5",
+//   description: "Next.js App Router + Material UI v5",
+// };
 
 let mt = _pageMargin;
 
