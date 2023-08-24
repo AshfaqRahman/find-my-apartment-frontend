@@ -1,5 +1,5 @@
 import { _loaderStyle } from "@/static/constants";
-import { Box, LinearProgress } from "@mui/material";
+import { Box, CircularProgress, LinearProgress } from "@mui/material";
 import React from "react";
 
 export default function LoaderComponent(props: any) {
@@ -11,6 +11,8 @@ export default function LoaderComponent(props: any) {
       sx={{
         position: _loaderStyle.position,
         mt: _loaderStyle.mt,
+        // left: _loaderStyle.left,
+        // top: _loaderStyle.top,
         width: _loaderStyle.width,
         display: loading ? "block" : "none",
         zIndex: _loaderStyle.zIndex,
@@ -22,6 +24,8 @@ export default function LoaderComponent(props: any) {
           height: _loaderStyle.height,
         }}
       />
+
+      {/* <CircularProgress color="inherit" /> */}
     </Box>
   );
 }

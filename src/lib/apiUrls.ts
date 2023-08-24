@@ -7,6 +7,7 @@ export const apiUrls = {
         update: '/api/apartments/:id',
         delete: '/api/apartments/:id',
 		add: `${HOST}/api/apartments/add`,
+		self: `${HOST}/api/apartments/my/apartments`,
 	},
 	apartment: {
 		get: `${HOST}/api/apartments`,
@@ -15,6 +16,9 @@ export const apiUrls = {
 		list: `${HOST}/api/wishlist`,
 		add: `${HOST}/api/wishlist/add`,
 		remove: `${HOST}/api/wishlist`,
+	},
+	recommendation: {
+		list: `${HOST}/api/recommendation`,
 	},
 
 	fixed_values: {

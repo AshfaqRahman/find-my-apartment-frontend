@@ -3,11 +3,11 @@ import axios from 'axios';
 import { getCookie } from 'cookies-next';
 
 
-export const getRecommendation = async () => {
+export const getMyApartments = async () => {
 	try {
-        console.log("getRecommendation ::")
+        console.log("getMyApartments ::")
         const res = await axios.get(
-            apiUrls.recommendation.list,
+            apiUrls.apartments.self,
             {
                 headers: {
                     Authorization: `${getCookie('token')}`,
@@ -18,7 +18,7 @@ export const getRecommendation = async () => {
         return { data: res.data, success: res.status === 200 }
 
     } catch (error: any) {
-        console.log("getRecommendation :: error", error);
+        console.log("getMyApartments :: error", error);
         if (error.response.status === 403) {
             return {
                 success: false,
