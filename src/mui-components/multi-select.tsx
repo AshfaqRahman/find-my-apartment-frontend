@@ -20,7 +20,7 @@ export default function MultiSelectComponent(props: any) {
                 <FormControlLabel key={idx} sx={{ m: 0, p:0}}
                   control={
                       <Checkbox
-                      sx={{ ml: 1, p: 0.5 }}
+                      sx={{ ml: 1, p: 0.5, pb: 0 }}
                       id={idx.toString()}
                       checked={element.checked}
                       onChange={(e) => props.handleChange(e)}

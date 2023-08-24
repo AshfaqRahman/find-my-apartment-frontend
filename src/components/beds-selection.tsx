@@ -25,7 +25,7 @@ export default function BedsSelectionComponent(props: any) {
   };
 
   return (
-    <Box sx={{ mx: "10px" }}>
+    <Box sx={{ px: 2 }}>
       <MultiSelectComponent
         elements={beds}
         title={"Bedrooms"}

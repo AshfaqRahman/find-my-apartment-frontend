@@ -177,14 +177,14 @@ export default function Home() {
           overflow={"auto"}
           container
           item
-          lg={2}
-          md={4}
+          lg={3}
+          md={3}
           sx={{
             backgroundColor: _color.background_left,
           }}
         >
-          <Grid key={1} item lg={6} md={6}>
-            <Box sx={{ ..._centeringStyle, mt: "10px" }}>
+          <Grid key={1} item lg={6} md={6} mb={"15px"} mt={"25px"}>
+            <Box sx={{ ..._centeringStyle}}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
@@ -194,8 +194,9 @@ export default function Home() {
               </ButtonComponent>
             </Box>
           </Grid>
-          <Grid item lg={6} md={6}>
-            <Box sx={{ ..._centeringStyle, mt: "10px" }}>
+
+          <Grid item lg={6} md={6} mb={"15px"} mt={"25px"}>
+            <Box sx={{ ..._centeringStyle}}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
@@ -205,7 +206,8 @@ export default function Home() {
               </ButtonComponent>
             </Box>
           </Grid>
-          <Grid item container lg={12} md={12}>
+
+          <Grid item container lg={12} md={12} mb={"15px"}>
             <Box px={1}>
               <LocationSearchMapComponent
                 setRadius={setRadius}
@@ -221,7 +223,7 @@ export default function Home() {
             </Box>
           </Grid>
 
-          <Grid key={3} item lg={12} md={12}>
+          <Grid key={3} item lg={12} md={12} mb={"15px"}>
             <Box mx={1}>
               <ApartmentTypesComponent
                 value={apartmentTypes}
@@ -229,38 +231,24 @@ export default function Home() {
               />
             </Box>
           </Grid>
-          <Grid
-            key={4}
-            item
-            lg={6}
-            md={6}
-            sx={{ ..._centeringStyle, alignItems: "start" }}
-          >
+
+          <Grid key={4} item lg={12} md={12} mb={"15px"} >
             <BedsSelectionComponent onChange={handleBedsChange} />
           </Grid>
-          <Grid
-            key={5}
-            item
-            lg={6}
-            md={6}
-            sx={{ ..._centeringStyle, alignItems: "start" }}
-          >
-            <BathsSelectionComponent
-              onChange={handleBathsChange}
-            ></BathsSelectionComponent>
-          </Grid>
-          <Budget
-            key={6}
-            budget={budget}
-            setBudget={setBudget}
-          />
 
-          <Area
-            key={7}
-            area={area}
-            setArea={setArea}
-          />
-          <Grid key={8} item lg={12} md={12}>
+          <Grid key={5} item lg={12} md={12} mb={"15px"} >
+            <BathsSelectionComponent onChange={handleBathsChange} />
+          </Grid>
+
+          <Grid item lg={12} md={12} mb={"15px"} >
+            <Budget key={6} budget={budget} setBudget={setBudget}  />
+          </Grid>
+
+          <Grid item lg={12} md={12} mb={"15px"} >
+            <Area key={7} area={area} setArea={setArea} />
+          </Grid>
+          
+          <Grid key={8} item lg={12} md={12} mb={"15px"} >
             <Box mx={1}>
               <FacilitiesComponent
                 value={facilities}
@@ -268,7 +256,8 @@ export default function Home() {
               />
             </Box>
           </Grid>
-          <Grid key={9} item lg={12} md={12}>
+          
+          <Grid key={9} item lg={12} md={12} mb={"15px"} >
             <Box mx={1}>
               <KeywordsComponent value={keywords} setValue={setKeywords} />
             </Box>
@@ -278,7 +267,7 @@ export default function Home() {
           minHeight={{ height }}
           maxHeight={{ height }}
           position={"fixed"}
-          left={{ md: "33.33%", lg: "16.66%" }}
+          left={"25%"}
           overflow={"auto"}
           container
           item
@@ -352,11 +341,11 @@ export default function Home() {
         <Grid
           key={3}
           position={"fixed"}
-          left={"66.67%"}
+          left={"75%"}
           container
           item
-          lg={4}
-          md={4}
+          lg={3}
+          md={3}
           width={{ mapWidth }}
           maxHeight={{ height }}
           minHeight={{ height }}
