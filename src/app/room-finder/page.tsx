@@ -3,7 +3,7 @@ import * as React from "react";
 import { useCallback, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { Box, Card, Checkbox, Grid, Typography } from "@mui/material";
+import { Box, Button, Card, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Modal, Typography } from "@mui/material";
 import ButtonComponent from "@/mui-components/buttons";
 import MultiSelectComponent from "@/mui-components/multi-select";
 import {
@@ -42,6 +42,7 @@ import GendersSelectionComponent from "@/components/genders";
 import { Inter, Rochester, Satisfy, Lato } from "next/font/google";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import LocationSearchMapComponent from "@/components/location-search-map";
+import PostSubmit from "./post-submit";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const lato = Lato({ weight: "700", subsets: ["latin"] });
@@ -180,6 +181,26 @@ export default function Home() {
     };
   };
 
+  const items = [
+    {
+      id: 1,
+      name: 'Item 1',
+      description: 'This is item 1.'
+    },
+    {
+      id: 2,
+      name: 'Item 2',
+      description: 'This is item 2.'
+    },
+    {
+      id: 3,
+      name: 'Item 3',
+      description: 'This is item 3.'
+    }
+  ];
+
+  const [openModal, setOpenModal] = useState(false);
+
   let height = _pageHeight;
 
   return (
@@ -252,7 +273,7 @@ export default function Home() {
           </Grid>
 
           <Grid item lg={12} md={12} mt={2}>
-            <BathsSelectionComponent onChange=      {handleBathsChange} 
+            <BathsSelectionComponent onChange={handleBathsChange} 
             />
           </Grid>
 
@@ -285,16 +306,15 @@ export default function Home() {
           </Grid>
           
           
-            <Grid key={8} item lg={12} md={12} mt={2}>
-              <Box mx={1}>
-                <FacilitiesComponent value={facilities} setValue={setFacilities} />
-              </Box>
-            </Grid>
+          <Grid key={8} item lg={12} md={12} mt={2}>
+            <Box mx={1}>
+              <FacilitiesComponent value={facilities} setValue={setFacilities} />
+            </Box>
+          </Grid>
           
           <Grid key={9} item lg={12} md={12} mt={2}>
             <Box mx={1}>
-              <KeywordsComponent 
-                value={keywords} setValue={setKeywords} />
+              <KeywordsComponent value={keywords} setValue={setKeywords} />
             </Box>
           </Grid>
         </Grid>
@@ -362,9 +382,14 @@ export default function Home() {
             </Grid>
             <Grid item lg={1.5} md={1.5} p={3}>
               <Box sx={{ ..._centeringStyle, margin: 0 }}>
-                <ButtonComponent style="primary" variant="contained">
-                  Post
+                <ButtonComponent style="primary" variant="contained" onClick={()=>setOpenModal(true)}>
+                   Post
                 </ButtonComponent>
+                <Modal open={openModal} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                  <Box width={"60vw"} height={"70vh"} style={{ backgroundColor:"red"}}>
+                    <PostSubmit setOpenModal={setOpenModal}/>
+                  </Box>
+                </Modal>
               </Box>
             </Grid>
           </Grid>
