@@ -1,8 +1,6 @@
 "use client";
 import * as React from "react";
 import { useCallback, useState } from "react";
-import Image from "next/image";
-import styles from "./page.module.css";
 import { Box, Button, Card, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Modal, Typography } from "@mui/material";
 import ButtonComponent from "@/mui-components/buttons";
 import MultiSelectComponent from "@/mui-components/multi-select";
@@ -54,7 +52,7 @@ const theme = createTheme({
 
 const localPath = "room-finder";
 
-export default function Home() {
+export default function RoomFinder() {
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
   const handleApartmentTypeChange = (types: any) => {
     setApartmentTypes(types);

@@ -6,9 +6,13 @@ import SelectComponent from "@/mui-components/select";
 import TextFieldComponent from "@/mui-components/text-field";
 import { Box, Button, Grid, TextField, TextareaAutosize } from "@mui/material";
 import React from "react";
+import { PostSubmitApi } from "./post-submit-apis";
+import { useRouter } from "next/navigation";
 
 
 export default function Post(props: any) {
+  const { push } = useRouter();
+
   var [postTitle, setPostTitle] = React.useState("")
   var [postBody, setPostBody] = React.useState("")
   var [apType, setApType] = React.useState("")
@@ -20,6 +24,43 @@ export default function Post(props: any) {
   var [district, setDistrict] = React.useState("")
   var [facilities, setFacilities] = React.useState([]);
   var [keywords, setKeywords] = React.useState([]);
+
+  let [postSubmtitLoading, setPostSubmtitLoading] = React.useState(false);
+  let [openError, setOpenError] = React.useState(false);
+  let [openSuccess, setOpenSuccess] = React.useState(false);
+  let [message, setMessage] = React.useState("");
+
+  let submitPost = async () => {
+    setPostSubmtitLoading(true)
+
+    const data = {
+        post_title: postTitle,
+        post_body: postBody,
+        ap_type: apType,
+        price: price,
+        bedrooms: bedrooms,
+        bathrooms: bathrooms,
+        area_sqft: area_sqft,
+        zone: zone,
+        district: district,
+        facilities: facilities,
+        keywords: keywords
+    }
+    const response = await PostSubmitApi(data)
+
+    if (response.success) {
+        setMessage("Post added successfully")
+        setOpenSuccess(true)
+        setTimeout(()=> {
+            setPostSubmtitLoading(false)
+            push("/room-finder")
+        }, 1000)
+    } else {
+        setPostSubmtitLoading(false)
+        setMessage(response.message)
+        setOpenError(true)
+    }
+  }
 
   const demoNumList = ["1", "2", "3", "4", "5", "6", "7", "8"]
   const demoZone = ["Azimpur", "Dhanmondi", "Gulshan", "Motijheel"]
@@ -37,11 +78,11 @@ export default function Post(props: any) {
                     <Grid item lg={6} md={6} >
                         <Grid container>
                             <Grid item lg={12} md={12} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px"}}>
-                                <TextField required label="Title" fullWidth multiline={true} value={postTitle}/>
+                                <TextField required label="Title" fullWidth multiline={true} value={postTitle} onChange={(e) => { setPostTitle(e.target.value) }}/>
                             </Grid>
 
                             <Grid item lg={12} md={12} style={{display:"flex", justifyContent:"center", alignItems:"center",  paddingBottom:"20px", paddingLeft:"20px"}}>
-                                <TextField required label="Body" fullWidth multiline={true} value={postBody} inputProps={{style: { height: "250px"},}}/>
+                                <TextField required label="Body" fullWidth multiline={true} value={postBody} onChange={(e) => { setPostBody(e.target.value) }} inputProps={{style: { height: "250px"},}}/>
                             </Grid>
                         </Grid>
                     </Grid>
