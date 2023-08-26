@@ -8,6 +8,9 @@ import { Box, Button, Grid, TextField, TextareaAutosize } from "@mui/material";
 import React from "react";
 import { PostSubmitApi } from "./post-submit-apis";
 import { useRouter } from "next/navigation";
+import ClearIcon from '@mui/icons-material/Clear';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import LocationSearchMapComponent from "@/components/location-search-map-norange";
 
 
 export default function Post(props: any) {
@@ -20,10 +23,16 @@ export default function Post(props: any) {
   var [bathrooms, setBathrooms] = React.useState("")
   var [area_sqft, setAreaSqFt] = React.useState("")
   var [price, setPrice] = React.useState("")
-  var [zone, setZone] = React.useState("")
-  var [district, setDistrict] = React.useState("")
+  
   var [facilities, setFacilities] = React.useState([]);
   var [keywords, setKeywords] = React.useState([]);
+
+  const [searchAddress, setSearchAddress] = React.useState<any>("");
+  const [radius, setRadius] = React.useState<number | "">("");
+  const [zone, setZone] = React.useState<any>("");
+  const [district, setDistrict] = React.useState<any>("");
+  const [division, setDivision] = React.useState<any>("");
+  const [location, setLocation] = React.useState<any>("");
 
   let [postSubmtitLoading, setPostSubmtitLoading] = React.useState(false);
   let [openError, setOpenError] = React.useState(false);
@@ -68,51 +77,53 @@ export default function Post(props: any) {
 
   return (
     <>
-        <Grid style={{display:"flex", justifyContent:"center"}}>
-            <Box height={"70vh"} style={{backgroundColor:"white"}}>
+        <Grid style={{display:"flex", justifyContent:"center"}} overflow={"auto"}>
+            <Box width={"90vw"} minHeight={"70vh"} style={{backgroundColor:"white"}}>
                 <Grid container>
-                    <Grid item lg={12} md={12} style={{padding:"10px", paddingTop:"5px", display:"flex", justifyContent:"center"}}>
-                        <h1> Room Finder </h1>
+                    <Grid container style={{display:"flex", justifyContent:"center", alignItems:"center", paddingTop:"5px", paddingLeft:"10px"}}>
+                        <Grid item lg={2} md={2} style={{display:"flex", justifyContent:"center"}}>
+                            <Button variant="contained" endIcon={<ClearIcon/>} color="error" onClick={()=>props.setOpenModal(false)}>Cancel</Button>
+                        </Grid>
+
+                        <Grid item lg={8} md={8} style={{padding:"10px", paddingTop:"5px", display:"flex", justifyContent:"center", fontFamily:"Lato"}}>
+                            <h1> Room Finder </h1>
+                        </Grid>
+                                
+                        <Grid item lg={2} md={2} style={{display:"flex", justifyContent:"center", paddingRight:"0px"}}>
+                            <Button variant="contained" endIcon={<PostAddIcon/>}>Post</Button>
+                        </Grid>
                     </Grid>
 
-                    <Grid item lg={6} md={6} >
+                    <Grid item lg={7.5} md={7.5} >
                         <Grid container>
                             <Grid item lg={12} md={12} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px"}}>
-                                <TextField required label="Title" fullWidth multiline={true} value={postTitle} onChange={(e) => { setPostTitle(e.target.value) }}/>
+                                <TextField required label="Title" fullWidth multiline={true} value={postTitle} onChange={(e) => { setPostTitle(e.target.value) }} inputProps={{maxLength: 50}}/>
                             </Grid>
 
                             <Grid item lg={12} md={12} style={{display:"flex", justifyContent:"center", alignItems:"center",  paddingBottom:"20px", paddingLeft:"20px"}}>
-                                <TextField required label="Body" fullWidth multiline={true} value={postBody} onChange={(e) => { setPostBody(e.target.value) }} inputProps={{style: { height: "250px"},}}/>
+                                <TextField required label="Body" fullWidth multiline={true} value={postBody} onChange={(e) => { setPostBody(e.target.value) }} inputProps={{style: { height: "175px"}, maxLength: 350}}/>
                             </Grid>
                         </Grid>
                     </Grid>
 
-                    <Grid item lg={6} md={6} >
+                    <Grid item lg={4.5} md={4.5} >
                         <Grid container>
-                            <Grid item md={4} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px", paddingRight:"10px"}}>
+                            <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px", paddingRight:"10px"}}>
                                 <SelectComponent required elements={['Bachelor', 'Sublet']} title={'Type'} value={apType} setValue={setApType}/>
                             </Grid>
 
-                            <Grid item md={4} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"10px", paddingRight:"10px"}}>
-                                <SelectComponent required elements={demoNumList} title={'Bedrooms'} value={bedrooms} setValue={setBedrooms}/>
-                            </Grid>
-
-                            <Grid item md={4} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"10px", paddingRight:"20px"}}>
-                                <SelectComponent required elements={demoNumList} title={'Bathrooms'} value={bathrooms} setValue={setBathrooms}/>
+                            <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"10px", paddingRight:"20px"}}>
+                                <TextFieldComponent required label="Area (sq. ft)" type="number" value={area_sqft} setValue={setAreaSqFt} fullWidth />
                             </Grid>
                         </Grid>
 
                         <Grid container>
-                            <Grid item md={4} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px", paddingRight:"10px"}}>
-                                <TextFieldComponent required label="Area (sq. ft)" type="number" value={area_sqft} setValue={setAreaSqFt} fullWidth />
+                            <Grid item md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px", paddingRight:"10px"}}>
+                                <SelectComponent required elements={demoNumList} title={'Bedrooms'} value={bedrooms} setValue={setBedrooms}/>
                             </Grid>
 
-                            <Grid item md={4} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"10px", paddingRight:"10px"}}>
-                                <SelectComponent required elements={demoZone} title={'Zone'} value={zone} setValue={setZone}/> 
-                            </Grid>
-
-                            <Grid item md={4} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"10px", paddingRight:"20px"}}>
-                                <SelectComponent required elements={demoDistrict} title={'District'} value={district} setValue={setDistrict}/>
+                            <Grid item md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"10px", paddingRight:"20px"}}>
+                                <SelectComponent required elements={demoNumList} title={'Bathrooms'} value={bathrooms} setValue={setBathrooms}/>
                             </Grid>
                         </Grid>
 
@@ -121,24 +132,31 @@ export default function Post(props: any) {
                         </Grid>
 
                         <Grid container>
-                            <Grid item lg={6} md={6} style={{paddingBottom:"20px", paddingLeft:"20px", paddingRight:"20px"}}>
-                                <FacilitiesComponent value={facilities} setValue={setFacilities} />
-                            </Grid>
-                            
-                            <Grid item lg={6} md={6} style={{paddingBottom:"20px", paddingLeft:"20px", paddingRight:"20px"}}>
-                                <KeywordsComponent value={keywords} setValue={setKeywords} />
-                            </Grid>
-                        </Grid>
 
-                        <Grid container>
-                            <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingTop:"18px"}}>
-                                <Button variant="contained"  onClick={()=>props.setOpenModal(false)}>Cancel</Button>
-                            </Grid>
-                            
-                            <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingTop:"18px"}}>
-                                <Button variant="contained">Post</Button>
-                            </Grid>
+                        <Grid item container lg={12} md={12} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px", paddingRight:"30px"}}>
+                            <LocationSearchMapComponent
+                                setRadius={setRadius}
+                                radius={radius}
+                                setLocation={setLocation}
+                                searchAddress={searchAddress}
+                                setSearchAddress={setSearchAddress}
+                                setAddress={setSearchAddress}
+                                setDistrict={setDistrict}
+                                setDivision={setDivision}
+                                setZone={setZone}
+                            />
                         </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                
+                <Grid container>
+                    <Grid item lg={6} md={6} style={{paddingBottom:"20px", paddingLeft:"20px", paddingRight:"10px"}}>
+                        <FacilitiesComponent value={facilities} setValue={setFacilities}/>
+                    </Grid>
+                    
+                    <Grid item lg={6} md={6} style={{paddingBottom:"20px", paddingLeft:"10px", paddingRight:"20px"}}>
+                        <KeywordsComponent value={keywords} setValue={setKeywords} />
                     </Grid>
                 </Grid>
             </Box>
