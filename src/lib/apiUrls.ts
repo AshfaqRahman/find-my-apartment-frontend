@@ -65,5 +65,6 @@ export const apiUrls = {
 	},
 	rooms: {
 		list: `${HOST}/api/posts`,
-	}
+		post: `${HOST}/api/post`
+	},
 };

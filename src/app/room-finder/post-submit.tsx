@@ -22,7 +22,13 @@ export default function Post(props: any) {
   var [bedrooms, setBedrooms] = React.useState("")
   var [bathrooms, setBathrooms] = React.useState("")
   var [area_sqft, setAreaSqFt] = React.useState("")
+  const handleAreaSqft = (e: any) => {
+    setAreaSqFt(e.target.value)
+  }
   var [price, setPrice] = React.useState("")
+  const handlePriceChange = (e: any) => {
+    setPrice(e.target.value);
+  };
   
   var [facilities, setFacilities] = React.useState([]);
   var [keywords, setKeywords] = React.useState([]);
@@ -45,15 +51,21 @@ export default function Post(props: any) {
     const data = {
         post_title: postTitle,
         post_body: postBody,
-        ap_type: apType,
+        // ap_type: apType,
         price: price,
         bedrooms: bedrooms,
         bathrooms: bathrooms,
         area_sqft: area_sqft,
-        zone: zone,
-        district: district,
         facilities: facilities,
-        keywords: keywords
+        keywords: keywords,
+        location: {
+            division: division,
+            district: district,
+            zone: zone,
+            latitude: location.lat,
+            longitude: location.lng,
+        },
+        
     }
     const response = await PostSubmitApi(data)
 
@@ -71,7 +83,7 @@ export default function Post(props: any) {
     }
   }
 
-  const demoNumList = ["1", "2", "3", "4", "5", "6", "7", "8"]
+  const numList = ["1", "2", "3", "4", "5", "6", "7", "8"]
   const demoZone = ["Azimpur", "Dhanmondi", "Gulshan", "Motijheel"]
   const demoDistrict = ["Dhaka", "Chattogram", "Sylhet", "Barishal"]
 
@@ -90,7 +102,7 @@ export default function Post(props: any) {
                         </Grid>
                                 
                         <Grid item lg={2} md={2} style={{display:"flex", justifyContent:"center", paddingRight:"0px"}}>
-                            <Button variant="contained" endIcon={<PostAddIcon/>}>Post</Button>
+                            <Button variant="contained" onClick={submitPost} endIcon={<PostAddIcon/>}>Post</Button>
                         </Grid>
                     </Grid>
 
@@ -109,26 +121,26 @@ export default function Post(props: any) {
                     <Grid item lg={4.5} md={4.5} >
                         <Grid container>
                             <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px", paddingRight:"10px"}}>
-                                <SelectComponent required elements={['Bachelor', 'Sublet']} title={'Type'} value={apType} setValue={setApType}/>
+                                <SelectComponent required elements={['Bachelor', 'Sublet']} title={'Type'} value={apType} handleChange={setApType}/>
                             </Grid>
 
                             <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"10px", paddingRight:"20px"}}>
-                                <TextFieldComponent required label="Area (sq. ft)" type="number" value={area_sqft} setValue={setAreaSqFt} fullWidth />
+                                <TextFieldComponent required label="Area (sq. ft)" type="number" value={area_sqft} handleChange={handleAreaSqft} fullWidth />
                             </Grid>
                         </Grid>
 
                         <Grid container>
                             <Grid item md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px", paddingRight:"10px"}}>
-                                <SelectComponent required elements={demoNumList} title={'Bedrooms'} value={bedrooms} setValue={setBedrooms}/>
+                                <SelectComponent required elements={numList} title={'Bedrooms'} value={bedrooms} handleChange={setBedrooms}/>
                             </Grid>
 
                             <Grid item md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"10px", paddingRight:"20px"}}>
-                                <SelectComponent required elements={demoNumList} title={'Bathrooms'} value={bathrooms} setValue={setBathrooms}/>
+                                <SelectComponent required elements={numList} title={'Bathrooms'} value={bathrooms} handleChange={setBathrooms}/>
                             </Grid>
                         </Grid>
 
                         <Grid item lg={12} md={12} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px", paddingRight:"20px"}}>
-                            <TextFieldComponent required label="Price (BDT)" type="number" value={price} setValue={setPrice} fullWidth />
+                            <TextFieldComponent required label="Price (BDT)" type="number" value={price} handleChange={handlePriceChange} fullWidth />
                         </Grid>
 
                         <Grid container>
