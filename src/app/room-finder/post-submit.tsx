@@ -46,6 +46,7 @@ export default function Post(props: any) {
   let [message, setMessage] = React.useState("");
 
   let submitPost = async () => {
+    props.setOpenModal(false)
     setPostSubmtitLoading(true)
 
     const data = {

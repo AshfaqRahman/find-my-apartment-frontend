@@ -89,9 +89,6 @@ export default function Home() {
       key: "created_at",
       order: -1,
     },
-    // "nearest",
-    // "price highest",
-    // "preference",
   };
   let [orderBy, setOrderBy] = useState<string>("");
 
@@ -105,9 +102,6 @@ export default function Home() {
     console.log("saving search ...");
   };
 
-  // const onSearch = =async (data: any) => {
-  // 	setSelected(data);
-  // };
   let height = _pageHeight;
   let mapWidth = _mapWidth;
 

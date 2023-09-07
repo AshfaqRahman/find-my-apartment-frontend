@@ -4,6 +4,7 @@ import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
 import { _cardRadius, _divRadius } from "@/static/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed, faShower } from "@fortawesome/free-solid-svg-icons";
+import FacilitiesComponent from "./facilities";
 
 
 export default function Post(props: any) {
@@ -19,7 +20,7 @@ export default function Post(props: any) {
             <Grid container>
                 <Grid item md={8}>
                     <Typography key={2} gutterBottom variant="h5" component="div" fontWeight={400}>
-                        <b>{props.data.title}</b>
+                        <b>{props.data.post_title}</b>
                     </Typography>
                 </Grid>
                 <Grid item md={4} display={"flex"} alignItems={"center"} fontSize={"20px"}  justifyContent={"right"}>
@@ -28,7 +29,7 @@ export default function Post(props: any) {
             </Grid>
 
             <Grid style={{marginTop:"5px", marginBottom:"10px"}}>
-                {props.data.textBody}
+                {props.data.post_body}
             </Grid>
             
             <Grid container>
@@ -58,8 +59,12 @@ export default function Post(props: any) {
                     <Grid item md={0.2} style={{display:"flex", alignItems:"center"}}>
                         :
                     </Grid>
+
+                    {/* <Grid item md={10} lg={10}>
+                        <FacilitiesComponent facilities={props.data.facilities} />
+                    </Grid> */}
                     
-                    <Grid item md={10} lg={10}>
+                    {/* <Grid item md={10} lg={10}>
                         {props.data.facilities.map((x: any, idx: number) => {
                             return (
                             <Button
@@ -78,7 +83,7 @@ export default function Post(props: any) {
                             </Button>
                             );
                         })}
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </Card>
 
@@ -91,8 +96,8 @@ export default function Post(props: any) {
                         :
                     </Grid>
                     
-                    <Grid item md={10} lg={10}>
-                        {props.data.star_points.map((x: any, idx: number) => {
+                    {/* <Grid item md={10} lg={10}>
+                        {props.data.starpoints.map((x: any, idx: number) => {
                             return (
                             <Button
                                 key={idx}
@@ -110,7 +115,7 @@ export default function Post(props: any) {
                             </Button>
                             );
                         })}
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </Card>
  

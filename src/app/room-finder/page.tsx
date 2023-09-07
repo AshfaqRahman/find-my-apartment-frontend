@@ -1,7 +1,19 @@
 "use client";
 import * as React from "react";
-import { useCallback, useState } from "react";
-import { Box, Button, Card, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Modal, Typography } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Card,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Modal,
+  Typography,
+} from "@mui/material";
 import ButtonComponent from "@/mui-components/buttons";
 import MultiSelectComponent from "@/mui-components/multi-select";
 import {
@@ -41,6 +53,9 @@ import { Inter, Rochester, Satisfy, Lato } from "next/font/google";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import LocationSearchMapComponent from "@/components/location-search-map";
 import PostSubmit from "./post-submit";
+import { useRouter } from "next/navigation";
+import ToastComponent from "@/mui-components/toast";
+import { randomInRange } from "@/static/utils";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const lato = Lato({ weight: "700", subsets: ["latin"] });
@@ -53,30 +68,24 @@ const theme = createTheme({
 const localPath = "room-finder";
 
 export default function RoomFinder() {
-  const [apartmentTypes, setApartmentTypes] = React.useState([]);
-  const handleApartmentTypeChange = (types: any) => {
-    setApartmentTypes(types);
+  const { push } = useRouter();
+
+  const [noOfResidents, setNoOfResidents] = React.useState([]);
+  const handleNoOfResidentsChange = (selectedOptions: any) => {
+    setNoOfResidents(selectedOptions);
   };
 
-  const [noOfPersons, setNoOfPersons] = React.useState([]);
-  const handleNoOfPersonsChange = (selectedOptions: any) => {
-    setNoOfPersons(selectedOptions);
+  const [noOfRoommates, setNoOfRoommates] = React.useState([]);
+  const handleNoOfRoommatesChange = (selectedOptions: any) => {
+    setNoOfRoommates(selectedOptions);
   };
 
-  const [searchAddress, setSearchAddress] = React.useState<any>("");
-  const [radius, setRadius] = React.useState<number | "">("");
-
-  const [zone, setZone] = React.useState<any>("");
-  const [district, setDistrict] = React.useState<any>("");
-  const [division, setDivision] = React.useState<any>("");
-  const [location, setLocation] = React.useState<any>("");
-
-  const [personsInRoom, setPersonsInRoom] = React.useState([]);
-  const handlePersonsInRoomChange = (selectedOptions: any) => {
-    setPersonsInRoom(selectedOptions);
+  const [beds, setBeds] = React.useState([]);
+  const handleBedsChange = (selectedOptions: any) => {
+    setBeds(selectedOptions);
   };
 
-  const [baths, setBaths] = React.useState(_baths);
+  const [baths, setBaths] = React.useState([]);
   const handleBathsChange = (selectedOptions: any) => {
     setBaths(selectedOptions);
   };
@@ -94,6 +103,15 @@ export default function RoomFinder() {
     setKeywords(types);
   };
 
+  let [mapLat, setMapLat] = React.useState();
+  let [mapLng, setMapLng] = React.useState();
+  const [zone, setZone] = React.useState<any>("");
+  const [district, setDistrict] = React.useState<any>("");
+  const [division, setDivision] = React.useState<any>("");
+  const [location, setLocation] = React.useState<any>("");
+  const [radius, setRadius] = React.useState<number | "">("");
+  const [searchAddress, setSearchAddress] = React.useState<any>("");
+
   let [posts, setPosts] = React.useState([
     {
       id: 1,
@@ -109,7 +127,7 @@ export default function RoomFinder() {
         "The quick brown fox jumps over the lazy dog. And so I need a billion dollars.",
       owner: "makumhakan",
       star_points: ["Fire Station", "Bank", "School", "University"],
-      facilities: ["security", "wifi", "parking", "rooftop", "laundry"]
+      facilities: ["security", "wifi", "parking", "rooftop", "laundry"],
     },
     {
       id: 2,
@@ -125,7 +143,7 @@ export default function RoomFinder() {
         "I tried so hard and got so far. But in the end, it doesn't even matter. I had to fall to lose it all. But in the end, it doesn't even matter.",
       owner: "tuluashfak",
       star_points: ["Fire Station", "Bank, School", "University"],
-      facilities: ["security", "wifi", "parking", "rooftop", "laundry"]
+      facilities: ["security", "wifi", "parking", "rooftop", "laundry"],
     },
     {
       id: 3,
@@ -141,35 +159,56 @@ export default function RoomFinder() {
         "The child is grown, the dream is gone. I have become comfortably numb. Hello? Is there anybody in there? Just node if you can hear me. Is there anyone home?",
       owner: "maruiffa",
       star_points: ["Fire Station", "Bank, School", "University"],
-      facilities: ["security", "wifi", "parking", "rooftop", "laundry"]
+      facilities: ["security", "wifi", "parking", "rooftop", "laundry"],
     },
   ]);
 
-  let apartmentStatuses = ["Any", "Vacant", "Occupied"];
-  let [apartmentStatus, setApartmentStatus] = React.useState("Any");
+  let [posts_, setPosts_] = React.useState([]);
 
-  let orderByes = [
-    "Latest",
-    "Lowest Price",
-    "Highest Price",
-    "Preference",
-  ];
-  let [orderBy, setOrderBy] = React.useState("Nearest");
+  let orderByes: any = {
+    "price lowest": {
+      key: "price",
+      order: 1,
+    },
+    "price highest": {
+      key: "price",
+      order: -1,
+    },
+    latest: {
+      key: "created_at",
+      order: -1,
+    },
+  };
+  let [orderBy, setOrderBy] = React.useState("");
 
-  let [fetchingPosts, setFetchingPosts] = React.useState(false);
-
-  // const handleOrderByChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setOrderBy(event.target.value);
-  // };
+  useEffect(() => {
+    let psts = [...posts_];
+    psts.sort(
+      (a: any, b: any) =>
+        orderByes[orderBy].order *
+        (a[orderByes[orderBy].key] > b[orderByes[orderBy].key] ? 1 : -1)
+    );
+    setPosts_(psts);
+  }, [orderBy]);
 
   const saveSearch = () => {
     console.log("Saving search ...");
   };
 
-  const search = async () => {
+  let [openToast, setOpenToast] = React.useState(false);
+  let [message, setMessage] = React.useState("");
+  let [severity, setSeverity] = React.useState("success");
+  let [fetchingPosts, setFetchingPosts] = React.useState(false);
+
+  const searchRooms = async () => {
+    setFetchingPosts(true);
     const params = {
-      apartmentTypes: apartmentTypes,
+      location: location,
+      radius: radius,
+      beds: beds,
       baths: baths,
+      noOfRoommates: noOfRoommates,
+      noOfResidents: noOfResidents,
       price_min: +budget[0],
       price_max: +budget[1],
       area_min: +area[0],
@@ -177,24 +216,36 @@ export default function RoomFinder() {
       facilities: facilities,
       keywords: keywords,
     };
+    let data: any = await findRooms(params);
+
+    if (data.success) {
+      setPosts_(data.data);
+      setSeverity("success");
+      setMessage(`${data.data.length} posts are found`);
+    } else {
+      setSeverity("error");
+      setMessage(data.message);
+    }
+    setOpenToast(true);
+    setFetchingPosts(false);
   };
 
   const items = [
     {
       id: 1,
-      name: 'Item 1',
-      description: 'This is item 1.'
+      name: "Item 1",
+      description: "This is item 1.",
     },
     {
       id: 2,
-      name: 'Item 2',
-      description: 'This is item 2.'
+      name: "Item 2",
+      description: "This is item 2.",
     },
     {
       id: 3,
-      name: 'Item 3',
-      description: 'This is item 3.'
-    }
+      name: "Item 3",
+      description: "This is item 3.",
+    },
   ];
 
   const [openModal, setOpenModal] = useState(false);
@@ -220,8 +271,14 @@ export default function RoomFinder() {
             backgroundColor: _color.background_lighter,
           }}
         >
-          <Grid key={1} item lg={6} md={6} style={{display:"flex", justifyContent:"left"}}>
-            <Box sx={{ ..._centeringStyle, m: "10px", mt:"25px"}}>
+          <Grid
+            key={1}
+            item
+            lg={6}
+            md={6}
+            style={{ display: "flex", justifyContent: "left" }}
+          >
+            <Box sx={{ ..._centeringStyle, m: "10px", mt: "25px" }}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
@@ -232,12 +289,17 @@ export default function RoomFinder() {
             </Box>
           </Grid>
 
-          <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"right"}}>
-            <Box sx={{ ..._centeringStyle, m: "10px", mt:"25px"}}>
+          <Grid
+            item
+            lg={6}
+            md={6}
+            style={{ display: "flex", justifyContent: "right" }}
+          >
+            <Box sx={{ ..._centeringStyle, m: "10px", mt: "25px" }}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
-                onClick={search}
+                onClick={searchRooms}
               >
                 Search
               </ButtonComponent>
@@ -247,47 +309,44 @@ export default function RoomFinder() {
           <Grid item container lg={12} md={12}>
             <Box px={1}>
               <LocationSearchMapComponent
-                    setRadius={setRadius}
-                    radius={radius}
-                    setLocation={setLocation}
-                    searchAddress={searchAddress}
-                    setSearchAddress={setSearchAddress}
-                    setAddress={setSearchAddress}
-                    setDistrict={setDistrict}
-                    setDivision={setDivision}
-                    setZone={setZone}
+                setRadius={setRadius}
+                radius={radius}
+                setLocation={setLocation}
+                searchAddress={searchAddress}
+                setSearchAddress={setSearchAddress}
+                setAddress={setSearchAddress}
+                setDistrict={setDistrict}
+                setDivision={setDivision}
+                setZone={setZone}
               />
             </Box>
           </Grid>
 
           <Grid item lg={12} md={12} mt={2}>
-            <GendersSelectionComponent onChange={handleNoOfPersonsChange} />
+            <GendersSelectionComponent onChange={handleNoOfResidentsChange} />
           </Grid>
 
-          <Grid item lg={12} md={12} mt={2} style={{display:"flex"}}>
-            <NoOfLivingRoomsSelectionComponent
-              onChange={handleNoOfPersonsChange}
-            />
+          <Grid item lg={12} md={12} mt={2} style={{ display: "flex" }}>
+            <NoOfLivingRoomsSelectionComponent onChange={handleBedsChange} />
           </Grid>
 
           <Grid item lg={12} md={12} mt={2}>
-            <BathsSelectionComponent onChange={handleBathsChange} 
-            />
+            <BathsSelectionComponent onChange={handleBathsChange} />
           </Grid>
 
           <Grid item lg={12} md={12} mt={2}>
             <PersonsInRoomSelectionComponent
-              onChange={handlePersonsInRoomChange}
+              onChange={handleNoOfRoommatesChange}
             />
           </Grid>
 
           <Grid item lg={12} md={12} mt={2}>
             <NoOfResidentsSelectionComponent
-              onChange={handleNoOfPersonsChange}
+              onChange={handleNoOfResidentsChange}
             />
           </Grid>
 
-          <Grid  item lg={12} md={12} mt={2}>           
+          <Grid item lg={12} md={12} mt={2}>
             <Budget
               key={6}
               budget={budget}
@@ -302,22 +361,24 @@ export default function RoomFinder() {
               setBudget={setBudget}
             />
           </Grid>
-          
-          
+
           <Grid key={8} item lg={12} md={12} mt={2}>
             <Box mx={1}>
-              <FacilitiesComponent value={facilities} setValue={setFacilities} />
+              <FacilitiesComponent
+                value={facilities}
+                setValue={setFacilities}
+              />
             </Box>
           </Grid>
-          
+
           <Grid key={9} item lg={12} md={12} mt={2}>
             <Box mx={1}>
               <KeywordsComponent value={keywords} setValue={setKeywords} />
             </Box>
           </Grid>
         </Grid>
-        <Grid 
-          key = {2}
+        <Grid
+          key={2}
           minHeight={{ height }}
           maxHeight={{ height }}
           position={"fixed"}
@@ -366,7 +427,7 @@ export default function RoomFinder() {
               <Box sx={{ ..._centeringStyle, margin: 0 }}>
                 <SelectComponent
                   title={"Order By"}
-                  elements={orderByes}
+                  elements={Object.keys(orderByes)}
                   value={orderBy}
                   handleChange={setOrderBy}
                 />
@@ -380,19 +441,43 @@ export default function RoomFinder() {
             </Grid>
             <Grid item lg={1.5} md={1.5} p={3}>
               <Box sx={{ ..._centeringStyle, margin: 0 }}>
-                <ButtonComponent style="primary" variant="contained" onClick={()=>setOpenModal(true)}>
-                   Post
+                <ButtonComponent
+                  style="primary"
+                  variant="contained"
+                  onClick={() => setOpenModal(true)}
+                >
+                  Post
                 </ButtonComponent>
-                <Modal open={openModal} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                  <Box width={"60vw"} height={"70vh"} style={{ backgroundColor:"red"}}>
-                    <PostSubmit setOpenModal={setOpenModal}/>
+                <Modal
+                  open={openModal}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box
+                    width={"60vw"}
+                    height={"70vh"}
+                    style={{ backgroundColor: "red" }}
+                  >
+                    <PostSubmit setOpenModal={setOpenModal} />
                   </Box>
                 </Modal>
               </Box>
             </Grid>
           </Grid>
 
-          <Grid key={3} container item lg={12} md={12} m={2} mt={1} height={"78vh"}>
+          <Grid
+            key={3}
+            container
+            item
+            lg={12}
+            md={12}
+            m={2}
+            mt={1}
+            height={"78vh"}
+          >
             <Grid
               item
               lg={12}
@@ -402,13 +487,20 @@ export default function RoomFinder() {
                 borderRadius: "10px",
               }}
             >
-              {posts.map((x, idx) => {
+              {posts_.map((x: any, idx) => {
                 return <Post data={x} key={idx} />;
               })}
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+      <ToastComponent
+        message={message}
+        open={openToast}
+        onClose={setOpenToast}
+        onCross={setOpenToast}
+        severity={severity}
+      />
     </>
   );
 }

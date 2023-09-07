@@ -51,8 +51,8 @@ export default function Home() {
         setMessage(response.data.message);
         setOpenToast(true);
         setTimeout(() => {
-          push("/advance-search");
-        }, 1000);
+          push("/");
+        }, 0);
       }
     });
   }, []);

@@ -54,10 +54,10 @@ export default function Login() {
       setTimeout(() => {
         setLoggingLoader(false);
         setCookie("token", response.data.token, {
-          maxAge: 1 * 24 * 60 * 60, // 1 days
+          maxAge: 1 * 8 * 60 * 60, // 8 hours
         })
         push("/advance-search");
-      }, 1000);
+      }, 500);
     } else {
       setLoggingLoader(false);
       setMessage(response.message);
