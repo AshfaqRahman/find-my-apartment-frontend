@@ -18,6 +18,7 @@ import { checkAuth } from "./apis";
 import Link from "next/link";
 import ZoneCard from "@/components/zone-card";
 import ApartmentCard from "@/components/apartment-card";
+import { ExploreApartments } from "./explore-apis";
 
 function Copyright(props: any) {
   return (
@@ -41,9 +42,29 @@ export default function Home() {
   let [openToast, setOpenToast] = React.useState(false);
   let [message, setMessage] = React.useState("");
   let [severity, setSeverity] = React.useState("success");
+
+  let [fetchingApartments, setFetchingApartments] = React.useState(false);
+  let [apartments, setApartments] = React.useState([]);
+  const getApartments = async () => { 
+    setFetchingApartments(true);
+    
+    let data : any = await ExploreApartments();
+
+    if (data.success) { 
+      setApartments(data.data.apartments);
+      setSeverity("success");
+    } else {
+      setSeverity("error");
+    }
+    
+    setOpenToast(true);
+    setFetchingApartments(false);
+  }
+  
   useEffect(() => {
     console.log("Home::useEffect");
     // console.log(getCookie("token"));
+    getApartments();
     checkAuth().then((response) => {
       // console.log(response);
       if (response.success) {
@@ -56,6 +77,7 @@ export default function Home() {
       }
     });
   }, []);
+
   const bgColor = "#E6E6E6";
   return (
     <>
@@ -167,7 +189,18 @@ export default function Home() {
             </Grid>
 
             <Grid style={{ fontFamily: "Tahoma", margin: "10px" }}>
-              <ApartmentCard
+              {apartments?.map((x: any, idx) => {
+                return (
+                  <ApartmentCard
+                    key={idx}
+                    price={x.price}
+                    area={x.area}
+                    bedrooms={x.bedrooms}
+                    bathrooms={x.bathrooms}
+                  />
+                );
+              })}
+              {/* <ApartmentCard
                 price="18000"
                 area="Lalbag"
                 bedrooms="3"
@@ -196,7 +229,7 @@ export default function Home() {
                 area="Azimpur"
                 bedrooms="3"
                 bathrooms="2"
-              />
+              /> */}
             </Grid>
           </Card>
         </Grid>

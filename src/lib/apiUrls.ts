@@ -67,4 +67,7 @@ export const apiUrls = {
 		list: `${HOST}/api/posts`,
 		post: `${HOST}/api/post`
 	},
+	explore: {
+		list: `${HOST}/api/explore`,
+	},
 };

@@ -15,10 +15,12 @@ import LocationSearchMapComponent from "@/components/location-search-map-norange
 
 export default function Post(props: any) {
   const { push } = useRouter();
-
+  
   var [postTitle, setPostTitle] = React.useState("")
   var [postBody, setPostBody] = React.useState("")
-  var [apType, setApType] = React.useState("")
+  var [gender, setGender] = React.useState("")
+  var [residents, setResidents] = React.useState("")
+  var [roommates, setRoommates] = React.useState("")
   var [bedrooms, setBedrooms] = React.useState("")
   var [bathrooms, setBathrooms] = React.useState("")
   var [area_sqft, setAreaSqFt] = React.useState("")
@@ -35,10 +37,33 @@ export default function Post(props: any) {
 
   const [searchAddress, setSearchAddress] = React.useState<any>("");
   const [radius, setRadius] = React.useState<number | "">("");
+  
+
+  const [address, setAddress] = React.useState<any>("");
+  const handleAddressChange = (e: any) => {
+    setAddress(e.target.value);
+  };
+
   const [zone, setZone] = React.useState<any>("");
   const [district, setDistrict] = React.useState<any>("");
   const [division, setDivision] = React.useState<any>("");
-  const [location, setLocation] = React.useState<any>("");
+  const [location, setLocation] = React.useState<any>({});
+
+  const [streetNo, setStreetNo] = React.useState<number | "">("");
+  const handleStreetNoChange = (e: any) => {
+    setStreetNo(e.target.value);
+  };
+  const [houseNo, setHouseNo] = React.useState<number | "">("");
+  const handleHouseNoChange = (e: any) => {
+    setHouseNo(e.target.value);
+  };
+
+  const [description, setDescription] = React.useState<any>("");
+  const handleDescriptionChange = (e: any) => {
+    setDescription(e.target.value);
+  };
+
+  const [mapAddress, setMapAddress] = React.useState<any>("");
 
   let [postSubmtitLoading, setPostSubmtitLoading] = React.useState(false);
   let [openError, setOpenError] = React.useState(false);
@@ -49,26 +74,39 @@ export default function Post(props: any) {
     props.setOpenModal(false)
     setPostSubmtitLoading(true)
 
-    const data = {
-        post_title: postTitle,
-        post_body: postBody,
-        // ap_type: apType,
-        price: price,
-        bedrooms: bedrooms,
-        bathrooms: bathrooms,
-        area_sqft: area_sqft,
-        facilities: facilities,
-        keywords: keywords,
-        location: {
-            division: division,
-            district: district,
-            zone: zone,
-            latitude: location.lat,
-            longitude: location.lng,
+    const params = {
+        post_data: {
+            post_title: postTitle,
+            post_body: postBody,
+            price: price,
+            bedrooms: bedrooms,
+            bathrooms: bathrooms,
+            area_sqft: area_sqft,
+            residents: residents,
+            roommates: roommates,
+            gender: gender,
         },
-        
+
+        keywords: {
+          starpoint_ids: keywords,
+        },
+
+        facilities: {
+          facility_ids: facilities,
+        },
+
+        location: {
+          detailed_address: address,
+          street_no: streetNo,
+          house_no: houseNo,
+          zone: zone,
+          district: district,
+          division: division,
+          latitude: location.lat,
+          longitude: location.lng,
+        }
     }
-    const response = await PostSubmitApi(data)
+    const response = await PostSubmitApi(params)
 
     if (response.success) {
         setMessage("Post added successfully")
@@ -85,6 +123,7 @@ export default function Post(props: any) {
   }
 
   const numList = ["1", "2", "3", "4", "5", "6", "7", "8"]
+  const genders = ["Male", "Female", "Other"]
   const demoZone = ["Azimpur", "Dhanmondi", "Gulshan", "Motijheel"]
   const demoDistrict = ["Dhaka", "Chattogram", "Sylhet", "Barishal"]
 
@@ -109,8 +148,14 @@ export default function Post(props: any) {
 
                     <Grid item lg={7.5} md={7.5} >
                         <Grid container>
-                            <Grid item lg={12} md={12} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px"}}>
-                                <TextField required label="Title" fullWidth multiline={true} value={postTitle} onChange={(e) => { setPostTitle(e.target.value) }} inputProps={{maxLength: 50}}/>
+                            <Grid container>
+                                <Grid item lg={9} md={9} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px"}}>
+                                    <TextField required label="Title" fullWidth multiline={true} value={postTitle} onChange={(e) => { setPostTitle(e.target.value) }} inputProps={{maxLength: 50}}/>
+                                </Grid>
+
+                                <Grid item lg={3} md={3} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px"}}>
+                                    <SelectComponent required elements={genders} title={'Gender'} value={gender} handleChange={setGender}/>
+                                </Grid>
                             </Grid>
 
                             <Grid item lg={12} md={12} style={{display:"flex", justifyContent:"center", alignItems:"center",  paddingBottom:"20px", paddingLeft:"20px"}}>
@@ -122,11 +167,11 @@ export default function Post(props: any) {
                     <Grid item lg={4.5} md={4.5} >
                         <Grid container>
                             <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px", paddingRight:"10px"}}>
-                                <SelectComponent required elements={['Bachelor', 'Sublet']} title={'Type'} value={apType} handleChange={setApType}/>
+                                <SelectComponent required elements={numList} title={'Roommates'} value={roommates} handleChange={setRoommates}/>
                             </Grid>
 
                             <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"10px", paddingRight:"20px"}}>
-                                <TextFieldComponent required label="Area (sq. ft)" type="number" value={area_sqft} handleChange={handleAreaSqft} fullWidth />
+                                <SelectComponent required elements={numList} title={'Residents'} value={residents} handleChange={setResidents}/>
                             </Grid>
                         </Grid>
 
@@ -139,9 +184,15 @@ export default function Post(props: any) {
                                 <SelectComponent required elements={numList} title={'Bathrooms'} value={bathrooms} handleChange={setBathrooms}/>
                             </Grid>
                         </Grid>
-
-                        <Grid item lg={12} md={12} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px", paddingRight:"20px"}}>
+                        
+                        <Grid container>
+                        <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px", paddingRight:"10px"}}>
                             <TextFieldComponent required label="Price (BDT)" type="number" value={price} handleChange={handlePriceChange} fullWidth />
+                        </Grid>
+
+                        <Grid item lg={6} md={6} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"10px", paddingRight:"20px"}}>
+                            <TextFieldComponent required label="Area (sq. ft)" type="number" value={area_sqft} handleChange={handleAreaSqft} fullWidth />
+                        </Grid>
                         </Grid>
 
                         <Grid container>
