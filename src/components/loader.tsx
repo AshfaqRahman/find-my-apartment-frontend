@@ -19,7 +19,7 @@ export default function LoaderComponent(props: any) {
       }}
     >
       <LinearProgress
-        color={_loaderStyle.color}
+        color="inherit"
         sx={{
           height: _loaderStyle.height,
         }}

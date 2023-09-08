@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export const LoginApi = async (data: any) => {
     try {
+        console.log("login api::", apiUrls.auth.login)
         const res = await axios.post(
             apiUrls.auth.login, data,
         )
