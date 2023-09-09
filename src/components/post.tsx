@@ -1,17 +1,23 @@
 "use client"
 
-import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
+import { Button, Card, CardContent, Grid, Tooltip, Typography } from "@mui/material";
 import { _cardRadius, _divRadius } from "@/static/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed, faShower } from "@fortawesome/free-solid-svg-icons";
+import MaleIcon from '@mui/icons-material/Male';
+import FemaleIcon from '@mui/icons-material/Female';
+import TransgenderIcon from '@mui/icons-material/Transgender';
+import PeopleIcon from '@mui/icons-material/People';
+import GroupsIcon from '@mui/icons-material/Groups';
 import FacilitiesComponent from "./facilities";
-
 
 export default function Post(props: any) {
     let contactOwner = () => {
         
         // needs work
     };
+
+    
 
   return (
     <>
@@ -23,8 +29,29 @@ export default function Post(props: any) {
                         <b>{props.data.post_title}</b>
                     </Typography>
                 </Grid>
-                <Grid item md={4} display={"flex"} alignItems={"center"} fontSize={"20px"}  justifyContent={"right"}>
-                    <b>BDT. {props.data.price}</b> 
+
+                <Grid item md={1.5} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                    <Tooltip title={"Area (sq. ft)"} >
+                        <b>{props.data.area_sqft} sqft </b>
+                    </Tooltip>
+                </Grid>
+
+                <Grid item md={0.5} style={{display: "flex", alignItems:"center", justifyContent:"right"}}>
+                    <Tooltip title={"Gender"} >
+                        {
+                            (props.data.gender == "Male") ?
+                                <MaleIcon />
+                            : (props.data.gender == "Female") ?
+                                <FemaleIcon />
+                            :
+                                <TransgenderIcon />
+                        }
+                    </Tooltip>
+                </Grid>
+                <Grid item md={2} display={"flex"} alignItems={"center"} fontSize={"20px"}  justifyContent={"right"}>
+                    <Tooltip title={"Price"} >
+                        <b>BDT. {props.data.price}</b> 
+                    </Tooltip>
                 </Grid>
             </Grid>
 
@@ -33,21 +60,41 @@ export default function Post(props: any) {
             </Grid>
             
             <Grid container>
-                <Grid item md={3} style={{display:"flex", justifyContent:"left"}}>
-                    <b>{props.data.type}</b>  
+                <Grid item md={4} style={{display:"flex", justifyContent:"left", alignItems:"center"}}>
+                    <Tooltip title={"Bedrooms"} >
+                        <FontAwesomeIcon icon={faBed} style={{ margin: 3 }} />
+                    </Tooltip> &nbsp; <b>{props.data.bedrooms}</b> &nbsp;  &nbsp; &nbsp; &nbsp;
+                    <Tooltip title={"Bathrooms"} >
+                        <FontAwesomeIcon icon={faShower} style={{ margin: 3 }} />
+                    </Tooltip> &nbsp; <b>{props.data.bathrooms}</b> &nbsp; &nbsp;  &nbsp; &nbsp;
+                    <Tooltip title={"Roommates"} >
+                        <PeopleIcon style={{ margin: 3 }} />
+                    </Tooltip> &nbsp; <b>{props.data.roommates}</b> &nbsp; &nbsp;  &nbsp; &nbsp;
+                    <Tooltip title={"Residents"} >
+                        <GroupsIcon style={{ margin: 3 }} />
+                    </Tooltip> &nbsp; <b>{props.data.residents}</b> &nbsp; &nbsp;  &nbsp; &nbsp;
                 </Grid>
 
-                <Grid item md={3} style={{display:"flex", justifyContent:"left"}}>
-                    <FontAwesomeIcon icon={faBed} style={{ margin: 3 }} />{" "} <b>{props.data.bedrooms}</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <FontAwesomeIcon icon={faShower} style={{ margin: 3 }} />{" "} <b>{props.data.bathrooms}</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                </Grid>
+                <Grid item md={8} style={{display:"flex", justifyContent:"right", alignItems:"center"}}>
+                    <Tooltip title={"Zone"} >
+                        {
+                            (props.data.zone == null) ?
+                                <></>
+                            :   props.data.zone 
+                        }
+                    </Tooltip>
 
-                <Grid item md={3} style={{display:"flex", justifyContent:"center"}}>
-                    {props.data.area_sqft} sqft 
-                </Grid>
+                    {
+                        (props.data.zone == null) ? "" : ","
+                    } &nbsp;
 
-                <Grid item md={3} style={{display:"flex", justifyContent:"right"}}>
-                    {props.data.zone}{", "}{props.data.district} 
+                    <Tooltip title={"District"} >
+                        {props.data.district}
+                    </Tooltip>
+                    {","} &nbsp;
+                    <Tooltip title={"Division"} >
+                        {props.data.division}
+                    </Tooltip>
                 </Grid> 
             </Grid>
 
@@ -59,13 +106,9 @@ export default function Post(props: any) {
                     <Grid item md={0.2} style={{display:"flex", alignItems:"center"}}>
                         :
                     </Grid>
-
-                    {/* <Grid item md={10} lg={10}>
-                        <FacilitiesComponent facilities={props.data.facilities} />
-                    </Grid> */}
                     
-                    {/* <Grid item md={10} lg={10}>
-                        {props.data.facilities.map((x: any, idx: number) => {
+                    <Grid item md={10} lg={10}>
+                        {props.data.facilities?.map((x: any, idx: number) => {
                             return (
                             <Button
                                 key={idx}
@@ -83,7 +126,7 @@ export default function Post(props: any) {
                             </Button>
                             );
                         })}
-                    </Grid> */}
+                    </Grid>
                 </Grid>
             </Card>
 
@@ -96,8 +139,8 @@ export default function Post(props: any) {
                         :
                     </Grid>
                     
-                    {/* <Grid item md={10} lg={10}>
-                        {props.data.starpoints.map((x: any, idx: number) => {
+                    <Grid item md={10} lg={10}>
+                        {props.data.starpoints?.map((x: any, idx: number) => {
                             return (
                             <Button
                                 key={idx}
@@ -115,7 +158,7 @@ export default function Post(props: any) {
                             </Button>
                             );
                         })}
-                    </Grid> */}
+                    </Grid>
                 </Grid>
             </Card>
  

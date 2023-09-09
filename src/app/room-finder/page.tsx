@@ -112,7 +112,7 @@ export default function RoomFinder() {
   const [radius, setRadius] = React.useState<number | "">("");
   const [searchAddress, setSearchAddress] = React.useState<any>("");
 
-  let [posts, setPosts] = React.useState([
+  let [posts_, setPosts_] = React.useState([
     {
       id: 1,
       price: 15000,
@@ -163,7 +163,7 @@ export default function RoomFinder() {
     },
   ]);
 
-  let [posts_, setPosts_] = React.useState([]);
+  let [posts, setPosts] = React.useState([]);
 
   let orderByes: any = {
     "price lowest": {
@@ -182,13 +182,13 @@ export default function RoomFinder() {
   let [orderBy, setOrderBy] = React.useState("");
 
   useEffect(() => {
-    let psts = [...posts_];
+    let psts = [...posts];
     psts.sort(
       (a: any, b: any) =>
         orderByes[orderBy].order *
         (a[orderByes[orderBy].key] > b[orderByes[orderBy].key] ? 1 : -1)
     );
-    setPosts_(psts);
+    setPosts(psts);
   }, [orderBy]);
 
   const saveSearch = () => {
@@ -219,7 +219,7 @@ export default function RoomFinder() {
     let data: any = await findRooms(params);
 
     if (data.success) {
-      setPosts_(data.data);
+      setPosts(data.data);
       setSeverity("success");
       setMessage(`${data.data.length} posts are found`);
     } else {
@@ -487,7 +487,7 @@ export default function RoomFinder() {
                 borderRadius: "10px",
               }}
             >
-              {posts_.map((x: any, idx) => {
+              {posts.map((x: any, idx) => {
                 return <Post data={x} key={idx} />;
               })}
             </Grid>

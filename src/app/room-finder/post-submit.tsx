@@ -199,6 +199,7 @@ export default function Post(props: any) {
 
                         <Grid item container lg={12} md={12} style={{display:"flex", justifyContent:"center", alignItems:"center", paddingBottom:"20px", paddingLeft:"20px", paddingRight:"30px"}}>
                             <LocationSearchMapComponent
+                                required
                                 setRadius={setRadius}
                                 radius={radius}
                                 setLocation={setLocation}
@@ -216,11 +217,11 @@ export default function Post(props: any) {
                 
                 <Grid container>
                     <Grid item lg={6} md={6} style={{paddingBottom:"20px", paddingLeft:"20px", paddingRight:"10px"}}>
-                        <FacilitiesComponent value={facilities} setValue={setFacilities}/>
+                        <FacilitiesComponent required value={facilities} setValue={setFacilities}/>
                     </Grid>
                     
                     <Grid item lg={6} md={6} style={{paddingBottom:"20px", paddingLeft:"10px", paddingRight:"20px"}}>
-                        <KeywordsComponent value={keywords} setValue={setKeywords} />
+                        <KeywordsComponent required value={keywords} setValue={setKeywords} />
                     </Grid>
                 </Grid>
             </Box>
