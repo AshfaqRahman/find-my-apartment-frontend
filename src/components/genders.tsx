@@ -7,8 +7,8 @@ export default function GendersSelectionComponent(props: any) {
   const [genders, setGenders] = React.useState(_genders);
 
   React.useEffect(() => {
-    props.onChange(genders.filter((x) => x.checked).map((x) => +x.name));
-    // console.log(genders);
+    props.onChange(genders.filter((x) => x.checked).map((x) => x.name));
+    console.log(genders);
   }, [genders]);
   const handleGendersChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setGenders(

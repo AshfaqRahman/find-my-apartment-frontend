@@ -71,7 +71,9 @@ export default function Post(props: any) {
   let [message, setMessage] = React.useState("");
 
   let submitPost = async () => {
-    props.setOpenModal(false)
+    setTimeout(()=> {
+        props.setOpenModal(false)
+    }, 500)
     setPostSubmtitLoading(true)
 
     const params = {
@@ -215,7 +217,7 @@ export default function Post(props: any) {
                     </Grid>
                 </Grid>
                 
-                <Grid container>
+                <Grid container overflow={"auto"}>
                     <Grid item lg={6} md={6} style={{paddingBottom:"20px", paddingLeft:"20px", paddingRight:"10px"}}>
                         <FacilitiesComponent required value={facilities} setValue={setFacilities}/>
                     </Grid>
