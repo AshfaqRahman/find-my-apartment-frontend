@@ -134,6 +134,8 @@ export default function Home() {
                       showMap={false}
                       noWishlist={true}
                       showEditButton
+                      showDeleteButton
+                      showOccupied
                     />
                   );
                 })}

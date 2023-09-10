@@ -3,14 +3,15 @@ import HOST from "@/static/host";
 export const apiUrls = {
 	apartments: {
 		list: `${HOST}/api/apartments`,
-        create: '/api/apartments',
-        update: '/api/apartments/:id',
-        delete: '/api/apartments/:id',
 		add: `${HOST}/api/apartments/add`,
 		self: `${HOST}/api/apartments/my/apartments`,
 	},
+	apartment_status: {
+		toggle: `${HOST}/api/apartments/status-toggle`,
+	},
 	apartment: {
 		get: `${HOST}/api/apartments`,
+		delete: `${HOST}/api/apartments`,
 	},
 	wishlist: {
 		list: `${HOST}/api/wishlist`,
