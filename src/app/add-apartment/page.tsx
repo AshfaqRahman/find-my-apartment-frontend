@@ -49,6 +49,7 @@ import { randomInRange } from "@/static/utils";
 import { addApartment, getUserData } from "./apis";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
+import { useRouter } from "next/navigation";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const theme = createTheme({
@@ -58,9 +59,7 @@ const theme = createTheme({
 });
 
 export default function Home() {
-  // const onSearch = =async (data: any) => {
-  // 	setSelected(data);
-  // };
+  const { push } = useRouter();
 
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
   const handleApartmentTypeChange = (types: any) => {
@@ -147,7 +146,7 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       let data: any = await getUserData();
-      console.log(data);
+      // console.log(data);
       if(data.success) {
         setContactInfo(data.data);
       } else {
@@ -162,7 +161,7 @@ export default function Home() {
     let params = {
       apartment: {
         types: apartmentTypes.map((type) => apartmentTypeReverseMapping[type]),
-        vacancy: true,
+        occupied: false,
         description,
         floor,
         bedrooms: beds,
@@ -193,7 +192,7 @@ export default function Home() {
       },
     };
     let data: any = await addApartment(params);
-    console.log(data);
+    // console.log(data);
     setAddingApartmentLoading(false);
     if (data.success) {
       setOpenToast(true);
@@ -210,7 +209,7 @@ export default function Home() {
   let onPublish = async () => {
     setAddingApartmentLoading(true);
     await addingApartment();
-    console.log("Uploaded");
+    // console.log("Uploaded");
   };
 
   return (

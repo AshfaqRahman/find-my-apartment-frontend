@@ -152,7 +152,7 @@ export default function Home() {
       },
     };
     let data: any = await setPreference(params);
-    console.log(data);
+    // console.log(data);
     setSavingPreferences(false);
     if (data.success) {
       setOpenToast(true);

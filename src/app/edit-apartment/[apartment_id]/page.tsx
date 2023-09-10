@@ -60,7 +60,7 @@ export default function Home(params: any) {
   
   const { push } = useRouter();
 
-  let [apartment, setApartment] = useState<any>({});
+  let apartment: any = {};
   let apartment_id = params.params.apartment_id;
 
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
@@ -155,9 +155,9 @@ export default function Home(params: any) {
     })();
   }, []);
 
-  let setApartmentData = async (apartment) => {
+  let setApartmentData = async (data) => {
     // console.log(apartment, keywordsWithTitle, facilitiesWithTitle);
-    setApartment(apartment);
+    apartment = data;
 
     setApartmentTypes(
       apartment.types.map((type) => apartmentTypeMapping[type])
@@ -212,7 +212,7 @@ export default function Home(params: any) {
       await getKeywords();
 
       let data: any = await getApartment({ apartment_id });
-      console.log(data);
+      // console.log(data);
       if (!data.success) {
         setMessage(data.message);
         setSeverity("error");
@@ -352,9 +352,7 @@ export default function Home(params: any) {
                   title="Apartment's Image(max 10 files)"
                   location="apartments"
                   maxFiles={10}
-                  onUpload={(urls: any) => {
-                    setApartmentFilesURL(urls);
-                  }}
+                  onUpload={ setApartmentFilesURL }
                   fileUrls={apartmentFilesURL}
                 >
                   {(dropzoneProps: any) => {
@@ -373,9 +371,7 @@ export default function Home(params: any) {
                   title="Blueprint(1 image)"
                   location="blueprints"
                   maxFiles={1}
-                  onUpload={(urls: any) => {
-                    setBlueprintFilesURL(urls);
-                  }}
+                  onUpload={setBlueprintFilesURL}
                   fileUrls={blueprintFilesURL}
                 >
                   {(dropzoneProps: any) => {
