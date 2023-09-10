@@ -147,7 +147,7 @@ export default function Home(params: any) {
   useEffect(() => {
     (async () => {
       let data: any = await getUserData();
-      console.log(data);
+      // console.log(data);
       if (data.success) {
         setContactInfo(data.data);
       } else {
@@ -159,7 +159,7 @@ export default function Home(params: any) {
   }, []);
 
   let setApartmentData = async (apartment) => {
-    console.log(apartment, keywordsWithTitle, facilitiesWithTitle);
+    // console.log(apartment, keywordsWithTitle, facilitiesWithTitle);
     setApartment(apartment);
 
     setApartmentTypes(
@@ -197,13 +197,13 @@ export default function Home(params: any) {
   };
 
   let getFacitlities = async () => {
-    console.log("getFacitlities");
+    // console.log("getFacitlities");
     let facilities = await fetchFacilities();
     facilitiesWithTitle = facilities.data;
   };
 
   let getKeywords = async () => {
-    console.log("getKeywords");
+    // console.log("getKeywords");
     let keywords = await fetchKeywords();
     keywordsWithTitle = keywords.data;
   }
@@ -278,7 +278,7 @@ export default function Home(params: any) {
   let onPublish = async () => {
     setAddingApartmentLoading(true);
     await addingApartment();
-    console.log("Uploaded");
+    // console.log("Uploaded");
   };
 
   return (

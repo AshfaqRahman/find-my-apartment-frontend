@@ -212,7 +212,7 @@ export default function Dropzone(props: any) {
 
   useEffect(() => {
     setImageThumbnail(fileUrls);
-  }, []);
+  }, [props]);
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
