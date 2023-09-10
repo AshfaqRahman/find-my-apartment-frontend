@@ -51,6 +51,10 @@ const pages = [
     name: "Recommendation",
     link: "/recommendation",
   },
+  {
+    name: "Chat",
+    link: "/chat",
+  }
 ];
 
 const satisfy = Satisfy({ weight: "400", subsets: ["latin"] });

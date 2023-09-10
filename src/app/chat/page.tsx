@@ -65,6 +65,8 @@ var socket;
 
 export default function Chat(params: any) {
   const inputRef = useRef(null);
+
+  // https://stackoverflow.com/a/76593123/13877490
   const searchParams = useSearchParams();
 
   // connected flag
@@ -90,8 +92,9 @@ export default function Chat(params: any) {
   useEffect(() => {
     // receiver id
     // get active chat user info(receiver info)
-    (async () => {
-      const chatResponse = await getChat(receiverId);
+    if (receiverId) {
+      (async () => {
+        const chatResponse = await getChat(receiverId);
         if (chatResponse.success) {
           // append all the message to chat
           chatResponse.data.forEach((msg: IMsg) => {
@@ -102,16 +105,18 @@ export default function Chat(params: any) {
           console.log("page->getChat", chatResponse);
         } else {
           console.log("page->getChat", chatResponse.message);
-      }
+        }
 
-      const userResponse = await getUser(receiverId);
-      if (userResponse.success) {
-        console.log("page->getUser", userResponse);
-        setReceiverInfo(userResponse.data as IUser);
-      } else {
-        console.log("page->getUser", userResponse.message);
-      }
-    })();
+        const userResponse = await getUser(receiverId);
+        if (userResponse.success) {
+          console.log("page->getUser", userResponse);
+          setReceiverInfo(userResponse.data as IUser);
+        } else {
+          console.log("page->getUser", userResponse.message);
+        }
+      })();
+    }
+
 
   }, [receiverId]);
 
@@ -437,7 +442,7 @@ export default function Chat(params: any) {
 
         {/* chat box */}
         <Grid
-          container
+          item
           height={_pageHeight}
           lg={9}
           position={"fixed"}
