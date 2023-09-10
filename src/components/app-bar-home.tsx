@@ -112,7 +112,6 @@ export default function AppBarHomeComponent(props: any) {
                         ml: 1,
                         fontSize: "1.75rem",
                         fontWeight: 600,
-                        letterSpacing: ".3rem",
                         color: "inherit",
                         textDecoration: "none",
                       }}
@@ -169,7 +168,6 @@ export default function AppBarHomeComponent(props: any) {
                   flexGrow: 1,
                   fontFamily: "monospace",
                   fontWeight: 700,
-                  letterSpacing: ".3rem",
                   color: "inherit",
                   textDecoration: "none",
                 }}

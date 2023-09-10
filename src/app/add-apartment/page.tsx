@@ -255,7 +255,6 @@ export default function Home() {
                       ml: 1,
                       fontSize: "1.75rem",
                       fontWeight: 600,
-                      letterSpacing: ".3rem",
                       color: "inherit",
                       textDecoration: "none",
                     }}
