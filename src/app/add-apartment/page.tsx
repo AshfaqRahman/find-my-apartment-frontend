@@ -134,55 +134,8 @@ export default function Home() {
     setMapAddress(address);
   };
 
-  let [apartmentFiles, setApartmentFiles] = useState<any[]>([]);
-  let apartmentFilesURL: any[] = [];
-
-  let blueprintFilesURL: any[] = [];
-  let [blueprintFiles, setBlueprintFiles] = useState<any[]>([]);
-
-  let count = 0;
-
-  let uploadingOnFirebase = async (
-    files: any,
-    urls: any,
-    location: any
-  ) => {
-    files.forEach((file: any) => {
-      // console.log(apartmentFile);
-      const storageRef = ref(
-        storage,
-        `${location}/${new Date().getTime()}_${randomInRange(0, 10000000000)}_${
-          file.name
-        }`
-      );
-
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {},
-        (error) => {
-          // Handle unsuccessful uploads
-          setMessage("image file uploading failed");
-          setSeverity("error");
-          setOpenToast(true);
-        },
-        () => {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            // console.log("File available at", downloadURL);
-            urls.push(downloadURL);
-            count++;
-            if (count === apartmentFiles.length + blueprintFiles.length) {
-              addingApartment();
-            }
-          });
-        }
-      );
-    });
-  };
+  let [apartmentFilesURL, setApartmentFilesURL] = useState<any[]>([]);
+  let [blueprintFilesURL, setBlueprintFilesURL] = useState<any[]>([]);
 
   let [addingApartmentLoading, setAddingApartmentLoading] = useState(false);
 
@@ -248,7 +201,6 @@ export default function Home() {
     let data: any = await addApartment(params);
     console.log(data);
     setAddingApartmentLoading(false);
-    count = 0;
     if (data.success) {
       setOpenToast(true);
       setMessage(data.data);
@@ -261,22 +213,8 @@ export default function Home() {
   };
 
   let onPublish = async () => {
-    apartmentFilesURL = [];
-    blueprintFilesURL = [];
     setAddingApartmentLoading(true);
-    count = 0;
-
-    uploadingOnFirebase(
-      apartmentFiles,
-      apartmentFilesURL,
-      "apartments"
-    );
-    uploadingOnFirebase(
-      blueprintFiles,
-      blueprintFilesURL,
-      "blueprints"
-    );
-
+    await addingApartment();
     console.log("Uploaded");
   };
 
@@ -353,10 +291,12 @@ export default function Home() {
               >
                 <Dropzone
                   title="Apartment's Image(max 10 files)"
+                  location="apartments"
                   maxFiles={10}
-                  onUpload={(files: any) => {
-                    setApartmentFiles(files);
+                  onUpload={(urls: any) => {
+                    setApartmentFilesURL(urls);
                   }}
+                  fileUrls={apartmentFilesURL}
                 >
                   {(dropzoneProps: any) => {
                     return <></>;
@@ -372,10 +312,12 @@ export default function Home() {
               >
                 <Dropzone
                   title="Blueprint(1 image)"
+                  location="blueprints"
                   maxFiles={1}
-                  onUpload={(files: any) => {
-                    setBlueprintFiles(files);
+                  onUpload={(urls: any) => {
+                    setBlueprintFilesURL(urls);
                   }}
+                  fileUrls={blueprintFilesURL}
                 >
                   {(dropzoneProps: any) => {
                     return <></>;
