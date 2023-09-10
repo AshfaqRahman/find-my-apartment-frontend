@@ -45,13 +45,20 @@ export default function Home() {
 
   let [fetchingApartments, setFetchingApartments] = React.useState(false);
   let [apartments, setApartments] = React.useState([]);
+
   const getApartments = async () => { 
     setFetchingApartments(true);
     
     let data : any = await ExploreApartments();
 
+    // console.log(data);
+    console.log(data.data);
+    
+    // console.log(data.data.apartments);
+    // console.log("Maruf");
+    
     if (data.success) { 
-      setApartments(data.data.apartments);
+      setApartments(data.data);
       setSeverity("success");
     } else {
       setSeverity("error");
@@ -189,14 +196,16 @@ export default function Home() {
             </Grid>
 
             <Grid style={{ fontFamily: "Tahoma", margin: "10px" }}>
+              {/* { getApartments() } */}
               {apartments?.map((x: any, idx) => {
                 return (
                   <ApartmentCard
                     key={idx}
                     price={x.price}
-                    area={x.area}
+                    area={x.area_sqft}
                     bedrooms={x.bedrooms}
-                    bathrooms={x.bathrooms}
+                    bathrooms={x.washrooms}
+                    id={x.id}
                   />
                 );
               })}

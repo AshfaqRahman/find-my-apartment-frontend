@@ -70,14 +70,19 @@ const localPath = "room-finder";
 export default function RoomFinder() {
   const { push } = useRouter();
 
-  const [noOfResidents, setNoOfResidents] = React.useState([]);
-  const handleNoOfResidentsChange = (selectedOptions: any) => {
-    setNoOfResidents(selectedOptions);
+  const [gender, setGender] = React.useState([]);
+  const handleGenderChange = (selectedOptions: any) => {
+    setGender(selectedOptions);
   };
 
-  const [noOfRoommates, setNoOfRoommates] = React.useState([]);
-  const handleNoOfRoommatesChange = (selectedOptions: any) => {
-    setNoOfRoommates(selectedOptions);
+  const [residents, setResidents] = React.useState([]);
+  const handleResidentsChange = (selectedOptions: any) => {
+    setResidents(selectedOptions);
+  };
+
+  const [roommates, setRoommates] = React.useState([]);
+  const handleRoommatesChange = (selectedOptions: any) => {
+    setRoommates(selectedOptions);
   };
 
   const [beds, setBeds] = React.useState([]);
@@ -202,13 +207,16 @@ export default function RoomFinder() {
 
   const searchRooms = async () => {
     setFetchingPosts(true);
+    console.log("TEST " + gender);
+    
     const params = {
       location: location,
       radius: radius,
+      gender: gender,
       beds: beds,
       baths: baths,
-      noOfRoommates: noOfRoommates,
-      noOfResidents: noOfResidents,
+      roommates: roommates,
+      residents: residents,
       price_min: +budget[0],
       price_max: +budget[1],
       area_min: +area[0],
@@ -323,7 +331,7 @@ export default function RoomFinder() {
           </Grid>
 
           <Grid item lg={12} md={12} mt={2}>
-            <GendersSelectionComponent onChange={handleNoOfResidentsChange} />
+            <GendersSelectionComponent onChange={handleGenderChange} />
           </Grid>
 
           <Grid item lg={12} md={12} mt={2} style={{ display: "flex" }}>
@@ -336,13 +344,13 @@ export default function RoomFinder() {
 
           <Grid item lg={12} md={12} mt={2}>
             <PersonsInRoomSelectionComponent
-              onChange={handleNoOfRoommatesChange}
+              onChange={handleRoommatesChange}
             />
           </Grid>
 
           <Grid item lg={12} md={12} mt={2}>
             <NoOfResidentsSelectionComponent
-              onChange={handleNoOfResidentsChange}
+              onChange={handleResidentsChange}
             />
           </Grid>
 
