@@ -18,7 +18,7 @@ import { Typography, Button, TextField, Grid, Box, Avatar, AppBar, Toolbar, Icon
 import HOST from "@/static/host";
 import { getCookie } from 'cookies-next';
 import jwt_decode from 'jwt-decode';
-import { getChat, getChatList } from "../apis";
+import { getChat, getChatList, getUser } from "../apis";
 import ToastComponent from "@/mui-components/toast";
 import SendIcon from '@mui/icons-material/Send';
 
@@ -45,6 +45,15 @@ interface IMsg {
   message: string;
   receiver_id: string;
   sent_at: Date;
+}
+
+interface IUser{
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_no: string;
+  gender: string;
 }
 
 const sender_id = getUserIdFromAuthToken();
@@ -83,6 +92,9 @@ export default function Chat(params:any){
   // receiver id
   const [receiverId, setReceiverId] = useState<string>("");
 
+  const [receiverInfo, setReceiverInfo] = useState<IUser>({} as IUser);
+
+
 
   useEffect((): any => {
     const receiver_id = params.params.receiver_id;
@@ -114,6 +126,14 @@ export default function Chat(params:any){
         console.log("page->getChat", chatResponse.message);
       }
 
+      // get active chat user info(receiver info)
+      const userResponse = await getUser(receiver_id);
+      if(userResponse.success) {
+        console.log("page->getUser", userResponse);
+        setReceiverInfo(userResponse.data as IUser);
+      }else {
+        console.log("page->getUser", userResponse.message);
+      }
       
     })();
 
@@ -277,8 +297,13 @@ export default function Chat(params:any){
                     alignItems: "center",
                     spacing: 8,
                     }}>
-                    <Avatar style={{ marginRight: "8px" }}>A</Avatar>
-                    <Typography variant="h6" pl={"16px"}>Ashfaq Rahman</Typography>
+                    {receiverInfo.first_name && receiverInfo.last_name && (
+                        <Avatar style={{ marginRight: "8px" }}>{receiverInfo.first_name.charAt(0)}</Avatar>
+                    )}
+
+                    {receiverInfo.first_name && receiverInfo.last_name && (
+                    <Typography variant="h6" pl={"16px"}>{receiverInfo.first_name}</Typography>
+                    )}
                   </Box>
                 </Toolbar>
               </AppBar>
