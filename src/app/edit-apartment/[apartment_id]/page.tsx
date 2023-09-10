@@ -28,6 +28,7 @@ import {
   _divRadius,
   _mapHeightInAddApartment,
   _pageHeight,
+  apartmentTypeMapping,
   apartmentTypeReverseMapping,
 } from "@/static/constants";
 import Dropzone from "@/components/ReactComponents/dropzone";
@@ -46,9 +47,10 @@ import {
 
 import { storage } from "@/services/firebase-config";
 import { randomInRange } from "@/static/utils";
-import { addApartment, getUserData } from "./apis";
+import { getUserData, getApartment } from "../apis";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
+import { fetchFacilities, fetchKeywords } from "@/components/api/fixed-values-api";
 
 const rochester = Rochester({ weight: "400", subsets: ["latin"] });
 const theme = createTheme({
@@ -57,19 +59,19 @@ const theme = createTheme({
   },
 });
 
-export default function Home() {
+export default function Home(params: any) {
   // const onSearch = =async (data: any) => {
   // 	setSelected(data);
   // };
 
-  const [apartmentTypes, setApartmentTypes] = React.useState([]);
-  const handleApartmentTypeChange = (types: any) => {
-    setApartmentTypes(types);
-  };
+  let [apartment, setApartment] = useState<any>({});
 
+  const [apartmentTypes, setApartmentTypes] = React.useState([]);
   const [keywords, setKeywords] = React.useState([]);
+  let keywordsWithTitle = [];
 
   const [facilities, setFacilities] = React.useState([]);
+  let facilitiesWithTitle = [];
 
   const [beds, setBeds] = React.useState<number | "">("");
   const handleBedsChange = (e: any) => {
@@ -136,24 +138,91 @@ export default function Home() {
   let [openToast, setOpenToast] = useState(false);
   let [message, setMessage] = useState("");
   let [severity, setSeverity] = useState("success");
-  
+
   let [contactInfo, setContactInfo] = useState({
     email: "",
     phone_no: "",
   });
-  
-  
 
   useEffect(() => {
     (async () => {
       let data: any = await getUserData();
       console.log(data);
-      if(data.success) {
+      if (data.success) {
         setContactInfo(data.data);
       } else {
         setOpenToast(true);
         setMessage(data.message);
         setSeverity("error");
+      }
+    })();
+  }, []);
+
+  let setApartmentData = async (apartment) => {
+    console.log(apartment, keywordsWithTitle, facilitiesWithTitle);
+    setApartment(apartment);
+
+    setApartmentTypes(
+      apartment.types.map((type) => apartmentTypeMapping[type])
+    );
+    setKeywords(
+      keywordsWithTitle
+        .filter((keyword) => apartment.starpoints?.includes(keyword.title))
+        .map((keyword) => keyword.starpoint_id)
+    );
+    setFacilities(
+      facilitiesWithTitle
+        .filter((facility) => apartment.facilities?.includes(facility.title))
+        .map((facility) => facility.facilities_id)
+    );
+    setBeds(apartment.bedrooms);
+    setBaths(apartment.washrooms);
+    setFloor(apartment.floor);
+    setArea(apartment.area_sqft);
+    setPrice(apartment.price);
+    setAddress(apartment.location.detailed_address);
+    setStreetNo(apartment.location.street_no);
+    setHouseNo(apartment.location.house_no);
+    setDescription(apartment.description);
+    setZone(apartment.location.zone);
+    setDistrict(apartment.location.district);
+    setDivision(apartment.location.division);
+    setLocation({
+      lat: apartment.location.latitude,
+      lng: apartment.location.longitude,
+    });
+    setMapAddress(apartment.location.detailed_address);
+    setApartmentFilesURL(apartment.images);
+    setBlueprintFilesURL([apartment.blueprint_url]);
+  };
+
+  let getFacitlities = async () => {
+    console.log("getFacitlities");
+    let facilities = await fetchFacilities();
+    facilitiesWithTitle = facilities.data;
+  };
+
+  let getKeywords = async () => {
+    console.log("getKeywords");
+    let keywords = await fetchKeywords();
+    keywordsWithTitle = keywords.data;
+  }
+
+  useEffect(() => {
+    let apartment_id = params.params.apartment_id;
+    setAddingApartmentLoading(true);
+    (async () => {
+      await getFacitlities();
+      await getKeywords();
+
+      let data: any = await getApartment({ apartment_id });
+      if (!data.success) {
+        setMessage(data.message);
+        setSeverity("error");
+        setOpenToast(true);
+      } else {
+        setApartmentData(data.data);
+        setAddingApartmentLoading(false);
       }
     })();
   }, []);
@@ -192,18 +261,18 @@ export default function Home() {
         image_urls: apartmentFilesURL,
       },
     };
-    let data: any = await addApartment(params);
-    console.log(data);
-    setAddingApartmentLoading(false);
-    if (data.success) {
-      setOpenToast(true);
-      setMessage(data.data);
-      setSeverity("success");
-    } else {
-      setOpenToast(true);
-      setMessage(data.message);
-      setSeverity("error");
-    }
+    // let data: any = await addApartment(params);
+    // console.log(data);
+    // setAddingApartmentLoading(false);
+    // if (data.success) {
+    //   setOpenToast(true);
+    //   setMessage(data.data);
+    //   setSeverity("success");
+    // } else {
+    //   setOpenToast(true);
+    //   setMessage(data.message);
+    //   setSeverity("error");
+    // }
   };
 
   let onPublish = async () => {
@@ -261,7 +330,7 @@ export default function Home() {
                       textDecoration: "none",
                     }}
                   >
-                    Add Apartment
+                    Edit Apartment
                   </Typography>
                 </ThemeProvider>
               </Box>
@@ -321,18 +390,26 @@ export default function Home() {
             </Grid>
             <Grid key={"apartment type"} item lg={4} md={4}>
               <Box mx={2}>
-                <ApartmentTypesComponent value={apartmentTypes} setValue={setApartmentTypes} />
+                <ApartmentTypesComponent
+                  value={apartmentTypes}
+                  setValue={setApartmentTypes}
+                />
               </Box>
             </Grid>
             <Grid key={"KeywordsComponent"} item lg={4} md={4}>
               <Box mx={2}>
-                <KeywordsComponent 
-                value={keywords} setValue={setKeywords} />
+                <KeywordsComponent
+                  value={keywords}
+                  setValue={setKeywords}
+                />
               </Box>
             </Grid>
             <Grid key={"FacilitiesComponent"} item lg={4} md={4}>
               <Box mx={2}>
-                <FacilitiesComponent value={facilities} setValue={setFacilities}/>
+                <FacilitiesComponent
+                  value={facilities}
+                  setValue={setFacilities}
+                />
               </Box>
             </Grid>
             <Grid key={5} container my={1}>

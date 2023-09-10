@@ -133,6 +133,7 @@ export default function Home() {
                       key={idx}
                       showMap={false}
                       noWishlist={true}
+                      showEditButton
                     />
                   );
                 })}

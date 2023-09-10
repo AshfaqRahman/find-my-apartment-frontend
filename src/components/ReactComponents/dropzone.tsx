@@ -93,6 +93,64 @@ export default function Dropzone(props: any) {
       });
   };
 
+  let setImageThumbnail = async (fileUrls: any[]) => {
+    let acFiles = fileUrls.map((url: any, idx) => {
+      return {
+        url: url,
+        jsx: (removeFunction: any) => (
+          <div style={thumb} key={idx}>
+            <div
+              style={{
+                ...thumbInner,
+                width: "100px",
+                height: "100px",
+                position: "relative",
+              }}
+            >
+              <img
+                src={url}
+                // Revoke data uri after image is loaded
+                style={{
+                  position: "absolute",
+                  zIndex: 1,
+                  bottom: 0,
+                }}
+                width={"95%"}
+                height={"95%"}
+                // onLoad={() => {
+                //   URL.revokeObjectURL(url.preview);
+                // }}
+              />
+              <div
+                style={{
+                  zIndex: 10,
+                  right: 0,
+                  top: -5,
+                  position: "absolute",
+                  cursor: "pointer",
+                  // backgroundColor: "rgba(0,0,0,0.5)",
+                  borderRadius: "50%",
+                  padding: 0,
+                }}
+              >
+                <IconButton
+                  size="small"
+                  sx={{
+                    padding: 0,
+                  }}
+                  onClick={() => removeFunction(url)}
+                >
+                  <CancelIcon fontSize="small" />
+                </IconButton>
+              </div>
+            </div>
+          </div>
+        ),
+      };
+    });
+    setThumbs(acFiles);
+  };
+
   let uploading = async (files) => {
     files.forEach((file, index) => {
       const storageRef = ref(
@@ -121,65 +179,12 @@ export default function Dropzone(props: any) {
           // Handle successful uploads on complete
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
 
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
             // console.log("File available at", downloadURL);
             fileUrls.push(downloadURL);
             props.onUpload(fileUrls);
-            let acFiles = fileUrls.map((url: any) => {
-              return {
-                url: url,
-                jsx: (removeFunction: any) => (
-                  <div style={thumb} key={url}>
-                    <div
-                      style={{
-                        ...thumbInner,
-                        width: "100px",
-                        height: "100px",
-                        position: "relative",
-                      }}
-                    >
-                      <img
-                        src={url}
-                        // Revoke data uri after image is loaded
-                        style={{
-                          position: "absolute",
-                          zIndex: 1,
-                          bottom: 0,
-                        }}
-                        width={"95%"}
-                        height={"95%"}
-                        // onLoad={() => {
-                        //   URL.revokeObjectURL(url.preview);
-                        // }}
-                      />
-                      <div
-                        style={{
-                          zIndex: 10,
-                          right: 0,
-                          top: -5,
-                          position: "absolute",
-                          cursor: "pointer",
-                          // backgroundColor: "rgba(0,0,0,0.5)",
-                          borderRadius: "50%",
-                          padding: 0,
-                        }}
-                      >
-                        <IconButton
-                          size="small"
-                          sx={{
-                            padding: 0,
-                          }}
-                          onClick={() => removeFunction(url)}
-                        >
-                          <CancelIcon fontSize="small" />
-                        </IconButton>
-                      </div>
-                    </div>
-                  </div>
-                ),
-              };
-            });
-            setThumbs(acFiles);
+            await setImageThumbnail(fileUrls);
+
             if (index === files.length - 1) {
               setUploadingFiles(false);
             }
@@ -204,6 +209,11 @@ export default function Dropzone(props: any) {
 
     uploading(acceptedFiles);
   }, []);
+
+  useEffect(() => {
+    setImageThumbnail(fileUrls);
+  }, []);
+
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
     maxFiles: props.maxFiles,
@@ -271,7 +281,7 @@ export default function Dropzone(props: any) {
             // border: "dotted",
           }}
         >
-          <ul>{thumbs.map((thumb: any) => thumb.jsx(remove))}</ul>
+          <ul>{thumbs.map((thumb: any, idx: any) => thumb.jsx(remove))}</ul>
         </Box>
 
         <ToastComponent

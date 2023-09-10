@@ -168,23 +168,29 @@ export default function Apartment(props: any) {
                     alignItems: "flex-end",
                   }}
                 >
-                  {props.showMap ? (<Tooltip title="see on map">
-                    <IconButton
-                      size="large"
-                      color="error"
-                      sx={{
-                        bgcolor: _color.background_upper,
-                        borderRadius: _divRadius,
-                        height: "40px",
-                        width: "40px",
-                      }}
-                      onClick={showOnMap}
-                    >
-                      <LocationOnIcon />
-                    </IconButton>
-                  </Tooltip>) : (<></>)}
+                  {props.showMap ? (
+                    <Tooltip title="see on map">
+                      <IconButton
+                        size="large"
+                        color="error"
+                        sx={{
+                          bgcolor: _color.background_upper,
+                          borderRadius: _divRadius,
+                          height: "40px",
+                          width: "40px",
+                        }}
+                        onClick={showOnMap}
+                      >
+                        <LocationOnIcon />
+                      </IconButton>
+                    </Tooltip>
+                  ) : (
+                    <></>
+                  )}
 
-                  {props.noWishlist ? (<></>) : !inWishlist ? (
+                  {props.noWishlist ? (
+                    <></>
+                  ) : !inWishlist ? (
                     <IconButton
                       size="large"
                       sx={{
@@ -227,6 +233,26 @@ export default function Apartment(props: any) {
                         />
                       </Tooltip>
                     </IconButton>
+                  )}
+
+                  {props.showEditButton ? (
+                    <>
+                      <IconButton
+                        size="large"
+                        color="error"
+                        sx={{
+                          bgcolor: _color.background_upper,
+                          borderRadius: _divRadius,
+                          height: "40px",
+                          width: "40px",
+                        }}
+                        onClick={() => {
+                          push("/edit-apartment/" + props.data.id);
+                        }}
+                      ></IconButton>
+                    </>
+                  ) : (
+                    <></>
                   )}
                 </Grid>
               </Grid>
