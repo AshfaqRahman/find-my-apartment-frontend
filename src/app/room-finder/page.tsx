@@ -207,7 +207,7 @@ export default function RoomFinder() {
 
   const searchRooms = async () => {
     setFetchingPosts(true);
-    console.log("TEST " + gender);
+    // console.log("TEST " + gender);
     
     const params = {
       location: location,
@@ -225,6 +225,7 @@ export default function RoomFinder() {
       keywords: keywords,
     };
     let data: any = await findRooms(params);
+    // console.log("data.data: " + JSON.stringify(data.data));
 
     if (data.success) {
       setPosts(data.data);
