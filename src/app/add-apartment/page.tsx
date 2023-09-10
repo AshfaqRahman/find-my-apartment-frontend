@@ -199,6 +199,7 @@ export default function Home() {
       setOpenToast(true);
       setMessage(data.data);
       setSeverity("success");
+      push('/my-apartments');
     } else {
       setOpenToast(true);
       setMessage(data.message);

@@ -6,12 +6,13 @@ export const apiUrls = {
 		add: `${HOST}/api/apartments/add`,
 		self: `${HOST}/api/apartments/my/apartments`,
 	},
-	apartment_status: {
-		toggle: `${HOST}/api/apartments/status-toggle`,
-	},
 	apartment: {
 		get: `${HOST}/api/apartments`,
+		update: `${HOST}/api/apartments`,
 		delete: `${HOST}/api/apartments`,
+	},
+	apartment_status: {
+		toggle: `${HOST}/api/apartments/status-toggle`,
 	},
 	wishlist: {
 		list: `${HOST}/api/wishlist`,
