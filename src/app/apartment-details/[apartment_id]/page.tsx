@@ -27,6 +27,7 @@ import FacStar from "../components/facStar";
 import Address from "../components/address";
 import { getApartment } from "../apis";
 import ToastComponent from "@/mui-components/toast";
+import OwnerInfo from "../components/owner_info";
 
 export default function ApartmentDetails(params: any) {
   let [apartment, setApartment] = useState<any>();
@@ -97,6 +98,12 @@ export default function ApartmentDetails(params: any) {
     ref: useRef(null),
     jsx: <FacStar type="Starpoints" list={apartment?.starpoints} />,
     },
+    {
+      title: "Owner Info",
+      onClick: () => window.scrollTo(0, tabs[4].ref.current.offsetTop),
+      ref: useRef(null),
+      jsx: <OwnerInfo owner={apartment?.owner_id} />,
+    }
   ];
 
   return (
