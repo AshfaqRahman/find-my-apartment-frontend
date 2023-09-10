@@ -123,7 +123,6 @@ export default function User() {
           >
             <Grid container>
               <Grid item sx={{ ..._centeringStyle }} lg={12} md={12} my={2}>
-                <ThemeProvider theme={theme}>
                   <Typography
                     noWrap
                     component="a"
@@ -131,14 +130,12 @@ export default function User() {
                       ml: 1,
                       fontSize: "1.75rem",
                       fontWeight: 600,
-                      letterSpacing: ".3rem",
                       color: "inherit",
                       textDecoration: "none",
                     }}
                   >
                     Profile Information
                   </Typography>
-                </ThemeProvider>
               </Grid>
               <Grid
                 key={1}

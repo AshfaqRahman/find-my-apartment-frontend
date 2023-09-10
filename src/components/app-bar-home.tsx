@@ -104,7 +104,6 @@ export default function AppBarHomeComponent(props: any) {
                   <FontAwesomeIcon icon={faBuilding} size="xl" />
                 </Box>
                 <Box>
-                  <ThemeProvider theme={theme}>
                     <Typography
                       noWrap
                       component="a"
@@ -113,14 +112,12 @@ export default function AppBarHomeComponent(props: any) {
                         ml: 1,
                         fontSize: "1.75rem",
                         fontWeight: 600,
-                        letterSpacing: ".3rem",
                         color: "inherit",
                         textDecoration: "none",
                       }}
                     >
                       Find My Apartment
                     </Typography>
-                  </ThemeProvider>
                 </Box>
               </Box>
 
@@ -171,7 +168,6 @@ export default function AppBarHomeComponent(props: any) {
                   flexGrow: 1,
                   fontFamily: "monospace",
                   fontWeight: 700,
-                  letterSpacing: ".3rem",
                   color: "inherit",
                   textDecoration: "none",
                 }}

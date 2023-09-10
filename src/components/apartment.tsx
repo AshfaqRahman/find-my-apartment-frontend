@@ -21,6 +21,7 @@ import {
 } from "@/static/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed, faShower } from "@fortawesome/free-solid-svg-icons";
+import EditIcon from '@mui/icons-material/Edit';
 import FacilitiesIconsComponent from "./facilities-icons";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useEffect, useState } from "react";
@@ -168,23 +169,29 @@ export default function Apartment(props: any) {
                     alignItems: "flex-end",
                   }}
                 >
-                  {props.showMap ? (<Tooltip title="see on map">
-                    <IconButton
-                      size="large"
-                      color="error"
-                      sx={{
-                        bgcolor: _color.background_upper,
-                        borderRadius: _divRadius,
-                        height: "40px",
-                        width: "40px",
-                      }}
-                      onClick={showOnMap}
-                    >
-                      <LocationOnIcon />
-                    </IconButton>
-                  </Tooltip>) : (<></>)}
+                  {props.showMap ? (
+                    <Tooltip title="see on map">
+                      <IconButton
+                        size="large"
+                        color="error"
+                        sx={{
+                          bgcolor: _color.background_upper,
+                          borderRadius: _divRadius,
+                          height: "40px",
+                          width: "40px",
+                        }}
+                        onClick={showOnMap}
+                      >
+                        <LocationOnIcon />
+                      </IconButton>
+                    </Tooltip>
+                  ) : (
+                    <></>
+                  )}
 
-                  {props.noWishlist ? (<></>) : !inWishlist ? (
+                  {props.noWishlist ? (
+                    <></>
+                  ) : !inWishlist ? (
                     <IconButton
                       size="large"
                       sx={{
@@ -227,6 +234,27 @@ export default function Apartment(props: any) {
                         />
                       </Tooltip>
                     </IconButton>
+                  )}
+
+                  {props.showEditButton ? (
+                    <>
+                      <IconButton
+                        size="large"
+                        sx={{
+                          bgcolor: _color.background_upper,
+                          borderRadius: _divRadius,
+                          height: "40px",
+                          width: "40px",
+                        }}
+                        onClick={() => {
+                          push("/edit-apartment/" + props.data.id);
+                        }}
+                      >
+                        <EditIcon/>
+                      </IconButton>
+                    </>
+                  ) : (
+                    <></>
                   )}
                 </Grid>
               </Grid>

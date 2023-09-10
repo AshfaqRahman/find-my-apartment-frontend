@@ -4,11 +4,25 @@ import {
   faCloudArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Grid, IconButton } from "@mui/material";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import CloseIcon from "@mui/icons-material/Close";
 import CancelIcon from "@mui/icons-material/Cancel";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
+import { storage } from "@/services/firebase-config";
+import { randomInRange } from "@/static/utils";
+import ToastComponent from "@/mui-components/toast";
+
+import CircularProgress, {
+  CircularProgressProps,
+} from "@mui/material/CircularProgress";
 
 const thumbsContainer = {
   display: "flex",
@@ -42,126 +56,164 @@ const img = {
 
 export default function Dropzone(props: any) {
   let [thumbs, setThumbs] = useState<any[]>([]);
-  let [filenames, setFilenames] = useState<any[]>([]);
-  let [files, setFiles] = useState<any[]>([]);
+  let fileUrls = props.fileUrls;
 
-  let remove = (name: string) =>  {
+  let [openToast, setOpenToast] = useState(false);
+  let [message, setMessage] = useState("");
+  let [severity, setSeverity] = useState("success");
+
+  let [uploadingFiles, setUploadingFiles] = useState(false);
+  let [progress, setProgress] = useState(0);
+
+  let remove = (url: string) => {
     // let files_ = files;
     // console.log(files, thumbs);
-    let newFilenames = filenames.filter((file) => file !== name);
-    let newThumbs = thumbs.filter((thumb) => thumb.filename !== name);
-    let newFiles = files.filter((file) => file.name !== name);
-    setFilenames(newFilenames);
-    setFiles(newFiles)
-    setThumbs(newThumbs);
+    // let newFilenames = filenames.filter((file) => file !== name);
+    // let newThumbs = thumbs.filter((thumb) => thumb.filename !== name);
+    // setFilenames(newFilenames);
+    // setThumbs(newThumbs);
+
+    const storageRef = ref(storage, url);
+    fileUrls = fileUrls.filter((file) => file !== url);
+    props.onUpload(fileUrls);
+    let acthumbs = thumbs.filter((thumb) => thumb.url !== url);
+    setThumbs(acthumbs);
+
+    deleteObject(storageRef)
+      .then(() => {
+        setMessage("image file deleted");
+        setSeverity("success");
+        setOpenToast(true);
+      })
+      .catch((error) => {
+        // Uh-oh, an error occurred!
+        setMessage("image file deletion failed");
+        setSeverity("error");
+        setOpenToast(true);
+      });
   };
 
-  const onDrop = useCallback(
-    (acceptedFiles: any) => {
-      // console.log("useEffect:: acceptedFiles");
-      let acceptableFiles = acceptedFiles.filter(
-        (file: any) => !filenames.includes(file.name)
-      );
-      acceptableFiles =[...files, ...acceptableFiles]
-
-      acceptableFiles.splice(
-        0,
-        Math.max(0, acceptableFiles.length - props.maxFiles)
-      );
-      let acceptableFilenames = acceptableFiles.map((file: any) => file.name);
-
-      setFilenames(acceptableFilenames);
-      setFiles(acceptableFiles);
-
-      let acFiles = acceptableFiles.map((file: any) => {
-        return {
-          filename: file.name,
-          jsx: (removeFunction: any) =>  (
-            <div style={thumb} key={file.name}>
+  let setImageThumbnail = async (fileUrls: any[]) => {
+    let acFiles = fileUrls.map((url: any, idx) => {
+      return {
+        url: url,
+        jsx: (removeFunction: any) => (
+          <div style={thumb} key={idx}>
+            <div
+              style={{
+                ...thumbInner,
+                width: "100px",
+                height: "100px",
+                position: "relative",
+              }}
+            >
+              <img
+                src={url}
+                // Revoke data uri after image is loaded
+                style={{
+                  position: "absolute",
+                  zIndex: 1,
+                  bottom: 0,
+                }}
+                width={"95%"}
+                height={"95%"}
+                // onLoad={() => {
+                //   URL.revokeObjectURL(url.preview);
+                // }}
+              />
               <div
                 style={{
-                  ...thumbInner,
-                  width: "100px",
-                  height: "100px",
-                  position: "relative",
+                  zIndex: 10,
+                  right: 0,
+                  top: -5,
+                  position: "absolute",
+                  cursor: "pointer",
+                  // backgroundColor: "rgba(0,0,0,0.5)",
+                  borderRadius: "50%",
+                  padding: 0,
                 }}
               >
-                <img
-                  src={URL.createObjectURL(file)}
-                  // Revoke data uri after image is loaded
-                  style={{
-                    position: "absolute",
-                    zIndex: 1,
-                    bottom: 0,
-                  }}
-                  width={"95%"}
-                  height={"95%"}
-                  onLoad={() => {
-                    URL.revokeObjectURL(file.preview);
-                  }}
-                />
-                <div
-                  style={{
-                    zIndex: 10,
-                    right: 0,
-                    top: -5,
-                    position: "absolute",
-                    cursor: "pointer",
-                    // backgroundColor: "rgba(0,0,0,0.5)",
-                    borderRadius: "50%",
+                <IconButton
+                  size="small"
+                  sx={{
                     padding: 0,
                   }}
+                  onClick={() => removeFunction(url)}
                 >
-                  <IconButton
-                    size="small"
-                    sx={{
-                      padding: 0,
-                    }}
-                    onClick={() => removeFunction(file.name)}
-                  >
-                    <CancelIcon fontSize="small" />
-                  </IconButton>
-                </div>
+                  <CancelIcon fontSize="small" />
+                </IconButton>
               </div>
             </div>
-          ),
-        };
-      });
+          </div>
+        ),
+      };
+    });
+    setThumbs(acFiles);
+  };
 
-      // approvedFiles = [...thumbs, ...];
-      // approvedFiles.splice(
-      //   0,
-      //   Math.max(0, approvedFiles.length - props.maxFiles)
-      // );
-      setThumbs(acFiles);
-      // acceptedFiles.forEach((file: any, idx: number) => {
-      //   // console.log(file);
-      //   // const reader = new FileReader();
+  let uploading = async (files) => {
+    files.forEach((file, index) => {
+      const storageRef = ref(
+        storage,
+        `${props.location}/${new Date().getTime()}_${randomInRange(
+          0,
+          10000000000
+        )}_${file.name}`
+      );
 
-      //   // reader.onabort = () => console.log("file reading was aborted");
-      //   // reader.onerror = () => console.log("file reading has failed");
-      //   // reader.onload = () => {
-      //   //   // Do whatever you want with the file contents
-      //   //   const binaryStr = reader.result;
-      //   // };
-      //   // let preview = URL.createObjectURL(file);
-      //   // // console.log(preview);
-      //   // reader.readAsArrayBuffer(file);
-      //   // reader.onloadend = () => {
-      //   //   // console.log(reader.result);
-      //   //   // convert to base64 image
-      //   //   const base64String = btoa(
-      //   //     new Uint8Array(reader.result as ArrayBuffer).reduce(
-      //   //       (data, byte) => data + String.fromCharCode(byte),
-      //   //       ""
-      //   //     )
-      //   //   );
-      //   //   props.onUpload(base64String);
-      //   // };
-      // });
-    },
-    [filenames]
-  );
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setProgress(progress);
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+          setMessage("image file uploading failed");
+          setSeverity("error");
+          setOpenToast(true);
+        },
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+
+          getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
+            // console.log("File available at", downloadURL);
+            fileUrls.push(downloadURL);
+            props.onUpload(fileUrls);
+            await setImageThumbnail(fileUrls);
+
+            if (index === files.length - 1) {
+              setUploadingFiles(false);
+            }
+          });
+        }
+      );
+    });
+  };
+
+  const onDrop = useCallback((acceptedFiles: any[]) => {
+    if (acceptedFiles.length === 0) {
+      return;
+    }
+    if (fileUrls.length + acceptedFiles.length > props.maxFiles) {
+      setMessage("max files exceeded");
+      setSeverity("error");
+      setOpenToast(true);
+      return;
+    }
+    setUploadingFiles(true);
+    // console.log("useEffect:: acceptedFiles", acceptedFiles);
+
+    uploading(acceptedFiles);
+  }, []);
+
+  useEffect(() => {
+    setImageThumbnail(fileUrls);
+  }, [props]);
+
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
     maxFiles: props.maxFiles,
@@ -170,13 +222,6 @@ export default function Dropzone(props: any) {
     },
     maxSize: 5 * 1024 * 1024,
   });
-  // const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
-
-  
-
-  useEffect(() => {
-    props.onUpload(files);
-  }, [filenames]);
 
   return (
     <section className="container">
@@ -213,8 +258,16 @@ export default function Dropzone(props: any) {
                 flexDirection: "column",
               }}
             >
-              <FontAwesomeIcon icon={faCloudArrowUp} bounce size="2xl" />
-              file names must be unique
+              {uploadingFiles ? (
+                <>
+                  <CircularProgressWithLabel value={progress} />
+                </>
+              ) : (
+                <>
+                  <FontAwesomeIcon icon={faCloudArrowUp} bounce size="2xl" />
+                  file names must be unique
+                </>
+              )}
             </Box>
           </Grid>
         </Grid>
@@ -228,9 +281,45 @@ export default function Dropzone(props: any) {
             // border: "dotted",
           }}
         >
-          <ul>{thumbs.map((thumb : any) => thumb.jsx(remove))}</ul>
+          <ul>{thumbs.map((thumb: any, idx: any) => thumb.jsx(remove))}</ul>
         </Box>
+
+        <ToastComponent
+          message={message}
+          open={openToast}
+          onClose={setOpenToast}
+          onCross={setOpenToast}
+          severity={severity}
+        />
       </Grid>
     </section>
+  );
+}
+
+function CircularProgressWithLabel(
+  props: CircularProgressProps & { value: number }
+) {
+  return (
+    <Box sx={{ position: "relative", display: "inline-flex" }}>
+      <CircularProgress variant="determinate" {...props} />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          variant="caption"
+          component="div"
+          color="text.secondary"
+        >{`${Math.round(props.value)}%`}</Typography>
+      </Box>
+    </Box>
   );
 }
