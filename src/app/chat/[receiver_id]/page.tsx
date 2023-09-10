@@ -59,10 +59,7 @@ interface IUser{
 const sender_id = getUserIdFromAuthToken();
 console.log("user", sender_id);
 
-const socket = SocketIOClient(HOST);
-socket.on("connect", () => {
-  console.log("connected at ", socket.id);
-});
+var socket;
 
 
 export default function Chat(params:any){
@@ -97,6 +94,14 @@ export default function Chat(params:any){
 
 
   useEffect((): any => {
+    // init socket
+    socket = SocketIOClient(HOST);
+
+    socket.on("connect", () => {
+      console.log("connected at ", socket.id);
+      setConnected(true);
+    });
+
     const receiver_id = params.params.receiver_id;
     console.log("chat:useEffect-> receiver_id", receiver_id);
     setReceiverId(receiver_id);
