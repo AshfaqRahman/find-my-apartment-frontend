@@ -39,7 +39,7 @@ export default function OwnerInfo(props: any) {
     const handleOwnerMessage = () => {
       console.log("OwnerInfo handleOwnerMessage"); 
       // nagigate to route chat/:user_id
-      push("/chat/" + owner?.user_id);
+      push("/chat?receiver_id=" + owner?.user_id);
     }
 
     return (

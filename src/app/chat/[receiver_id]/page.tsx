@@ -221,6 +221,7 @@ export default function Chat(params:any){
             display: "flex",
             justifyContent:"flex-start", 
             alignItems:"center",
+            flexDirection:"column",
             }}
             >
             {chatList.map((chat, i) => (
