@@ -56,13 +56,6 @@ import BathsSelectionComponent from "@/components/baths-selection";
 import Budget from "@/components/budget";
 import Area from "@/components/area";
 
-const rochester = Rochester({ weight: "400", subsets: ["latin"] });
-const theme = createTheme({
-  typography: {
-    fontFamily: rochester.style.fontFamily,
-  },
-});
-
 export default function Home() {
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
 
@@ -104,7 +97,6 @@ export default function Home() {
     setFacilities(types);
   };
 
-
   const [address, setAddress] = React.useState<any>("");
 
   const [zone, setZone] = React.useState<any>("");
@@ -121,7 +113,6 @@ export default function Home() {
     setHouseNo(e.target.value);
   };
   const [radius, setRadius] = React.useState<number | "">("");
-
 
   const [keywords, setKeywords] = React.useState([]);
 
@@ -158,8 +149,8 @@ export default function Home() {
         types: apartmentTypes.map((type) => apartmentTypeReverseMapping[type]),
         max_floor: maxFloor,
         min_floor: minFloor,
-      }
-    }
+      },
+    };
     let data: any = await setPreference(params);
     console.log(data);
     setSavingPreferences(false);
@@ -172,7 +163,7 @@ export default function Home() {
       setMessage(data.message);
       setSeverity("error");
     }
-  }
+  };
 
   let setSavedPreference = (data: any) => {
     setMinBaths(data.min_washrooms);
@@ -183,9 +174,15 @@ export default function Home() {
     setMaxFloor(data.max_floor);
     setBudget([data.min_budget, data.max_budget]);
     setArea([data.min_area, data.max_area]);
-    setApartmentTypes(data.types.map((type: any) => apartmentTypeMapping[type]));
-    setKeywords(data.keywords.map((keyword: any) => keyword.starpoint.starpoint_id));
-    setFacilities(data.facilities.map((facility: any) => facility.facility.facilities_id));
+    setApartmentTypes(
+      data.types.map((type: any) => apartmentTypeMapping[type])
+    );
+    setKeywords(
+      data.keywords.map((keyword: any) => keyword.starpoint.starpoint_id)
+    );
+    setFacilities(
+      data.facilities.map((facility: any) => facility.facility.facilities_id)
+    );
     setAddress(data.location.detailed_address);
     setRadius(data.radius);
     setStreetNo(data.location.street_no);
@@ -194,7 +191,7 @@ export default function Home() {
     setDistrict(data.location.district);
     setDivision(data.location.division);
     setLocation({ lat: data.location.latitude, lng: data.location.longitude });
-  }
+  };
 
   useEffect(() => {
     setSavingPreferences(true);
@@ -202,7 +199,7 @@ export default function Home() {
       let data: any = await getPreference();
       setSavingPreferences(false);
       if (data.success) {
-        setSavedPreference(data.data)
+        setSavedPreference(data.data);
       } else {
         setOpenToast(true);
         setMessage(data.message);
@@ -258,20 +255,17 @@ export default function Home() {
           >
             <Grid key={1} item lg={6} md={6}>
               <Box sx={{ ..._centeringStyle }}>
-                <ThemeProvider theme={theme}>
-                  <Typography
-                    sx={{
-                      ml: 1,
-                      fontSize: "1.75rem",
-                      fontWeight: 600,
-                      letterSpacing: ".3rem",
-                      color: "inherit",
-                      textDecoration: "none",
-                    }}
-                  >
-                    My preferences
-                  </Typography>
-                </ThemeProvider>
+                <Typography
+                  sx={{
+                    ml: 1,
+                    fontSize: "1.75rem",
+                    fontWeight: 600,
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  My preferences
+                </Typography>
               </Box>
             </Grid>
             <Grid key={2} item lg={6} md={6}>
@@ -349,20 +343,12 @@ export default function Home() {
               </Grid>
               <Grid item lg={6} md={6}>
                 <Box px={2}>
-                  <Budget
-                    key={6}
-                    budget={budget}
-                    setBudget={setBudget}
-                  />
+                  <Budget key={6} budget={budget} setBudget={setBudget} />
                 </Box>
               </Grid>
               <Grid item lg={6} md={6}>
                 <Box mx={2}>
-                  <Area
-                    key={7}
-                    area={area}
-                    setArea={setArea}
-                  />
+                  <Area key={7} area={area} setArea={setArea} />
                 </Box>
               </Grid>
               <Grid key={"apartment type"} item lg={6} md={6}>
@@ -380,8 +366,7 @@ export default function Home() {
               </Grid>
 
               <Grid item container lg={6} md={6} px={1}>
-
-                <Box px={2} >
+                <Box px={2}>
                   <LocationSearchMapComponent
                     setRadius={setRadius}
                     radius={radius}
@@ -397,7 +382,10 @@ export default function Home() {
               </Grid>
               <Grid key={"FacilitiesComponent"} item lg={6} md={6}>
                 <Box mx={2}>
-                  <FacilitiesComponent value={facilities} setValue={setFacilities} />
+                  <FacilitiesComponent
+                    value={facilities}
+                    setValue={setFacilities}
+                  />
                 </Box>
               </Grid>
             </Grid>

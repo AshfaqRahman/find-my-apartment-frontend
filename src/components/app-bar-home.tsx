@@ -104,7 +104,6 @@ export default function AppBarHomeComponent(props: any) {
                   <FontAwesomeIcon icon={faBuilding} size="xl" />
                 </Box>
                 <Box>
-                  <ThemeProvider theme={theme}>
                     <Typography
                       noWrap
                       component="a"
@@ -120,7 +119,6 @@ export default function AppBarHomeComponent(props: any) {
                     >
                       Find My Apartment
                     </Typography>
-                  </ThemeProvider>
                 </Box>
               </Box>
 

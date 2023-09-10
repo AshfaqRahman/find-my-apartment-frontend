@@ -50,14 +50,10 @@ import { randomInRange } from "@/static/utils";
 import { getUserData, getApartment } from "../apis";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
-import { fetchFacilities, fetchKeywords } from "@/components/api/fixed-values-api";
-
-const rochester = Rochester({ weight: "400", subsets: ["latin"] });
-const theme = createTheme({
-  typography: {
-    fontFamily: rochester.style.fontFamily,
-  },
-});
+import {
+  fetchFacilities,
+  fetchKeywords,
+} from "@/components/api/fixed-values-api";
 
 export default function Home(params: any) {
   // const onSearch = =async (data: any) => {
@@ -206,7 +202,7 @@ export default function Home(params: any) {
     // console.log("getKeywords");
     let keywords = await fetchKeywords();
     keywordsWithTitle = keywords.data;
-  }
+  };
 
   useEffect(() => {
     let apartment_id = params.params.apartment_id;
@@ -319,20 +315,18 @@ export default function Home(params: any) {
           >
             <Grid key={1} item lg={6} md={6}>
               <Box sx={{ ..._centeringStyle }}>
-                <ThemeProvider theme={theme}>
-                  <Typography
-                    sx={{
-                      ml: 1,
-                      fontSize: "1.75rem",
-                      fontWeight: 600,
-                      letterSpacing: ".3rem",
-                      color: "inherit",
-                      textDecoration: "none",
-                    }}
-                  >
-                    Edit Apartment
-                  </Typography>
-                </ThemeProvider>
+                <Typography
+                  sx={{
+                    ml: 1,
+                    fontSize: "1.75rem",
+                    fontWeight: 600,
+                    letterSpacing: ".3rem",
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Edit Apartment
+                </Typography>
               </Box>
             </Grid>
             <Grid key={2} item lg={6} md={6}>
@@ -398,10 +392,7 @@ export default function Home(params: any) {
             </Grid>
             <Grid key={"KeywordsComponent"} item lg={4} md={4}>
               <Box mx={2}>
-                <KeywordsComponent
-                  value={keywords}
-                  setValue={setKeywords}
-                />
+                <KeywordsComponent value={keywords} setValue={setKeywords} />
               </Box>
             </Grid>
             <Grid key={"FacilitiesComponent"} item lg={4} md={4}>

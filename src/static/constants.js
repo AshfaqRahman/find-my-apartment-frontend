@@ -120,10 +120,10 @@ const _appBarHeight = "7vh";
 const _mapHeightInAddApartment = "40vh"
 
 const _loaderStyle = {
-  color: "inherit",
-  height: "7px",
+  // color: "inherit",
+  height: "5px",
   position: "fixed",
-  mt: "6px",
+  mt: "15px",
   width: "100%",
   zIndex: "10000",
 };

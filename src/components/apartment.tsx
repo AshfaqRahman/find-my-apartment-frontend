@@ -21,6 +21,7 @@ import {
 } from "@/static/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed, faShower } from "@fortawesome/free-solid-svg-icons";
+import EditIcon from '@mui/icons-material/Edit';
 import FacilitiesIconsComponent from "./facilities-icons";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useEffect, useState } from "react";
@@ -239,7 +240,6 @@ export default function Apartment(props: any) {
                     <>
                       <IconButton
                         size="large"
-                        color="error"
                         sx={{
                           bgcolor: _color.background_upper,
                           borderRadius: _divRadius,
@@ -249,7 +249,9 @@ export default function Apartment(props: any) {
                         onClick={() => {
                           push("/edit-apartment/" + props.data.id);
                         }}
-                      ></IconButton>
+                      >
+                        <EditIcon/>
+                      </IconButton>
                     </>
                   ) : (
                     <></>

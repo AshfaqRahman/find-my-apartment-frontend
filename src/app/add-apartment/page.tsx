@@ -250,7 +250,6 @@ export default function Home() {
           >
             <Grid key={1} item lg={6} md={6}>
               <Box sx={{ ..._centeringStyle }}>
-                <ThemeProvider theme={theme}>
                   <Typography
                     sx={{
                       ml: 1,
@@ -263,7 +262,6 @@ export default function Home() {
                   >
                     Add Apartment
                   </Typography>
-                </ThemeProvider>
               </Box>
             </Grid>
             <Grid key={2} item lg={6} md={6}>
