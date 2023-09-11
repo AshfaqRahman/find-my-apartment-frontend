@@ -19,6 +19,8 @@ import Link from "next/link";
 import ZoneCard from "@/components/zone-card";
 import ApartmentCard from "@/components/apartment-card";
 import { ExploreApartments } from "./explore-apis";
+import Bojack from "../../public/bojack.jpg";
+import SearchbarHome from "@/components/searchbar-home";
 
 function Copyright(props: any) {
   return (
@@ -86,26 +88,37 @@ export default function Home() {
   }, []);
 
   const bgColor = "#E6E6E6";
+  const styles = {
+    paperContainer: {
+        backgroundImage: `url(${Bojack})`
+    }
+};
+
   return (
     <>
       <AppBarHomeComponent />
 
       <Grid container style={{ paddingBottom: "5px" }}>
         <Grid item md={12} lg={12}>
-          <Box height={"40vw"}>
+          <Grid height={"30vh"}>
             <img
-              src={"homepage.jpg"}
+              src={"dhaka-view.jpg"}
               // Revoke data uri after image is loaded
               style={{
-                zIndex: 1,
+                zIndex: -1,
                 bottom: 0,
+                position: "fixed"
               }}
               width={"100%"}
               height={"100%"}
             />
-            {/* <Image src={homepageImage} alt="Apartment" /> */}
-          </Box>
+          </Grid>
         </Grid>
+      </Grid>
+
+      <Grid container md={12} style={{display: "flex", justifyContent: "center", alignItems: "center", marginBottom:"10vh", paddingBottom:"10vh"}}>
+        {/* <h1> Find My Apartment </h1> */}
+        <SearchbarHome />
       </Grid>
 
       <Grid container md={12}>
@@ -181,7 +194,7 @@ export default function Home() {
             style={{
               height: "76.8vh",
               backgroundColor: bgColor,
-              marginRight: "0.4vw",
+              marginRight: "0.5vw",
             }}
           >
             <Grid
@@ -251,8 +264,11 @@ export default function Home() {
           severity={severity}
         />
       </Grid>
-
-      <Copyright />
+      
+      <Grid style={{backgroundColor:"#E6E6E6"}}>
+        <Copyright />  
+      </Grid>
+      
     </>
   );
 }
