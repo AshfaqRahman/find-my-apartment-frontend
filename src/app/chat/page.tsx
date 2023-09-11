@@ -93,6 +93,7 @@ export default function Chat(params: any) {
     // receiver id
     // get active chat user info(receiver info)
     if (receiverId) {
+      console.log("receiverId", receiverId);
       (async () => {
         const chatResponse = await getChat(receiverId);
         if (chatResponse.success) {
@@ -257,7 +258,9 @@ export default function Chat(params: any) {
                 padding: "16px"
               }}
               onClick={() => {
-                setReceiverId(chat.receiver_id);
+                var id = chat.receiver_id;
+                if(chat.receiver_id === sender_id) id = chat.sender_id;
+                setReceiverId(id);
               }}
             >
 
@@ -454,7 +457,7 @@ export default function Chat(params: any) {
             width: "75vw",
           }}
         >
-          {receiverId && (<ChatBox />)}
+          {receiverId && ChatBox()}
           {/* chat box placeholder */}
           {!receiverId && (
 

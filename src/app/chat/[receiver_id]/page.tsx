@@ -277,7 +277,7 @@ export default function Chat(params:any){
           pb={"15vh"}
           left={{ md: "25%", lg: "25%", sm:"33%"}}
           sx={{
-          backgroundColor: "#ffffa5",          
+          backgroundColor: "#fafafa",          
           width: "75vw",
         }}
         >
@@ -318,7 +318,7 @@ export default function Chat(params:any){
 
             {/* chat body */}
             <Grid container 
-            bgcolor="#fff2f2"
+            bgcolor="#fafafa"
             mt={"10vh"}
             style={{ display:"flex",overflowY: "auto",
             flexDirection: "column-reverse",
@@ -359,14 +359,14 @@ export default function Chat(params:any){
 
             {/* chat footer */}
             <Grid container 
-            style={{ backgroundColor: "#ffbbcc", 
+            style={{ backgroundColor: "#fafafa", 
             display: "block", padding:"16px", 
             position:"fixed", bottom:"0",
             width:"75vw",
             height:"15vh"
             }}>
               <Grid item lg={12} 
-              style={{backgroundColor:"#00ff00", 
+              style={{backgroundColor:"#ffffff", 
               display: "flex",  
               justifyContent:"center", 
               alignItems:"center"
