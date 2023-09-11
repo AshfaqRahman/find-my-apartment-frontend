@@ -373,6 +373,10 @@ export default function RoomFinder() {
             />
           </Grid>
 
+          <Grid item lg={12} md={12} mb={"15px"}>
+            <Area key={7} area={area} setArea={setArea} />
+          </Grid>
+
           <Grid key={8} item lg={12} md={12} mt={2}>
             <Box mx={1}>
               <FacilitiesComponent

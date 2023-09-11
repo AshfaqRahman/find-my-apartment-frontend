@@ -47,11 +47,11 @@ const _keywords = [
 ];
 
 const _budget = {
-  min: 3000,
+  min: 0,
   max: 99999,
 };
 const _area = {
-  min: 500,
+  min: 0,
   max: 20000,
 };
 
