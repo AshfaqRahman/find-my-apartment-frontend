@@ -132,12 +132,12 @@ export default function Home() {
         </Grid>
       </Grid>
 
-      <Grid container md={12} style={{display: "flex", justifyContent: "center", alignItems: "center", marginBottom:"10vh", paddingBottom:"10vh"}}>
+      <Grid container style={{display: "flex", justifyContent: "center", alignItems: "center", marginBottom:"10vh", paddingBottom:"10vh"}}>
         {/* <h1> Find My Apartment </h1> */}
         <SearchbarHome />
       </Grid>
 
-      <Grid container md={12}>
+      <Grid container >
         <Grid item md={9} style={{ padding: "4px" }}>
           <Card
             style={{

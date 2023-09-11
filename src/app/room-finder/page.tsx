@@ -434,7 +434,7 @@ export default function RoomFinder() {
                 </ThemeProvider>
               </Box>
             </Grid>
-            <Grid item lg={3} md={3} p={3}>
+            <Grid item lg={6} md={6} p={3}>
               <Box sx={{ ..._centeringStyle, margin: 0 }}>
                 <SelectComponent
                   title={"Order By"}
@@ -444,12 +444,12 @@ export default function RoomFinder() {
                 />
               </Box>
             </Grid>
-            <Grid item lg={3} md={3} p={3}>
+            {/* <Grid item lg={3} md={3} p={3}>
               <Box sx={{ ..._centeringStyle, margin: 0 }}>
                 <Checkbox />
                 <Typography sx={{ fontWeight: "bold" }}>My Posts</Typography>
               </Box>
-            </Grid>
+            </Grid> */}
             <Grid item lg={1.5} md={1.5} p={3}>
               <Box sx={{ ..._centeringStyle, margin: 0 }}>
                 <ButtonComponent
