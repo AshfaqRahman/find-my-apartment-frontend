@@ -19,7 +19,7 @@ import Link from "next/link";
 import ZoneCard from "@/components/zone-card";
 import ApartmentCard from "@/components/apartment-card";
 import { ExploreApartments } from "./explore-apis";
-import Bojack from "../../public/bojack.jpg";
+import { FetchZoneCards } from "./zonecard-apis";
 
 function Copyright(props: any) {
   return (
@@ -46,6 +46,7 @@ export default function Home() {
 
   let [fetchingApartments, setFetchingApartments] = React.useState(false);
   let [apartments, setApartments] = React.useState<any>([]);
+  let [zonecard, setZonecard] = React.useState<any>([]);
 
   const getApartments = async () => { 
     setFetchingApartments(true);
@@ -68,11 +69,29 @@ export default function Home() {
     setOpenToast(true);
     setFetchingApartments(false);
   }
+
+  const getZoneCards = async () => {    
+    let data : any = await FetchZoneCards();
+
+    // console.log(data);
+    console.log(data.data);
+    
+    // console.log(data.data.apartments);
+    // console.log("Maruf");
+    
+    if (data.success) { 
+      setZonecard(data.data);
+      setSeverity("success");
+    } else {
+      setSeverity("error");
+    }
+  }
   
   useEffect(() => {
     console.log("Home::useEffect");
     // console.log(getCookie("token"));
     getApartments();
+    getZoneCards();
     checkAuth().then((response) => {
       // console.log(response);
       if (response.success) {
@@ -87,11 +106,6 @@ export default function Home() {
   }, []);
 
   const bgColor = "#E6E6E6";
-  const styles = {
-    paperContainer: {
-        backgroundImage: `url(${Bojack})`
-    }
-};
 
   return (
     <>
@@ -139,6 +153,30 @@ export default function Home() {
 
             <Grid container style={{ height: "32.5vh" }}>
               <Grid item xs>
+                {zonecard.length === 0 ? <></> :
+                  <ZoneCard
+                    cardTitle={zonecard[0].name}
+                    zoneLink={zonecard[0].link}
+                    imageSrc={zonecard[0].image}
+                    imageAlt={zonecard[0].name}
+                    cardText={zonecard[0].description}
+                  />
+                }
+              </Grid>
+
+              <Grid item xs>
+                {zonecard.length === 0 ? <></> :
+                <ZoneCard
+                  cardTitle={zonecard[1].name}
+                  zoneLink={zonecard[1].link}
+                  imageSrc={zonecard[1].image}
+                  imageAlt={zonecard[1].name}
+                  cardText={zonecard[1].description}
+                />
+                }
+              </Grid>
+              
+              {/* <Grid item xs>
                 <ZoneCard
                   cardTitle="Dhanmondi"
                   zoneLink="https://en.wikipedia.org/wiki/Dhanmondi_Thana"
@@ -156,11 +194,37 @@ export default function Home() {
                   imageAlt="Motijheel"
                   cardText="Located in the heart of the city, a central business district and is the downtown and the city centre of Dhaka."
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
 
             <Grid container style={{ height: "32.5vh" }}>
+
               <Grid item xs>
+                { zonecard.length === 0 ? <></> :
+                <ZoneCard
+                  cardTitle={zonecard[2].name}
+                  zoneLink={zonecard[2].link}
+                  imageSrc={zonecard[2].image}
+                  imageAlt={zonecard[2].name}
+                  cardText={zonecard[2].description}
+                />
+                }
+              </Grid>
+
+              <Grid item xs>
+                {zonecard.length === 0 ? <></> :
+                <ZoneCard
+                  cardTitle={zonecard[3].name}
+                  zoneLink={zonecard[3].link}
+                  imageSrc={zonecard[3].image}
+                  imageAlt={zonecard[3].name}
+                  cardText={zonecard[3].description}
+                />
+              }
+              </Grid>
+              
+              
+              {/* <Grid item xs>
                 <ZoneCard
                   cardTitle="Gulshan"
                   zoneLink="https://en.wikipedia.org/wiki/Gulshan_Thana"
@@ -178,7 +242,7 @@ export default function Home() {
                   imageAlt="Azimpur"
                   cardText="An old region in the old part of Dhaka. In 1950, this area was redesigned as the government employee's residence. "
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
           </Card>
         </Grid>
@@ -203,7 +267,6 @@ export default function Home() {
             </Grid>
 
             <Grid style={{ fontFamily: "Tahoma", margin: "10px" }}>
-              {/* { getApartments() } */}
               {Array.isArray(apartments) && apartments.map((x: any, idx) => {
                 return (
                   <ApartmentCard
@@ -216,36 +279,6 @@ export default function Home() {
                   />
                 );
               })}
-              {/* <ApartmentCard
-                price="18000"
-                area="Lalbag"
-                bedrooms="3"
-                bathrooms="2"
-              />
-              <ApartmentCard
-                price="22000"
-                area="Dhanmondi"
-                bedrooms="3"
-                bathrooms="2"
-              />
-              <ApartmentCard
-                price="22000"
-                area="Mohammadpur"
-                bedrooms="4"
-                bathrooms="2"
-              />
-              <ApartmentCard
-                price="20000"
-                area="Gulshan"
-                bedrooms="2"
-                bathrooms="1"
-              />
-              <ApartmentCard
-                price="15000"
-                area="Azimpur"
-                bedrooms="3"
-                bathrooms="2"
-              /> */}
             </Grid>
           </Card>
         </Grid>
