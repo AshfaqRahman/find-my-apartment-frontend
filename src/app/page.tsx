@@ -19,7 +19,6 @@ import Link from "next/link";
 import ZoneCard from "@/components/zone-card";
 import ApartmentCard from "@/components/apartment-card";
 import { ExploreApartments } from "./explore-apis";
-import Bojack from "../../public/bojack.jpg";
 
 function Copyright(props: any) {
   return (
@@ -87,11 +86,6 @@ export default function Home() {
   }, []);
 
   const bgColor = "#E6E6E6";
-  const styles = {
-    paperContainer: {
-        backgroundImage: `url(${Bojack})`
-    }
-};
 
   return (
     <>
