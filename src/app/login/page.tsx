@@ -56,8 +56,8 @@ export default function Login() {
         setCookie("token", response.data.token, {
           maxAge: 1 * 8 * 60 * 60, // 8 hours
         })
-        push("/advance-search");
-      }, 500);
+        push("/home");
+      }, 0);
     } else {
       setLoggingLoader(false);
       setMessage(response.message);

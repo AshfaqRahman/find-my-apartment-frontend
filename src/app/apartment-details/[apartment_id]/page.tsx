@@ -28,6 +28,8 @@ import Address from "../components/address";
 import { getApartment } from "../apis";
 import ToastComponent from "@/mui-components/toast";
 import OwnerInfo from "../components/owner_info";
+import MapDialogComponent from "@/components/map-dialog";
+import MapDialogNotDraggableComponent from "@/components/map-dialog-not-draggable";
 
 export default function ApartmentDetails(params: any) {
   let [apartment, setApartment] = useState<any>();
@@ -37,6 +39,7 @@ export default function ApartmentDetails(params: any) {
   let [severity, setSeverity] = React.useState("success");
 
   let [loadingApartment, setLoadingApartment] = useState(true);
+  let [openMap, setOpenMap] = useState(false);
 
   useEffect(() => {
     let apartment_id = params.params.apartment_id;
@@ -146,10 +149,18 @@ export default function ApartmentDetails(params: any) {
                 </Carousel>
               )}
             </Box>
-            <ButtonComponent variant={"contained"} style={"primary"}>
+            <ButtonComponent variant={"contained"} style={"primary"} onClick={() => setOpenMap(true)}>
               <LocationOnIcon />
               Map
             </ButtonComponent>
+            <MapDialogNotDraggableComponent
+            openMap={openMap}
+            closeMap={() => setOpenMap(false)}
+            address={apartment?.location.detailed_address}
+            notDraggable
+            lat={apartment?.location.latitude}
+            lng={apartment?.location.longitude}
+          />
           </Grid>
         </Grid>
 
@@ -190,11 +201,11 @@ export default function ApartmentDetails(params: any) {
             </Grid>
           </Box>
         </Grid>
-        <Grid item mt={2} md={12} lg={12}>
+        {/* <Grid item mt={2} md={12} lg={12}>
           <Divider>
             <Chip label="Similar Apartments" />
           </Divider>
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );

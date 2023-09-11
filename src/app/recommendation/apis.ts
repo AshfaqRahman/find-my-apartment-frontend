@@ -16,7 +16,7 @@ export const getRecommendation = async (data) => {
             }
         )
 
-        return { data: res.data, success: res.status === 200 }
+        return { data: res.data.data, success: res.status === 200 }
 
     } catch (error: any) {
         console.log("getRecommendation :: error", error);
