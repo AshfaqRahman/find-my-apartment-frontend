@@ -24,12 +24,13 @@ export default function Wishlist() {
   let height = _pageHeight;
 
   let [apartments, setApartments] = React.useState([]);
+  let [showingApartments, setShowingApartments] = useState([]);
   // let [fetchingApartments, setFetchingApartments] = React.useState(false);
 
   let apartmentStatuses = ["Any", "Vacant", "Occupied"];
   let [apartmentStatus, setApartmentStatus] = React.useState("Any");
 
-  let orderByes : any = {
+  let orderByes: any = {
     "price lowest": {
       key: "price",
       order: 1,
@@ -38,7 +39,7 @@ export default function Wishlist() {
       key: "price",
       order: -1,
     },
-    "latest": {
+    latest: {
       key: "created_at",
       order: -1,
     },
@@ -50,9 +51,25 @@ export default function Wishlist() {
 
   useEffect(() => {
     let apts = [...apartments];
-    apts.sort((a: any, b: any) => orderByes[orderBy].order * (a[orderByes[orderBy].key] > b[orderByes[orderBy].key] ? 1 : -1));
-    setApartments(apts);
-  }, [orderBy]);
+    apts = apts.filter(
+      (apt: any) =>
+        apartmentStatus === "Any" ||
+        apt.occupied === (apartmentStatus === "Occupied")
+    );
+    if (orderBy && orderBy !== "")
+      apts.sort(
+        (a: any, b: any) =>
+          orderByes[orderBy].order *
+          (orderBy === "latest"
+            ? a[orderByes[orderBy].key] > b[orderByes[orderBy].key]
+              ? 1
+              : -1
+            : +a[orderByes[orderBy].key] > +b[orderByes[orderBy].key]
+            ? 1
+            : -1)
+      );
+    setShowingApartments(apts);
+  }, [orderBy, apartmentStatus]);
 
   let [openToast, setOpenToast] = React.useState(false);
   let [message, setMessage] = React.useState("");
@@ -73,6 +90,7 @@ export default function Wishlist() {
       } else {
         setFetchingApartments(false);
         setApartments(data.data);
+        setShowingApartments(data.data);
       }
     })();
   }, []);
@@ -131,12 +149,7 @@ export default function Wishlist() {
                 </Box>
               </Grid>
             </Grid>
-            <Grid
-              container
-              borderRadius={_divRadius}
-              my={2}
-              height={"78vh"}
-            >
+            <Grid container borderRadius={_divRadius} my={2} height={"78vh"}>
               <Grid
                 item
                 lg={12}
@@ -146,24 +159,8 @@ export default function Wishlist() {
                   borderRadius: _divRadius,
                 }}
               >
-                {apartments.map((x: any, idx) => {
-                  return (
-                    <Apartment
-                      // addToWishlist={() => addingInWishlist(x.id)}
-                      // removeFromWishlist={() => removingFromWishlist(x.id)}
-                      // inWishlist={wishlist.includes(x.id)}
-                      // setMapLocation={() => {
-                      //   let lat = randomInRange(22, 24);
-                      //   let lng = randomInRange(89, 91);
-                      //   // console.log(lat, lng);
-                      //   setMapLat(x.location.latitude);
-                      //   setMapLng(x.location.longitude);
-                      // }}
-                      showMap={false}
-                      data={x}
-                      key={idx}
-                    />
-                  );
+                {showingApartments.map((x: any, idx) => {
+                  return <Apartment showMap={false} data={x} key={idx} />;
                 })}
               </Grid>
             </Grid>

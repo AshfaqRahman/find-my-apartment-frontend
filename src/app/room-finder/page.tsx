@@ -179,10 +179,10 @@ export default function RoomFinder() {
       key: "price",
       order: -1,
     },
-    latest: {
-      key: "created_at",
-      order: -1,
-    },
+    // latest: {
+    //   key: "created_at",
+    //   order: -1,
+    // },
   };
   let [orderBy, setOrderBy] = React.useState("");
 
@@ -191,7 +191,13 @@ export default function RoomFinder() {
     psts.sort(
       (a: any, b: any) =>
         orderByes[orderBy].order *
-        (a[orderByes[orderBy].key] > b[orderByes[orderBy].key] ? 1 : -1)
+        (orderBy === "latest"
+          ? a[orderByes[orderBy].key] > b[orderByes[orderBy].key]
+            ? 1
+            : -1
+          : +a[orderByes[orderBy].key] > +b[orderByes[orderBy].key]
+          ? 1
+          : -1)
     );
     setPosts(psts);
   }, [orderBy]);
@@ -208,7 +214,7 @@ export default function RoomFinder() {
   const searchRooms = async () => {
     setFetchingPosts(true);
     // console.log("TEST " + gender);
-    
+
     const params = {
       location: location,
       radius: radius,
@@ -344,15 +350,11 @@ export default function RoomFinder() {
           </Grid>
 
           <Grid item lg={12} md={12} mt={2}>
-            <PersonsInRoomSelectionComponent
-              onChange={handleRoommatesChange}
-            />
+            <PersonsInRoomSelectionComponent onChange={handleRoommatesChange} />
           </Grid>
 
           <Grid item lg={12} md={12} mt={2}>
-            <NoOfResidentsSelectionComponent
-              onChange={handleResidentsChange}
-            />
+            <NoOfResidentsSelectionComponent onChange={handleResidentsChange} />
           </Grid>
 
           <Grid item lg={12} md={12} mt={2}>

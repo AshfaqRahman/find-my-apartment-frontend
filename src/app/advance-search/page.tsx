@@ -124,18 +124,22 @@ export default function Home(params) {
 
   useEffect(() => {
     let apts = [...apartments];
-    console.log(apts);
     apts = apts.filter(
       (apt: any) =>
         apartmentStatus === "Any" ||
         apt.occupied === (apartmentStatus === "Occupied")
     );
-    console.log(apts);
     if (orderBy && orderBy !== "")
       apts.sort(
         (a: any, b: any) =>
           orderByes[orderBy].order *
-          (a[orderByes[orderBy].key] > b[orderByes[orderBy].key] ? 1 : -1)
+          (orderBy === "latest"
+            ? a[orderByes[orderBy].key] > b[orderByes[orderBy].key]
+              ? 1
+              : -1
+            : +a[orderByes[orderBy].key] > +b[orderByes[orderBy].key]
+            ? 1
+            : -1)
       );
     setShowingApartments(apts);
   }, [orderBy, apartmentStatus]);
