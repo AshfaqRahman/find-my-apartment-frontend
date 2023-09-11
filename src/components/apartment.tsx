@@ -40,8 +40,7 @@ export default function Apartment(props: any) {
     props.setMapLocation();
   };
 
-  let [inWishlist, setInWishlist] = useState(props.data.in_wishlist);
-  let [occupied, setOccupied] = useState(props.data.occupied);
+  // let [inWishlist, setInWishlist] = useState(props.data.in_wishlist);
   let [deleted, setDeleted] = useState(false);
 
   let margin = 3;
@@ -54,7 +53,8 @@ export default function Apartment(props: any) {
   let [severity, setSeverity] = useState("success");
 
   let addingWishlist = async () => {
-    setInWishlist(true);
+    // setInWishlist(true);
+    props.data.in_wishlist = true;
 
     let data = await addToWishlist({ apartment_id: props.data.id });
     // console.log(data);
@@ -62,7 +62,8 @@ export default function Apartment(props: any) {
       setSeverity("error");
       setMessage(data.message);
       setOpenToast(true);
-      setInWishlist(false);
+      // setInWishlist(false);
+      props.data.in_wishlist = false;
     } else {
       setSeverity("success");
       setMessage("Apartment is added in your wishlist");
@@ -71,14 +72,16 @@ export default function Apartment(props: any) {
   };
 
   let removingWishlist = async () => {
-    setInWishlist(false);
+    // setInWishlist(false);
+    props.data.in_wishlist = false;
     let data = await removeFromWishlist({ apartment_id: props.data.id });
     // console.log(data);
     if (!data.success) {
       setSeverity("error");
       setMessage(data.message);
       setOpenToast(true);
-      setInWishlist(true);
+      // setInWishlist(true);
+      props.data.in_wishlist = true;
     } else {
       setSeverity("success");
       setMessage(data.data.message);
@@ -90,10 +93,10 @@ export default function Apartment(props: any) {
     if (!props.showOccupied) {
       return;
     }
-    setOccupied(!occupied);
+    props.data.occupied = !props.data.occupied;
     let data = await toggleApartmentStatus({
       apartment_id: props.data.id,
-      occupied: !occupied,
+      occupied: props.data.occupied,
     });
     if (!data.success) {
       setSeverity("error");
@@ -248,7 +251,7 @@ export default function Apartment(props: any) {
 
                     {props.noWishlist ? (
                       <></>
-                    ) : !inWishlist ? (
+                    ) : !props.data.in_wishlist ? (
                       <IconButton
                         size="large"
                         sx={{
@@ -338,7 +341,7 @@ export default function Apartment(props: any) {
                     )}
                     <IconButton
                       size="large"
-                      color={occupied ? "success" : "inherit"}
+                      color={props.data.occupied ? "success" : "inherit"}
                       sx={{
                         bgcolor: _color.background_upper,
                         borderRadius: _divRadius,
@@ -347,7 +350,7 @@ export default function Apartment(props: any) {
                       }}
                       onClick={toggleOccupied}
                     >
-                      <Tooltip title={occupied ? "Occupied" : "Vacant"}>
+                      <Tooltip title={props.data.occupied ? "Occupied" : "Vacant"}>
                         <SensorOccupiedIcon />
                       </Tooltip>
                     </IconButton>

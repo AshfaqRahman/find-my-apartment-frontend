@@ -72,6 +72,7 @@ export default function Home(params) {
   };
 
   let [apartments, setApartments] = React.useState([]);
+  let [showingApartments, setShowingApartments] = useState([]);
 
   let apartmentStatuses = ["Any", "Vacant", "Occupied"];
   let [apartmentStatus, setApartmentStatus] = useState("Any");
@@ -94,7 +95,9 @@ export default function Home(params) {
 
   useEffect(() => {
     let queryString = params.searchParams.search_id;
+    if (!queryString) return;
     let queryParams = JSON.parse(atob(queryString));
+
     (async () => {
       let data: any = await searchApartments(queryParams);
       // console.log(data);
@@ -111,6 +114,7 @@ export default function Home(params) {
         return;
       }
       setApartments(data.data);
+      setShowingApartments(data.data);
       setSeverity("success");
       setMessage(`${data.data.length} apartments are found`);
       setOpenToast(true);
@@ -120,13 +124,21 @@ export default function Home(params) {
 
   useEffect(() => {
     let apts = [...apartments];
-    apts.sort(
-      (a: any, b: any) =>
-        orderByes[orderBy].order *
-        (a[orderByes[orderBy].key] > b[orderByes[orderBy].key] ? 1 : -1)
+    console.log(apts);
+    apts = apts.filter(
+      (apt: any) =>
+        apartmentStatus === "Any" ||
+        apt.occupied === (apartmentStatus === "Occupied")
     );
-    setApartments(apts);
-  }, [orderBy]);
+    console.log(apts);
+    if (orderBy && orderBy !== "")
+      apts.sort(
+        (a: any, b: any) =>
+          orderByes[orderBy].order *
+          (a[orderByes[orderBy].key] > b[orderByes[orderBy].key] ? 1 : -1)
+      );
+    setShowingApartments(apts);
+  }, [orderBy, apartmentStatus]);
 
   const saveSearch = () => {
     console.log("saving search ...");
@@ -183,6 +195,7 @@ export default function Home(params) {
       return;
     }
     setApartments(data.data);
+    setShowingApartments(data.data);
     setSeverity("success");
     setMessage(`${data.data.length} apartments are found`);
     setOpenToast(true);
@@ -343,7 +356,7 @@ export default function Home(params) {
                 borderRadius: _divRadius,
               }}
             >
-              {apartments.map((x: any, idx) => {
+              {showingApartments.map((x: any, idx) => {
                 return (
                   <Apartment
                     setMapLocation={() => {
