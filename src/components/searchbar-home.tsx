@@ -35,7 +35,7 @@ export default function SearchbarHome(props: any) {
           location: location,
           radius: radius,
           price_min: +budget[0],
-          price_max: +budget[1]
+          price_max: +budget[1],
         };
 
         // push(
@@ -47,7 +47,7 @@ export default function SearchbarHome(props: any) {
 
         let data: any = await searchApartments(params);
 
-        push("/advance-search?");
+        push("/advance-search?search_id=" + JSON.stringify(data));
         // if (!data.success) {
         //   setSeverity("error");
         //   setMessage(data.message);
@@ -106,7 +106,7 @@ export default function SearchbarHome(props: any) {
                 </Grid>
 
                 <Grid item lg={12} md={12} marginBottom={"10px"} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                    <Button variant="contained">
+                    <Button variant="contained" onClick={search}>
                         Search
                     </Button>
                 </Grid>
