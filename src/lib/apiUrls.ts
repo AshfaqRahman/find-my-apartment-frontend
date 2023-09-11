@@ -49,5 +49,8 @@ export const apiUrls = {
 	"chat": {
 		"list": `${HOST}/api/message/chatlist`,
 		"messages": `${HOST}/api/message/`,
+	},
+	zonecard: {
+		"list": `${HOST}/api/zonecard`
 	}
 };
