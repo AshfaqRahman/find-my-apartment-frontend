@@ -19,7 +19,8 @@ import Link from "next/link";
 import ZoneCard from "@/components/zone-card";
 import ApartmentCard from "@/components/apartment-card";
 import { ExploreApartments } from "./explore-apis";
-import Bojack from "../../public/bojack.jpg";
+import SearchbarHome from "@/components/searchbar-home";
+import AppBarComponent from "@/components/app-bar";
 
 function Copyright(props: any) {
   return (
@@ -79,27 +80,20 @@ export default function Home() {
         setSeverity("success");
         setMessage(response.data.message);
         setOpenToast(true);
-        setTimeout(() => {
-          push("/home");
-        }, 0);
       }
     });
   }, []);
 
   const bgColor = "#E6E6E6";
-  const styles = {
-    paperContainer: {
-        backgroundImage: `url(${Bojack})`
-    }
-};
 
   return (
     <>
-      <AppBarHomeComponent />
+      {/* <AppBarHomeComponent /> */}
+      {/* <AppBarComponent/> */}
 
       <Grid container style={{ paddingBottom: "5px" }}>
         <Grid item md={12} lg={12}>
-          <Grid height={"70vh"}>
+          <Grid height={"30vh"}>
             <img
               src={"dhaka-view.jpg"}
               // Revoke data uri after image is loaded
@@ -115,7 +109,12 @@ export default function Home() {
         </Grid>
       </Grid>
 
-      <Grid container>
+      <Grid container md={12} style={{display: "flex", justifyContent: "center", alignItems: "center", marginBottom:"10vh", paddingBottom:"10vh"}}>
+        {/* <h1> Find My Apartment </h1> */}
+        <SearchbarHome />
+      </Grid>
+
+      <Grid container md={12}>
         <Grid item md={9} style={{ padding: "4px" }}>
           <Card
             style={{
