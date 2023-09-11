@@ -12,7 +12,6 @@ import {
 import AppBarHomeComponent from "@/components/app-bar-home";
 import ToastComponent from "@/mui-components/toast";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { checkAuth } from "./apis";
 import Link from "next/link";
@@ -70,19 +69,6 @@ export default function Home() {
     setFetchingApartments(false);
   }
   
-  useEffect(() => {
-    console.log("Home::useEffect");
-    // console.log(getCookie("token"));
-    getApartments();
-    checkAuth().then((response) => {
-      // console.log(response);
-      if (response.success) {
-        setSeverity("success");
-        setMessage(response.data.message);
-        setOpenToast(true);
-      }
-    });
-  }, []);
 
   const bgColor = "#E6E6E6";
 

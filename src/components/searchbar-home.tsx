@@ -45,9 +45,11 @@ export default function SearchbarHome(props: any) {
         //     }}
         // );
 
-        let data: any = await searchApartments(params);
+        push("/advance-search?search_id=" + btoa(JSON.stringify(params)));
 
-        push("/advance-search?search_id=" + JSON.stringify(data));
+        // let data: any = await searchApartments(params);
+        // console.log(data);
+
         // if (!data.success) {
         //   setSeverity("error");
         //   setMessage(data.message);

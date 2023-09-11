@@ -40,7 +40,7 @@ import ToastComponent from "@/mui-components/toast";
 import { useRouter } from "next/navigation";
 import LocationSearchMapComponent from "@/components/location-search-map";
 
-export default function Home() {
+export default function Home(params) {
   const { push } = useRouter();
 
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
@@ -76,7 +76,7 @@ export default function Home() {
   let apartmentStatuses = ["Any", "Vacant", "Occupied"];
   let [apartmentStatus, setApartmentStatus] = useState("Any");
 
-  let orderByes : any = {
+  let orderByes: any = {
     "price lowest": {
       key: "price",
       order: 1,
@@ -85,7 +85,7 @@ export default function Home() {
       key: "price",
       order: -1,
     },
-    "latest": {
+    latest: {
       key: "created_at",
       order: -1,
     },
@@ -93,8 +93,38 @@ export default function Home() {
   let [orderBy, setOrderBy] = useState<string>("");
 
   useEffect(() => {
+    let queryString = params.searchParams.search_id;
+    let queryParams = JSON.parse(atob(queryString));
+    (async () => {
+      let data: any = await searchApartments(queryParams);
+      // console.log(data);
+      if (!data.success) {
+        setSeverity("error");
+        setMessage(data.message);
+        setOpenToast(true);
+        setFetchingApartments(false);
+
+        setTimeout(() => {
+          push("/");
+        }, 1000);
+
+        return;
+      }
+      setApartments(data.data);
+      setSeverity("success");
+      setMessage(`${data.data.length} apartments are found`);
+      setOpenToast(true);
+      setFetchingApartments(false);
+    })();
+  }, []);
+
+  useEffect(() => {
     let apts = [...apartments];
-    apts.sort((a: any, b: any) => orderByes[orderBy].order * (a[orderByes[orderBy].key] > b[orderByes[orderBy].key] ? 1 : -1));
+    apts.sort(
+      (a: any, b: any) =>
+        orderByes[orderBy].order *
+        (a[orderByes[orderBy].key] > b[orderByes[orderBy].key] ? 1 : -1)
+    );
     setApartments(apts);
   }, [orderBy]);
 
@@ -178,7 +208,7 @@ export default function Home() {
           }}
         >
           <Grid key={1} item lg={6} md={6} mb={"15px"} mt={"25px"}>
-            <Box sx={{ ..._centeringStyle}}>
+            <Box sx={{ ..._centeringStyle }}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
@@ -190,7 +220,7 @@ export default function Home() {
           </Grid>
 
           <Grid item lg={6} md={6} mb={"15px"} mt={"25px"}>
-            <Box sx={{ ..._centeringStyle}}>
+            <Box sx={{ ..._centeringStyle }}>
               <ButtonComponent
                 variant="contained"
                 style="primary"
@@ -226,23 +256,23 @@ export default function Home() {
             </Box>
           </Grid>
 
-          <Grid key={4} item lg={12} md={12} mb={"15px"} >
+          <Grid key={4} item lg={12} md={12} mb={"15px"}>
             <BedsSelectionComponent onChange={handleBedsChange} />
           </Grid>
 
-          <Grid key={5} item lg={12} md={12} mb={"15px"} >
+          <Grid key={5} item lg={12} md={12} mb={"15px"}>
             <BathsSelectionComponent onChange={handleBathsChange} />
           </Grid>
 
-          <Grid item lg={12} md={12} mb={"15px"} >
-            <Budget key={6} budget={budget} setBudget={setBudget}  />
+          <Grid item lg={12} md={12} mb={"15px"}>
+            <Budget key={6} budget={budget} setBudget={setBudget} />
           </Grid>
 
-          <Grid item lg={12} md={12} mb={"15px"} >
+          <Grid item lg={12} md={12} mb={"15px"}>
             <Area key={7} area={area} setArea={setArea} />
           </Grid>
-          
-          <Grid key={8} item lg={12} md={12} mb={"15px"} >
+
+          <Grid key={8} item lg={12} md={12} mb={"15px"}>
             <Box mx={1}>
               <FacilitiesComponent
                 value={facilities}
@@ -250,8 +280,8 @@ export default function Home() {
               />
             </Box>
           </Grid>
-          
-          <Grid key={9} item lg={12} md={12} mb={"15px"} >
+
+          <Grid key={9} item lg={12} md={12} mb={"15px"}>
             <Box mx={1}>
               <KeywordsComponent value={keywords} setValue={setKeywords} />
             </Box>
