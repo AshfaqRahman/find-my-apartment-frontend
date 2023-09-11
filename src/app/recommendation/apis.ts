@@ -3,12 +3,13 @@ import axios from 'axios';
 import { getCookie } from 'cookies-next';
 
 
-export const getRecommendation = async () => {
+export const getRecommendation = async (data) => {
 	try {
         console.log("getRecommendation ::")
         const res = await axios.get(
             apiUrls.recommendation.list,
             {
+                params: data,
                 headers: {
                     Authorization: `${getCookie('token')}`,
                 }

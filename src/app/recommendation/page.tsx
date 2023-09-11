@@ -49,29 +49,18 @@ export default function Home() {
 
   let [fetchingApartments, setFetchingApartments] = React.useState(false);
 
-  let recommendationOn: any = {
-    preference: {
-      key: "price",
-      order: 1,
-    },
-    wishlist: {
-      key: "price",
-      order: -1,
-    },
-    "search history": {
-      key: "created_at",
-      order: -1,
-    },
-    // "nearest",
-    // "price highest",
-    // "preference",
-  };
-  let [selectedRecommendationType, setSelectedRecommendationType] = useState<string>("preference");
+  let recommendationOn: string[] = ["preference", "wishlist", "search history"];
+  let [selectedRecommendationType, setSelectedRecommendationType] =
+    useState<string>("preference");
 
   useEffect(() => {
     setFetchingApartments(true);
     (async () => {
-      let response: any = await getRecommendation();
+      let response: any = await getRecommendation({
+        preference: selectedRecommendationType === "preference",
+        wishlist: selectedRecommendationType === "wishlist",
+        search_history: selectedRecommendationType === "search history",
+      });
       // console.log(response);
       if (!response.success) {
         setSeverity("error");
@@ -85,6 +74,26 @@ export default function Home() {
     })();
   }, []);
 
+  useEffect(() => {
+    setFetchingApartments(true);
+    (async () => {
+      let response: any = await getRecommendation({
+        preference: selectedRecommendationType === "preference",
+        wishlist: selectedRecommendationType === "wishlist",
+        search_history: selectedRecommendationType === "search history",
+      });
+      // console.log(response);
+      if (!response.success) {
+        setSeverity("error");
+        setMessage(response.message);
+        setOpenToast(true);
+        setFetchingApartments(false);
+        return;
+      }
+      setApartments(response.data);
+      setFetchingApartments(false);
+    })();
+  }, [selectedRecommendationType]);
 
   return (
     <>
@@ -118,24 +127,18 @@ export default function Home() {
               borderRadius={_divRadius}
               my={2}
             >
-
               <Grid item lg={6} md={6} p={3}>
                 <Box sx={{ width: "100%" }}>
                   <SelectComponent
-                    title={"Order By"}
-                    elements={Object.keys(recommendationOn)}
+                    title={"Based on"}
+                    elements={recommendationOn}
                     value={selectedRecommendationType}
                     handleChange={setSelectedRecommendationType}
                   />
                 </Box>
               </Grid>
             </Grid>
-            <Grid
-              container
-              borderRadius={_divRadius}
-              my={2}
-              height={"78vh"}
-            >
+            <Grid container borderRadius={_divRadius} my={2} height={"78vh"}>
               <Grid
                 item
                 lg={12}
@@ -146,13 +149,7 @@ export default function Home() {
                 }}
               >
                 {apartments.map((x: any, idx) => {
-                  return (
-                    <Apartment
-                      data={x}
-                      key={idx}
-                      showMap={false}
-                    />
-                  );
+                  return <Apartment data={x} key={idx} showMap={false} />;
                 })}
               </Grid>
             </Grid>
