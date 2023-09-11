@@ -232,7 +232,6 @@ export default function Post(props: any) {
             onClick={contactOwner}
             fullWidth
             variant="contained"
-            onClick={contactOwner}
             sx={{ mt: 2, mb: 1 }}
           >
             Contact Owner
