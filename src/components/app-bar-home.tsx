@@ -61,7 +61,7 @@ const settings = [
   "Profile",
   "My Apartments",
   "My Wishlist",
-  "Saved Searches",
+  // "Saved Searches",
   "My Preferences",
   "Logout",
 ];

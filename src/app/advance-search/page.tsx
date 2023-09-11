@@ -224,7 +224,7 @@ export default function Home(params) {
             backgroundColor: _color.background_left,
           }}
         >
-          <Grid key={1} item lg={6} md={6} mb={"15px"} mt={"25px"}>
+          {/* <Grid key={1} item lg={6} md={6} mb={"15px"} mt={"25px"}>
             <Box sx={{ ..._centeringStyle }}>
               <ButtonComponent
                 variant="contained"
@@ -234,9 +234,9 @@ export default function Home(params) {
                 Save Search
               </ButtonComponent>
             </Box>
-          </Grid>
+          </Grid> */}
 
-          <Grid item lg={6} md={6} mb={"15px"} mt={"25px"}>
+          <Grid item lg={12} md={12} mb={"15px"} mt={"25px"}>
             <Box sx={{ ..._centeringStyle }}>
               <ButtonComponent
                 variant="contained"

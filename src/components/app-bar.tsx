@@ -117,13 +117,13 @@ export default function AppBarComponent() {
         window.location.href = "/wishlist";
       },
     },
-    {
-      name: "Saved Searches",
-      link: "/saved-searches",
-      onClick: () => {
-        handleCloseUserMenu();
-      },
-    },
+    // {
+    //   name: "Saved Searches",
+    //   link: "/saved-searches",
+    //   onClick: () => {
+    //     handleCloseUserMenu();
+    //   },
+    // },
     {
       name: "My Preferences",
       link: "/my-preferences",

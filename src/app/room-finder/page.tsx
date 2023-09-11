@@ -286,7 +286,7 @@ export default function RoomFinder() {
             backgroundColor: _color.background_lighter,
           }}
         >
-          <Grid
+          {/* <Grid
             key={1}
             item
             lg={6}
@@ -302,12 +302,12 @@ export default function RoomFinder() {
                 Save Search
               </ButtonComponent>
             </Box>
-          </Grid>
+          </Grid> */}
 
           <Grid
             item
-            lg={6}
-            md={6}
+            lg={12}
+            md={12}
             style={{ display: "flex", justifyContent: "right" }}
           >
             <Box sx={{ ..._centeringStyle, m: "10px", mt: "25px" }}>
