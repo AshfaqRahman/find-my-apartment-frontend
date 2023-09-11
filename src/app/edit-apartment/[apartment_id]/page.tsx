@@ -47,20 +47,21 @@ import {
 
 import { storage } from "@/services/firebase-config";
 import { randomInRange } from "@/static/utils";
-import { getUserData, getApartment } from "../apis";
+import { getUserData, getApartment, saveApartment } from "../apis";
 import LoaderComponent from "@/components/loader";
 import ToastComponent from "@/mui-components/toast";
 import {
   fetchFacilities,
   fetchKeywords,
 } from "@/components/api/fixed-values-api";
+import { useRouter } from "next/navigation";
 
 export default function Home(params: any) {
-  // const onSearch = =async (data: any) => {
-  // 	setSelected(data);
-  // };
+  
+  const { push } = useRouter();
 
-  let [apartment, setApartment] = useState<any>({});
+  let apartment: any = {};
+  let apartment_id = params.params.apartment_id;
 
   const [apartmentTypes, setApartmentTypes] = React.useState([]);
   const [keywords, setKeywords] = React.useState([]);
@@ -154,9 +155,9 @@ export default function Home(params: any) {
     })();
   }, []);
 
-  let setApartmentData = async (apartment) => {
+  let setApartmentData = async (data) => {
     // console.log(apartment, keywordsWithTitle, facilitiesWithTitle);
-    setApartment(apartment);
+    apartment = data;
 
     setApartmentTypes(
       apartment.types.map((type) => apartmentTypeMapping[type])
@@ -205,13 +206,13 @@ export default function Home(params: any) {
   };
 
   useEffect(() => {
-    let apartment_id = params.params.apartment_id;
     setAddingApartmentLoading(true);
     (async () => {
       await getFacitlities();
       await getKeywords();
 
       let data: any = await getApartment({ apartment_id });
+      // console.log(data);
       if (!data.success) {
         setMessage(data.message);
         setSeverity("error");
@@ -226,8 +227,9 @@ export default function Home(params: any) {
   let addingApartment = async () => {
     let params = {
       apartment: {
+        id: apartment_id,
         types: apartmentTypes.map((type) => apartmentTypeReverseMapping[type]),
-        vacancy: true,
+        occupied: apartment.occupied,
         description,
         floor,
         bedrooms: beds,
@@ -257,21 +259,22 @@ export default function Home(params: any) {
         image_urls: apartmentFilesURL,
       },
     };
-    // let data: any = await addApartment(params);
+    let data: any = await saveApartment(params);
     // console.log(data);
-    // setAddingApartmentLoading(false);
-    // if (data.success) {
-    //   setOpenToast(true);
-    //   setMessage(data.data);
-    //   setSeverity("success");
-    // } else {
-    //   setOpenToast(true);
-    //   setMessage(data.message);
-    //   setSeverity("error");
-    // }
+    setAddingApartmentLoading(false);
+    if (data.success) {
+      setOpenToast(true);
+      setMessage(data.data);
+      setSeverity("success");
+      push("/apartment-details/" + apartment_id);
+    } else {
+      setOpenToast(true);
+      setMessage(data.message);
+      setSeverity("error");
+    }
   };
 
-  let onPublish = async () => {
+  let onSave = async () => {
     setAddingApartmentLoading(true);
     await addingApartment();
     // console.log("Uploaded");
@@ -333,9 +336,9 @@ export default function Home(params: any) {
                 <ButtonComponent
                   variant="contained"
                   style="primary"
-                  onClick={onPublish}
+                  onClick={onSave}
                 >
-                  Publish
+                  Save
                 </ButtonComponent>
               </Box>
             </Grid>
@@ -349,9 +352,7 @@ export default function Home(params: any) {
                   title="Apartment's Image(max 10 files)"
                   location="apartments"
                   maxFiles={10}
-                  onUpload={(urls: any) => {
-                    setApartmentFilesURL(urls);
-                  }}
+                  onUpload={ setApartmentFilesURL }
                   fileUrls={apartmentFilesURL}
                 >
                   {(dropzoneProps: any) => {
@@ -370,9 +371,7 @@ export default function Home(params: any) {
                   title="Blueprint(1 image)"
                   location="blueprints"
                   maxFiles={1}
-                  onUpload={(urls: any) => {
-                    setBlueprintFilesURL(urls);
-                  }}
+                  onUpload={setBlueprintFilesURL}
                   fileUrls={blueprintFilesURL}
                 >
                   {(dropzoneProps: any) => {

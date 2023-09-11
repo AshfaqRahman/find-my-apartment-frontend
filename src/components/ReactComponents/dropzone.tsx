@@ -56,7 +56,6 @@ const img = {
 
 export default function Dropzone(props: any) {
   let [thumbs, setThumbs] = useState<any[]>([]);
-  let fileUrls = props.fileUrls;
 
   let [openToast, setOpenToast] = useState(false);
   let [message, setMessage] = useState("");
@@ -74,8 +73,8 @@ export default function Dropzone(props: any) {
     // setThumbs(newThumbs);
 
     const storageRef = ref(storage, url);
-    fileUrls = fileUrls.filter((file) => file !== url);
-    props.onUpload(fileUrls);
+    let filtered = props.fileUrls.filter((file) => file !== url);
+    props.onUpload(filtered);
     let acthumbs = thumbs.filter((thumb) => thumb.url !== url);
     setThumbs(acthumbs);
 
@@ -179,11 +178,12 @@ export default function Dropzone(props: any) {
           // Handle successful uploads on complete
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
 
-          getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
             // console.log("File available at", downloadURL);
-            fileUrls.push(downloadURL);
-            props.onUpload(fileUrls);
-            await setImageThumbnail(fileUrls);
+            let urls = props.fileUrls;
+            urls.push(downloadURL);
+            props.onUpload(urls);
+            await setImageThumbnail(props.fileUrls);
 
             if (index === files.length - 1) {
               setUploadingFiles(false);
@@ -198,7 +198,7 @@ export default function Dropzone(props: any) {
     if (acceptedFiles.length === 0) {
       return;
     }
-    if (fileUrls.length + acceptedFiles.length > props.maxFiles) {
+    if (props.fileUrls.length + acceptedFiles.length > props.maxFiles) {
       setMessage("max files exceeded");
       setSeverity("error");
       setOpenToast(true);
@@ -208,10 +208,10 @@ export default function Dropzone(props: any) {
     // console.log("useEffect:: acceptedFiles", acceptedFiles);
 
     uploading(acceptedFiles);
-  }, []);
+  }, [props]);
 
   useEffect(() => {
-    setImageThumbnail(fileUrls);
+    setImageThumbnail(props.fileUrls);
   }, [props]);
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({

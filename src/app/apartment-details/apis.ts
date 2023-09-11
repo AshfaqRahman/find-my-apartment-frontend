@@ -1,6 +1,7 @@
 import { apiUrls } from '@/lib/apiUrls';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import HOST from "@/static/host";
 
 
 export const getApartment = async (data: any) => {
@@ -31,3 +32,28 @@ export const getApartment = async (data: any) => {
         // return error.response.data
     }
 };
+
+// call api/user/:user_id to fetch user
+export const getUser = async (user_id: string) => {
+    const token = getCookie('token');
+    const response = await axios.get(
+        `${HOST}/api/user/${user_id}`,
+        {
+            headers: {
+                Authorization: `${token}`,
+            },
+        });
+    //console.log("getUser", response);
+    if (response.status !== 200) {
+        return {
+            success: false,
+            message: "Something went wrong",
+            data: [],
+        }
+    }
+    return {
+        success: true,
+        message: "User fetched successfully",
+        data: response.data.data,
+    }
+}

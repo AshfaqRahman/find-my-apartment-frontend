@@ -46,7 +46,7 @@ export default function Home() {
   let [severity, setSeverity] = React.useState("success");
 
   let [fetchingApartments, setFetchingApartments] = React.useState(false);
-  let [apartments, setApartments] = React.useState([]);
+  let [apartments, setApartments] = React.useState<any>([]);
 
   const getApartments = async () => { 
     setFetchingApartments(true);
@@ -210,7 +210,7 @@ export default function Home() {
 
             <Grid style={{ fontFamily: "Tahoma", margin: "10px" }}>
               {/* { getApartments() } */}
-              {apartments?.map((x: any, idx) => {
+              {Array.isArray(apartments) && apartments.map((x: any, idx) => {
                 return (
                   <ApartmentCard
                     key={idx}

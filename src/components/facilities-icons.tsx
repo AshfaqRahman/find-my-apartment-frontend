@@ -117,7 +117,7 @@ export default function FacilitiesIconsComponent(props: any) {
                   color={color}
                 />
               </Tooltip>
-            ) : facility === "playground" ? (
+            ) : facility === "playgrounds" ? (
               <Tooltip title={facility} key={index}>
                 <img
                   style={{ margin: margin }}

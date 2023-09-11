@@ -72,7 +72,7 @@ export default function Home() {
     setFetchingApartments(true);
     (async () => {
       let response: any = await getMyApartments();
-      console.log(response);
+      // console.log(response);
       if (!response.success) {
         setSeverity("error");
         setMessage(response.message);
@@ -134,6 +134,8 @@ export default function Home() {
                       showMap={false}
                       noWishlist={true}
                       showEditButton
+                      showDeleteButton
+                      showOccupied
                     />
                   );
                 })}

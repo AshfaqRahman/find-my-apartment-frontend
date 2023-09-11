@@ -19,7 +19,7 @@ const _facilities = [
   "rooftop",
   "wheelchair accessibility",
   "swimming pool",
-  "playground",
+  "playgrounds",
   "generator",
 ];
 

@@ -62,3 +62,32 @@ export const getApartment = async (data: any) => {
         // return error.response.data
     }
 };
+
+
+
+export const saveApartment = async (data: any) => {
+    try {
+        console.log("saveApartment :: ", data)
+        const res = await axios.patch(
+            apiUrls.apartment.update,
+            data,
+            {
+                headers: {
+                    Authorization: `${getCookie('token')}`,
+                }
+            }
+        )
+        return { data: res.data, success: res.status === 200 }
+
+    } catch (error: any) {
+        console.log("searchApartments :: error", error);
+        if (error.response.status === 500) {
+            return {
+                success: false,
+                message: error.response.data.message,
+            }
+        }
+        // return error.response.data
+    }
+};
+
