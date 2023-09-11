@@ -33,9 +33,10 @@ export default function SearchbarHome(props: any) {
         const params = {
           apartmentTypes: apartmentTypes,
           location: location,
-          radius: radius,
+          radius: 10,
           price_min: +budget[0],
           price_max: +budget[1],
+          zone: zone,
         };
 
         // push(

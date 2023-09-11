@@ -183,6 +183,7 @@ export default function Home(params) {
       area_max: +area[1],
       facilities: facilities,
       keywords: keywords,
+      zone: zone,
     };
     let data: any = await searchApartments(params);
     // console.log(data);
